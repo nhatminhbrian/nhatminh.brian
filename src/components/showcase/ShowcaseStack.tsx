@@ -121,20 +121,20 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
                   <div className="grid gap-6 md:grid-cols-12 md:items-end md:gap-8">
                     <div className="md:col-span-7">
                       <Roll active={isActive} delay={0.05}>
-                        <span className="inline-block border border-hairline-strong bg-night-950/40 px-2.5 py-1 font-mono text-[0.625rem] uppercase tracking-[0.16em] text-ice-100 backdrop-blur-sm">
+                        <span className="glass inline-block rounded-full px-3 py-1 font-mono text-[0.625rem] uppercase tracking-[0.16em] text-ice-100">
                           {item.category}
                         </span>
                       </Roll>
                       <h3 id={`${item.id}-title`} className="display mt-3 text-[clamp(2.5rem,7.5vw,7.5rem)]">
                         <Roll active={isActive} delay={0.1}>{item.title}</Roll>
                       </h3>
-                      <dl className="mt-5 max-w-xl border-t border-hairline-strong font-mono text-[0.6875rem] uppercase tracking-[0.12em]">
+                      <dl className="glass mt-5 max-w-xl rounded-xl px-4 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em]">
                         {[
                           ['Role', item.role],
                           ['Year / Semester', item.yearSemester],
                           ['Gear / Client', item.gearClient],
                         ].map(([k, v], r) => (
-                          <div key={k} className="grid grid-cols-[7.5rem_1fr] gap-3 border-b border-hairline-strong py-2 md:grid-cols-[10rem_1fr]">
+                          <div key={k} className="grid grid-cols-[7.5rem_1fr] gap-3 border-b border-hairline py-2 last:border-b-0 md:grid-cols-[10rem_1fr]">
                             <dt className="text-steel-300">{k}</dt>
                             <dd className="text-ice-100"><Roll active={isActive} delay={0.18 + r * 0.06}>{v}</Roll></dd>
                           </div>
@@ -143,7 +143,7 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
                     </div>
 
                     <div className="flex flex-col gap-4 md:col-span-4 md:col-start-9 md:items-end md:text-right">
-                      <blockquote className="font-serif text-lg italic leading-snug text-ice-100 md:text-2xl">
+                      <blockquote className="glass rounded-2xl p-4 font-serif text-lg italic leading-snug text-ice-100 md:p-5 md:text-2xl">
                         “{item.quote}”
                       </blockquote>
                       <div className="flex flex-wrap items-center gap-3 md:justify-end">
