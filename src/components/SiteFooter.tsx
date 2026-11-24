@@ -1,0 +1,48 @@
+import Link from 'next/link';
+import { profile } from '@/data/profile';
+
+export function SiteFooter() {
+  return (
+    <footer id="contact" className="mt-32 border-t border-hairline">
+      <div className="frame grid gap-12 py-16 md:grid-cols-12">
+        <div className="md:col-span-7">
+          <p className="eyebrow">(04) — Contact</p>
+          <p className="display mt-6 text-[clamp(2.75rem,8vw,7rem)]">
+            Let’s make <em className="text-steel-300">the next</em> frame.
+          </p>
+          <a
+            href={`mailto:${profile.email}`}
+            className="mt-8 inline-flex min-h-11 items-center gap-3 border border-hairline-strong px-5 font-mono text-xs uppercase tracking-[0.14em] text-ice-100 transition-colors hover:bg-ice-100 hover:text-night-950"
+          >
+            Write to {profile.email}
+            <span aria-hidden>→</span>
+          </a>
+        </div>
+
+        <dl className="grid grid-cols-2 gap-x-6 gap-y-6 self-end text-sm md:col-span-5">
+          <div>
+            <dt className="eyebrow">Photography</dt>
+            <dd className="mt-2"><a className="hover:text-ice-100" href={profile.instagram}>{profile.handle}</a></dd>
+          </div>
+          <div>
+            <dt className="eyebrow">Personal</dt>
+            <dd className="mt-2"><a className="hover:text-ice-100" href={profile.instagramMain}>{profile.handleMain}</a></dd>
+          </div>
+          <div>
+            <dt className="eyebrow">Phone</dt>
+            <dd className="mt-2"><a className="hover:text-ice-100" href={profile.phoneHref}>{profile.phone}</a></dd>
+          </div>
+          <div>
+            <dt className="eyebrow">School</dt>
+            <dd className="mt-2 break-all"><a className="hover:text-ice-100" href={`mailto:${profile.emailSchool}`}>{profile.emailSchool}</a></dd>
+          </div>
+        </dl>
+      </div>
+      <div className="frame flex flex-col gap-2 border-t border-hairline py-5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-steel-400 sm:flex-row sm:justify-between">
+        <span>© {profile.name} — {profile.city}</span>
+        <span>{profile.gear}</span>
+        <Link href="/portfolios" className="hover:text-ice-100">Download portfolios ↓</Link>
+      </div>
+    </footer>
+  );
+}
