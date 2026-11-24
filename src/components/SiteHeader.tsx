@@ -37,10 +37,10 @@ export function SiteHeader() {
   const isActive = (href: string) => !href.startsWith('/#') && pathname.startsWith(href);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-hairline bg-night-950/70 backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-50 bg-night-950/35 shadow-[inset_0_-1px_0_rgb(226_237_245/0.12),0_10px_30px_-20px_rgb(0_0_0/0.8)] backdrop-blur-xl backdrop-saturate-150">
       <div className="frame flex h-14 items-center justify-between">
-        <Link href="/" className="group flex items-baseline gap-3" aria-label="Nguyễn Nhật Minh — home">
-          <span className="font-serif text-xl italic text-ice-100">N.N.Minh</span>
+        <Link href="/" className="group flex items-baseline gap-3" aria-label="Brian · Nguyễn Nhật Minh — home">
+          <span className="font-serif text-2xl italic leading-none text-ice-100">Brian.</span>
           <span className="hidden font-mono text-[0.6875rem] tracking-[0.12em] text-steel-300 sm:inline">
             @_wandergraph_
           </span>
@@ -92,7 +92,7 @@ export function SiteHeader() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-x-0 top-14 bottom-0 bg-night-950 md:hidden"
+            className="fixed inset-x-0 top-14 bottom-0 bg-night-950/70 backdrop-blur-2xl backdrop-saturate-150 md:hidden"
           >
             <ul className="frame flex flex-col pt-6">
               {NAV.map((item, i) => (
