@@ -46,7 +46,7 @@ export default async function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-night-950/70 via-transparent to-transparent" />
             </HeroParallax>
             <p className="mt-3 hidden justify-between font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-400 md:flex">
-              <span>Fig. 01 — Self, under steel light</span>
+              <span>Fig. 01 — Self, under open sky</span>
               <span>{profile.gear}</span>
             </p>
           </div>

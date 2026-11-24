@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'vi_VN',
     siteName: 'Brian · @_wandergraph_',
-    images: [{ url: '/media/portrait/portrait-hero.webp', width: 1024, height: 1536 }],
+    images: [{ url: '/media/portrait/portrait-intro.webp' }],
   },
 };
 
