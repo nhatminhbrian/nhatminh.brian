@@ -30,7 +30,7 @@ export function EditionShell({ edition, children }: { edition: PortfolioEdition;
   return (
     <article style={{ ['--edition-accent' as string]: edition.palette.accent }}>
       <ReadingProgress />
-      <div className="sticky top-14 z-30 border-b border-hairline bg-night-950/85 backdrop-blur-md">
+      <div className="sticky top-14 z-30 bg-night-950/30 shadow-[inset_0_-1px_0_rgb(226_237_245/0.12)] backdrop-blur-xl backdrop-saturate-150">
         <div className="frame flex h-12 items-center justify-between gap-4">
           <Link href="/portfolios" className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-steel-300 hover:text-ice-100">
             ← (02) Portfolios
