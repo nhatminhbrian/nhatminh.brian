@@ -16,6 +16,17 @@ Portfolio site for Nguyễn Nhật Minh (Brian) — International Economics stud
 | `/portfolios/sseayp` | SSEAYP 49th — three-act switcher + Act 4 coda |
 | `/portfolios/nhan-quan-the-ky` | Nhãn Quan Thế Kỷ visual essay with artifact hotspots |
 
+## Adding photo albums & achievements (no code)
+
+Open **`/studio`** on the live site and sign in with GitHub.
+
+- **Bộ ảnh → +**: name the album, pick the partner group (Đoàn TN, Khoa KTQT, SSEAYP…), date, short description and story, then drag a whole folder of photos into *Ảnh trong bộ*. Reorder by dragging, set a cover, **Publish**.
+- The album gets its own page at `/gallery/<slug>`, shows up first in the `/gallery` reel, and is listed under its partner's page. Tick *Featured Works* to put it on the home page.
+- **Thành tích → +**: title, organisation, năm học, học kì, lĩnh vực, summary — it appears in `/achievements` filters automatically.
+- Images are resized and compressed by Sanity's CDN; the site refreshes within about a minute.
+
+Sanity project: `sy9719i7`, dataset `production` (override with `NEXT_PUBLIC_SANITY_PROJECT_ID` / `NEXT_PUBLIC_SANITY_DATASET`).
+
 ## Content
 
 All content lives in `src/data/` and is read only through `src/lib/content.ts`:
