@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Photo } from '@/components/Photo';
 import { Marker } from '@/components/Marker';
 import { Reveal } from '@/components/Reveal';
+import { HeroParallax } from '@/components/home/HeroParallax';
 import { IndexNav, type IndexItem } from '@/components/home/IndexNav';
 import { ShowcaseStack } from '@/components/showcase/ShowcaseStack';
 import { getFeaturedWorks, resolve } from '@/lib/content';
@@ -40,10 +41,10 @@ export default async function HomePage() {
           </div>
 
           <div className="relative col-span-12 mt-8 md:col-span-6 md:col-start-7 md:row-span-2 md:row-start-2 md:mt-10">
-            <div className="relative aspect-[4/5] overflow-hidden md:aspect-[2/3]">
+            <HeroParallax className="relative aspect-[4/5] overflow-hidden rounded-3xl md:aspect-[2/3]">
               <Photo media={hero} fill priority sizes="(min-width: 768px) 50vw, 100vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-night-950/70 via-transparent to-transparent" />
-            </div>
+            </HeroParallax>
             <p className="mt-3 hidden justify-between font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-400 md:flex">
               <span>Fig. 01 — Self, under steel light</span>
               <span>{profile.gear}</span>
@@ -54,8 +55,10 @@ export default async function HomePage() {
             id="hero-title"
             className="display relative z-10 col-span-12 -mt-24 text-[clamp(4.25rem,15vw,15rem)] md:col-span-10 md:col-start-1 md:row-start-2 md:mt-0 md:self-end md:pb-10"
           >
-            <span className="block">Nguyễn</span>
-            <span className="block pl-[8vw] italic text-steel-300 md:pl-[10vw]">Nhật Minh</span>
+            <span className="rise-mask text-[clamp(5.5rem,22vw,20rem)] leading-[0.8]"><span className="rise">Brian<span className="text-steel-300">.</span></span></span>
+            <span className="rise-mask mt-3 pl-[1.5vw] text-[clamp(1.75rem,4.6vw,4.25rem)] italic leading-none text-steel-300 md:pl-[2vw]">
+              <span className="rise" style={{ animationDelay: '180ms' }}>Nguyễn Nhật Minh</span>
+            </span>
           </h1>
 
           <div className="col-span-12 mt-8 grid content-start gap-6 md:col-span-5 md:row-start-3 md:mt-6">
@@ -63,7 +66,7 @@ export default async function HomePage() {
               “{profile.tagline}”
             </p>
             <p className="eyebrow">
-              Brian · {profile.role}
+              {profile.handle} · {profile.role}
             </p>
           </div>
         </div>
@@ -98,15 +101,15 @@ export default async function HomePage() {
             <h2 id="lens-title" className="display text-[clamp(2.75rem,6vw,5.5rem)]">
               Two disciplines, <em className="text-steel-300">one</em> way of seeing.
             </h2>
-            <div className="relative mt-10 aspect-[3/4] w-3/4 overflow-hidden md:w-full">
+            <div className="relative mt-10 aspect-[3/4] w-3/4 overflow-hidden rounded-3xl md:w-full">
               <Photo media={podium} fill sizes="(min-width: 768px) 40vw, 75vw" />
             </div>
             <p className="mt-3 font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-400">Fig. 02 — Diplomatic Academy of Viet Nam</p>
           </Reveal>
 
-          <div className="grid gap-px self-start border border-hairline bg-hairline md:col-span-7">
+          <div className="grid gap-4 self-start md:col-span-7">
             {lenses.map((lens, i) => (
-              <Reveal key={lens.label} delay={i * 0.1} className="bg-night-900 p-6 md:p-10">
+              <Reveal key={lens.label} delay={i * 0.1} className="glass glass-sheen rounded-3xl p-6 md:p-10">
                 <p className="flex items-baseline justify-between">
                   <span className="font-mono text-xs text-steel-300">{lens.index} {lens.label}</span>
                   <span className="font-mono text-[0.625rem] uppercase tracking-[0.12em] text-steel-400">{lens.meta}</span>
@@ -126,10 +129,10 @@ export default async function HomePage() {
 
       {/* ─── About & philosophy ───────────────────────────── */}
       <section className="frame mt-32" aria-labelledby="about-title">
-        <Marker index="(05)" label="About — Hello, I’m Nhat Minh" />
+        <Marker index="(05)" label="About — Hello, I’m Brian" />
         <div className="mt-10 grid gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
-            <div className="relative aspect-[2/3] overflow-hidden">
+            <div className="relative aspect-[2/3] overflow-hidden rounded-3xl">
               <Photo media={about} fill sizes="(min-width: 768px) 33vw, 100vw" />
             </div>
           </div>
@@ -167,9 +170,9 @@ export default async function HomePage() {
       <section className="frame mt-32" aria-labelledby="milestones-title">
         <Marker index="(06)" label="Milestones" />
         <h2 id="milestones-title" className="sr-only">Milestones</h2>
-        <ol className="mt-10 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-5">
+        <ol className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {milestones.map((m) => (
-            <li key={m.year} className="bg-night-900 p-6">
+            <li key={m.year} className="glass glass-sheen rounded-2xl p-6 transition-transform duration-500 ease-[var(--ease-editorial)] hover:-translate-y-1">
               <p className="display text-5xl">{m.year}</p>
               <p className="mt-4 text-sm leading-relaxed text-ice-300">{m.text}</p>
             </li>

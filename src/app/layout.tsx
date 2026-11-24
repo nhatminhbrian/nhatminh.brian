@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Suspense } from 'react';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
+import { LiveBackground } from '@/components/LiveBackground';
 // Self-hosted variable fonts (Vietnamese subsets included) — no build-time network fetch
 import '@fontsource-variable/cormorant-garamond/wght.css';
 import '@fontsource-variable/cormorant-garamond/wght-italic.css';
@@ -12,15 +13,15 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://nhatminh-brian.vercel.app'),
   title: {
-    default: 'Nguyễn Nhật Minh — @_wandergraph_',
-    template: '%s — Nguyễn Nhật Minh',
+    default: 'Brian · Nguyễn Nhật Minh — @_wandergraph_',
+    template: '%s — Brian',
   },
   description:
-    'Portfolio of Nguyễn Nhật Minh (Brian), International Economics student at the Diplomatic Academy of Viet Nam and visual storyteller behind @_wandergraph_.',
+    'Portfolio of Brian (Nguyễn Nhật Minh), International Economics student at the Diplomatic Academy of Viet Nam and visual storyteller behind @_wandergraph_.',
   openGraph: {
     type: 'website',
     locale: 'vi_VN',
-    siteName: 'Nguyễn Nhật Minh — @_wandergraph_',
+    siteName: 'Brian · @_wandergraph_',
     images: [{ url: '/media/portrait/portrait-hero.webp', width: 1024, height: 1536 }],
   },
 };
@@ -40,7 +41,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         >
           Skip to content
         </a>
-        <div aria-hidden className="atmosphere" />
+        <LiveBackground />
         <div aria-hidden className="grain" />
         <Suspense fallback={null}>
           <SiteHeader />
