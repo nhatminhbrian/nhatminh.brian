@@ -42,7 +42,7 @@ function FilterGroup<T extends string>({
               aria-pressed={active}
               disabled={!active && n === 0}
               onClick={() => onChange(opt)}
-              className="flex min-h-11 shrink-0 items-center gap-2 border border-hairline px-4 text-sm text-ice-300 transition-colors hover:border-hairline-strong hover:text-ice-100 disabled:opacity-35 aria-pressed:border-ice-100 aria-pressed:bg-ice-100 aria-pressed:text-night-950"
+              className="flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-hairline bg-ice-100/[0.03] px-4 text-sm text-ice-300 transition-colors hover:border-hairline-strong hover:text-ice-100 disabled:opacity-35 aria-pressed:border-ice-100 aria-pressed:bg-ice-100 aria-pressed:text-night-950"
             >
               {opt}
               <span className="font-mono text-[0.625rem] opacity-70">{n}</span>
@@ -92,7 +92,7 @@ export function Archive({ items, years, semesters, categories }: Props) {
 
   return (
     <div>
-      <div className="z-30 -mx-[var(--gutter)] lg:sticky lg:top-14 border-y border-hairline bg-night-950/85 px-[var(--gutter)] py-5 backdrop-blur-md">
+      <div className="z-30 -mx-[var(--gutter)] border-y border-hairline bg-night-950/30 px-[var(--gutter)] py-5 backdrop-blur-xl backdrop-saturate-150 lg:sticky lg:top-14">
         <div className="grid gap-5 lg:grid-cols-[auto_auto_1fr]">
           <FilterGroup label="Năm học · Academic year" options={years} value={year} onChange={setYear} counts={counts.y} />
           <FilterGroup label="Học kì · Semester" options={semesters} value={semester} onChange={setSemester} counts={counts.s} />
