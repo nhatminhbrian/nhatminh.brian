@@ -3,7 +3,8 @@ import { Photo } from '@/components/Photo';
 import { Marker } from '@/components/Marker';
 import { Reveal } from '@/components/Reveal';
 import { IndexNav, type IndexItem } from '@/components/home/IndexNav';
-import { resolve } from '@/lib/content';
+import { ShowcaseStack } from '@/components/showcase/ShowcaseStack';
+import { getFeaturedWorks, resolve } from '@/lib/content';
 import { aboutStory, artisticVision, credentials, interests, lenses, philosophy, profile } from '@/data/profile';
 
 const milestones = [
@@ -14,7 +15,8 @@ const milestones = [
   { year: '2026', text: 'SSEAYP 49th media collaborator; Nhãn Quan Thế Kỷ; SSEAYP 50th.' },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const featured = await getFeaturedWorks();
   const hero = resolve(profile.heroPortrait);
   const about = resolve(profile.aboutPortrait);
   const podium = resolve(profile.diplomacyPortrait);
@@ -76,8 +78,20 @@ export default function HomePage() {
         <IndexNav items={index} />
       </section>
 
+      {/* ─── Featured Works — cinema-archival stack ───────── */}
+      <section className="mt-32" aria-labelledby="featured-title">
+        <div className="frame">
+          <Marker index="(★)" label="Featured Works" />
+          <h2 id="featured-title" className="display mt-8 text-[clamp(2.75rem,7vw,6.5rem)]">
+            Now <em className="text-steel-300">screening</em>
+          </h2>
+          <p className="mt-3 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-steel-400">Scroll or swipe through the reel · use the ticket to jump</p>
+        </div>
+        <ShowcaseStack items={featured} label="Featured" />
+      </section>
+
       {/* ─── Dual-lens bio ────────────────────────────────── */}
-      <section className="frame mt-32" aria-labelledby="lens-title">
+      <section className="frame mt-16" aria-labelledby="lens-title">
         <Marker index="(A/B)" label="Dual-lens bio" />
         <div className="mt-10 grid gap-10 md:grid-cols-12">
           <Reveal className="md:col-span-5">

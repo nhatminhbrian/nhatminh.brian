@@ -132,3 +132,40 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ───────── Cinema-archival showcase ───────── */
+html:has([data-snap-stack]) {
+  scroll-snap-type: y proximity;
+  scroll-padding-top: 3.5rem; /* fixed header */
+}
+
+/* Ticket stub: semicircular notches punched into both sides */
+.ticket-stub {
+  --notch: 7px;
+  border-radius: 6px;
+  -webkit-mask:
+    radial-gradient(circle at 0 50%, transparent var(--notch), #000 calc(var(--notch) + 0.5px)) left / 51% 100% no-repeat,
+    radial-gradient(circle at 100% 50%, transparent var(--notch), #000 calc(var(--notch) + 0.5px)) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle at 0 50%, transparent var(--notch), #000 calc(var(--notch) + 0.5px)) left / 51% 100% no-repeat,
+    radial-gradient(circle at 100% 50%, transparent var(--notch), #000 calc(var(--notch) + 0.5px)) right / 51% 100% no-repeat;
+}
+
+/* Perforated tear-off edge between the stub and its menu button */
+.ticket-perforation {
+  background-image: radial-gradient(circle, rgb(7 13 20 / 0.45) 1.2px, transparent 1.6px);
+  background-size: 2px 7px;
+  background-repeat: repeat-y;
+  background-position: left center;
+}
+
+/* CTA button with ticket notches on both ends */
+.ticket-notch {
+  --notch: 6px;
+  -webkit-mask:
+    radial-gradient(circle at 0 50%, transparent var(--notch), #000 calc(var(--notch) + 0.5px)) left / 51% 100% no-repeat,
+    radial-gradient(circle at 100% 50%, transparent var(--notch), #000 calc(var(--notch) + 0.5px)) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle at 0 50%, transparent var(--notch), #000 calc(var(--notch) + 0.5px)) left / 51% 100% no-repeat,
+    radial-gradient(circle at 100% 50%, transparent var(--notch), #000 calc(var(--notch) + 0.5px)) right / 51% 100% no-repeat;
+}

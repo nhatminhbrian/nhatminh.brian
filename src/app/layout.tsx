@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { Suspense } from 'react';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
 // Self-hosted variable fonts (Vietnamese subsets included) — no build-time network fetch
@@ -41,7 +42,9 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         </a>
         <div aria-hidden className="atmosphere" />
         <div aria-hidden className="grain" />
-        <SiteHeader />
+        <Suspense fallback={null}>
+          <SiteHeader />
+        </Suspense>
         <main id="main" className="pt-14">
           {children}
         </main>
