@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   description: 'Thành tích của Nguyễn Nhật Minh theo năm học, học kì và lĩnh vực — 2022 đến 2027.',
 };
 
-export default function AchievementsPage() {
-  const { items, years, semesters, categories } = getAchievements();
+export default async function AchievementsPage() {
+  const { items, years, semesters, categories } = await getAchievements();
   return (
     <div className="frame">
       <header className="grid gap-6 pb-12 pt-12 md:grid-cols-12 md:pt-20">
