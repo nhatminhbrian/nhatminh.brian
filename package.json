@@ -7,13 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "predev": "node scripts/assemble-pdfs.mjs",
-    "prebuild": "node scripts/assemble-pdfs.mjs"
+    "predev": "node scripts/assemble-pdfs.mjs && node scripts/gallery-index.mjs",
+    "prebuild": "node scripts/assemble-pdfs.mjs && node scripts/gallery-index.mjs",
+    "gallery": "node scripts/gallery-index.mjs",
+    "gallery:optimize": "node scripts/gallery-optimize.mjs"
   },
   "dependencies": {
     "@fontsource-variable/cormorant-garamond": "^5.3.0",
     "@fontsource-variable/inter-tight": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/noto-sans-kr": "^5.3.1",
+    "@fontsource-variable/noto-serif-kr": "^5.3.1",
     "@sanity/client": "^8.17.0",
     "@sanity/image-url": "^2.2.0",
     "@sanity/vision": "^6.25.0",
@@ -24,6 +28,7 @@
     "react-dom": "19.3.0",
     "sanity": "^6.25.0",
     "server-only": "^0.0.1",
+    "sharp": "^0.35.5",
     "styled-components": "^6.6.0"
   },
   "devDependencies": {
