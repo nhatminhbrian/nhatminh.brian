@@ -19,8 +19,8 @@ export const profile = {
   tagline:
     'Merging the raw authenticity of street photography with the emotional intensity of modern media.',
   heroPortrait: {
-    id: 'portrait-hero',
-    alt: 'Nguyễn Nhật Minh holding a camera under a single steel-blue spotlight',
+    id: 'portrait-intro',
+    alt: 'Brian in a varsity jacket, looking up against a steel-blue sky',
   } satisfies MediaRef,
   aboutPortrait: {
     id: 'portrait-camera',

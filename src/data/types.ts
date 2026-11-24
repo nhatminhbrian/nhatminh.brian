@@ -91,3 +91,45 @@ export type ShowcaseItem = {
   cover: ResolvedMedia;
   secondary?: { href: string; label: string };
 };
+
+/* ───────── Gallery folders (one event / shoot = one folder) ───────── */
+
+export type PartnerGroup = 'hvng' | 'sseayp' | 'art' | 'community' | 'street';
+
+/**
+ * A single event folder. Each entry is independent — add one and it is indexed
+ * automatically under its `year` tab and `partnerGroup` pill.
+ */
+export type PhotoFolder = {
+  /** stable id, also used as the URL slug: /gallery/<id> */
+  id: string;
+  /** optional manual order within the year ("01", "02"…); computed from date when omitted */
+  indexNumber?: string;
+  title: string;
+  year: number;
+  semester?: Semester;
+  partnerGroup: PartnerGroup;
+  /** the organisation / client shown on the card, e.g. "Đoàn Thanh niên HVNG" */
+  organization: string;
+  /** ISO date (YYYY-MM-DD or YYYY-MM) used for sorting */
+  date: string;
+  location?: string;
+  gear?: string;
+  summary?: string;
+  story?: string[];
+  quote?: string;
+  role?: string;
+  featured?: boolean;
+  coverImage: MediaRef;
+  images: MediaRef[];
+  /** true when the date was estimated and should be confirmed */
+  needsReview?: boolean;
+};
+
+/** A folder with resolved images, ready to render (from local data, public/gallery or Sanity). */
+export type FolderView = Omit<PhotoFolder, 'coverImage' | 'images' | 'indexNumber'> & {
+  indexNumber: string;
+  coverImage: ResolvedMedia;
+  images: ResolvedMedia[];
+  source: 'archive' | 'filesystem' | 'sanity';
+};

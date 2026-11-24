@@ -988,5 +988,11 @@
   "width": 2000,
   "height": 1333,
   "blur": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAwAgCdASoQAAsAA4BaJbACdLoAAuRPwvJCgAD+6u3FYCrz5e48IE0P3DZJYt6nQD9Aw2QB1pfswbMzrwT8CqUY5UH8nzaBhbmI8kThUZlndpgH2VNjJwHtPZgNENCeAAA="
+ },
+ "portrait-intro": {
+  "src": "/media/portrait/portrait-intro.webp",
+  "width": 1251,
+  "height": 2000,
+  "blur": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAADwAQCdASoKABAAA4BaJbACdAEedLrdPIAA/pTj53ca12jw5SDMSkTkz5FwF5dsrEqFZfh9Q5OitUBPGClnVJ6QhLIIU3raf3j/ny+rMyC3AS6e/R9Z1wAA"
  }
 }
