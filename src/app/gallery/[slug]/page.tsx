@@ -6,13 +6,13 @@ import { MasonryGallery } from '@/components/gallery/MasonryGallery';
 import { getCollectionBySlug, getCollections, getCollectionSlugs } from '@/lib/content';
 import { profile } from '@/data/profile';
 
-export function generateStaticParams() {
-  return getCollectionSlugs().map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  return (await getCollectionSlugs()).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<'/gallery/[slug]'>): Promise<Metadata> {
   const { slug } = await params;
-  const c = getCollectionBySlug(slug);
+  const c = await getCollectionBySlug(slug);
   if (!c) return {};
   return {
     title: `${c.partner} — Gallery`,
@@ -23,10 +23,9 @@ export async function generateMetadata({ params }: PageProps<'/gallery/[slug]'>)
 
 export default async function CollectionPage({ params }: PageProps<'/gallery/[slug]'>) {
   const { slug } = await params;
-  const c = getCollectionBySlug(slug);
+  const [c, all] = await Promise.all([getCollectionBySlug(slug), getCollections()]);
   if (!c) notFound();
 
-  const all = getCollections();
   const pos = all.findIndex((x) => x.slug === slug);
   const next = all[(pos + 1) % all.length];
 
@@ -39,7 +38,7 @@ export default async function CollectionPage({ params }: PageProps<'/gallery/[sl
         <h1 className="display text-[clamp(3.25rem,10vw,9rem)] md:col-span-9">{c.partner}</h1>
         <dl className="grid grid-cols-2 gap-4 self-end font-mono text-[0.6875rem] uppercase tracking-[0.12em] md:col-span-3">
           <div><dt className="text-steel-400">Period</dt><dd className="mt-1 text-ice-100">{c.years}</dd></div>
-          <div><dt className="text-steel-400">Frames</dt><dd className="mt-1 text-ice-100">{c.pending ? '—' : String(c.photos.length).padStart(2, '0')}</dd></div>
+          <div><dt className="text-steel-400">Frames</dt><dd className="mt-1 text-ice-100">{c.pending ? '—' : String(c.count).padStart(2, '0')}</dd></div>
           <div className="col-span-2"><dt className="text-steel-400">Kit</dt><dd className="mt-1 text-ice-100">{c.gear ?? profile.gear}</dd></div>
         </dl>
         <p className="font-serif text-xl italic text-steel-300 md:col-span-6">{c.partnerEn}</p>
@@ -54,7 +53,7 @@ export default async function CollectionPage({ params }: PageProps<'/gallery/[sl
         </div>
       </header>
 
-      {c.cover && !c.pending && (
+      {c.cover && !c.pending && c.photos.length > 0 && (
         <div className="frame">
           <div className="relative aspect-[16/9] overflow-hidden md:aspect-[21/9]">
             <Photo media={c.cover} fill priority sizes="100vw" />
@@ -63,7 +62,29 @@ export default async function CollectionPage({ params }: PageProps<'/gallery/[sl
       )}
 
       <section className="frame mt-12 md:mt-20" aria-label={`${c.partner} photographs`}>
-        {c.pending || c.photos.length === 0 ? (
+        {c.recaps.length > 0 && (
+          <div className={c.photos.length ? 'mb-20' : ''}>
+            <h2 className="eyebrow border-t border-hairline pt-3">Bộ ảnh · Recaps — {String(c.recaps.length).padStart(2, '0')}</h2>
+            <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {c.recaps.map((r) => (
+                <li key={r.slug}>
+                  <Link href={`/gallery/${r.slug}`} className="group block">
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-night-850">
+                      {r.cover && <Photo media={r.cover} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" imgClassName="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />}
+                    </div>
+                    <p className="mt-3 flex items-baseline justify-between gap-3">
+                      <span className="font-serif text-2xl text-ice-100 group-hover:text-steel-300">{r.title}</span>
+                      <span className="shrink-0 font-mono text-[0.6875rem] text-steel-400">{r.dateLabel} · {r.count}</span>
+                    </p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {c.photos.length > 0 ? (
+          <MasonryGallery photos={c.photos} label={c.partner} gear={c.gear} />
+        ) : c.recaps.length > 0 ? null : (
           <div className="grid gap-6 border border-hairline p-8 md:grid-cols-12 md:p-14">
             <p className="eyebrow md:col-span-12">Archive in preparation</p>
             <p className="display text-[clamp(2.25rem,5vw,4rem)] md:col-span-8">
@@ -78,8 +99,6 @@ export default async function CollectionPage({ params }: PageProps<'/gallery/[sl
               </Link>
             </div>
           </div>
-        ) : (
-          <MasonryGallery photos={c.photos} label={c.partner} gear={c.gear} />
         )}
       </section>
 
