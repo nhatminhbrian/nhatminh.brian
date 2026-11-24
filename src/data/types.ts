@@ -74,3 +74,20 @@ export type PortfolioEdition = {
   cover: MediaRef;
   palette: { accent: string; label: string };
 };
+
+/** One card in the cinema-archival showcase stack. */
+export type ShowcaseItem = {
+  id: string;
+  href: string;
+  index: string;
+  year: string;
+  title: string;
+  category: string;
+  role: string;
+  yearSemester: string;
+  gearClient: string;
+  specs: string;
+  quote: string;
+  cover: ResolvedMedia;
+  secondary?: { href: string; label: string };
+};
