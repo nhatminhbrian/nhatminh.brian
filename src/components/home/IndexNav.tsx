@@ -77,7 +77,7 @@ export function IndexNav({ items }: { items: IndexItem[] }) {
           <motion.div
             key="preview"
             aria-hidden
-            className="pointer-events-none fixed left-0 top-0 z-40 hidden h-[22rem] w-[16rem] overflow-hidden md:block"
+            className="pointer-events-none fixed left-0 top-0 z-40 hidden h-[22rem] w-[16rem] overflow-hidden rounded-2xl ring-1 ring-ice-100/20 shadow-[0_30px_60px_-20px_rgb(0_0_0/0.8)] md:block"
             style={{ x: sx, y: sy, translateX: '24px', translateY: '-50%' }}
             initial={{ opacity: 0, scale: 0.92, clipPath: 'inset(12% 12% 12% 12%)' }}
             animate={{ opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0%)' }}
