@@ -28,3 +28,27 @@ export const partnerGroupOptions = [
   { title: 'Cấp 3 & Cộng đồng', value: 'community' },
   { title: 'Street & Travel', value: 'street' },
 ];
+
+/** Studio “Bản dịch” group: EN and KO versions of the text fields. Vietnamese stays in the
+ *  original fields, so entries published before this change keep working unchanged. */
+export function translationsField(fields: { name: string; title: string; type: 'string' | 'text' | 'array' }[], group?: string) {
+  const lang = (code: 'en' | 'ko', label: string) => ({
+    name: code,
+    title: label,
+    type: 'object',
+    options: { collapsible: true, collapsed: code === 'ko' },
+    fields: fields.map((f) =>
+      f.type === 'array'
+        ? { name: f.name, title: f.title, type: 'array', of: [{ type: 'string' }] }
+        : { name: f.name, title: f.title, type: f.type, ...(f.type === 'text' ? { rows: 4 } : {}) },
+    ),
+  });
+  return {
+    name: 'translations',
+    title: 'Bản dịch (EN / 한)',
+    description: 'Tiếng Việt nhập ở các ô phía trên. Bỏ trống ô nào thì web hiện tiếng Việt cho ô đó.',
+    type: 'object',
+    ...(group ? { group } : {}),
+    fields: [lang('en', 'English'), lang('ko', '한국어')],
+  };
+}

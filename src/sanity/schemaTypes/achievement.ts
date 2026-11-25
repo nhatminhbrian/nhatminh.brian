@@ -1,5 +1,5 @@
 import { defineArrayMember, defineField, defineType } from 'sanity';
-import { categoryOptions, semesterOptions, yearOptions } from './options';
+import { categoryOptions, semesterOptions, translationsField, yearOptions } from './options';
 
 export const achievement = defineType({
   name: 'achievement',
@@ -57,6 +57,15 @@ export const achievement = defineType({
         defineField({ name: 'label', title: 'Nhãn', type: 'string' }),
       ],
     }),
+    defineField(translationsField([
+      { name: 'title', title: 'Tên thành tích', type: 'string' },
+      { name: 'subtitle', title: 'Phụ đề', type: 'string' },
+      { name: 'organisation', title: 'Tổ chức', type: 'string' },
+      { name: 'role', title: 'Vai trò', type: 'string' },
+      { name: 'period', title: 'Thời gian', type: 'string' },
+      { name: 'summary', title: 'Tóm tắt', type: 'text' },
+      { name: 'details', title: 'Chi tiết', type: 'array' },
+    ]) as never),
   ],
   orderings: [{ title: 'Thứ tự hiển thị', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
   preview: {

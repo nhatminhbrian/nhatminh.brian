@@ -1,5 +1,5 @@
 import { defineArrayMember, defineField, defineType } from 'sanity';
-import { partnerGroupOptions, semesterOptions } from './options';
+import { partnerGroupOptions, semesterOptions, translationsField } from './options';
 
 /** One event / shoot = one folder. Indexed on /gallery by year + partner group. */
 export const photoFolder = defineType({
@@ -10,6 +10,7 @@ export const photoFolder = defineType({
     { name: 'photos', title: 'Ảnh', default: true },
     { name: 'info', title: 'Thông tin' },
     { name: 'story', title: 'Nội dung' },
+    { name: 'i18n', title: 'Bản dịch' },
   ],
   fields: [
     defineField({ name: 'title', title: 'Tên sự kiện / bộ ảnh', type: 'string', group: ['photos', 'info'], validation: (r) => r.required().max(90) }),
@@ -79,6 +80,15 @@ export const photoFolder = defineType({
     defineField({ name: 'story', title: 'Nội dung', type: 'text', rows: 10, group: 'story', description: 'Xuống dòng 2 lần để tách đoạn.' }),
     defineField({ name: 'quote', title: 'Câu trích', type: 'string', group: 'story' }),
     defineField({ name: 'featured', title: 'Đưa lên Featured Works (trang chủ)', type: 'boolean', group: 'story', initialValue: false }),
+    defineField(translationsField([
+      { name: 'title', title: 'Tên bộ ảnh', type: 'string' },
+      { name: 'organization', title: 'Đơn vị', type: 'string' },
+      { name: 'location', title: 'Địa điểm', type: 'string' },
+      { name: 'role', title: 'Vai trò', type: 'string' },
+      { name: 'summary', title: 'Mô tả ngắn', type: 'text' },
+      { name: 'story', title: 'Nội dung', type: 'text' },
+      { name: 'quote', title: 'Câu trích', type: 'string' },
+    ], 'i18n') as never),
   ],
   orderings: [{ title: 'Mới nhất', name: 'dateDesc', by: [{ field: 'date', direction: 'desc' }] }],
   preview: {
