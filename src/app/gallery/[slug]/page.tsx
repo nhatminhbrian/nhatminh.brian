@@ -8,7 +8,9 @@ import { getFolderBySlug, getFolderSlugs, partnerGroups } from '@/lib/content';
 import { DEFAULT_GEAR } from '@/data/folders';
 
 export async function generateStaticParams() {
-  return (await getFolderSlugs()).map((slug) => ({ slug }));
+  const slugs = await getFolderSlugs();
+  // Cache Components needs at least one param; a placeholder 404s if Studio is unreachable at build time.
+  return (slugs.length ? slugs : ['_']).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<'/gallery/[slug]'>): Promise<Metadata> {
