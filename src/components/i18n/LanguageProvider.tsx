@@ -1,5 +1,6 @@
 'use client';
 
+import { termsI18n } from '@/data/home.i18n';
 import { createContext, useCallback, useContext, useEffect, useSyncExternalStore, type ReactNode } from 'react';
 import { dictionaries, locales, localeLabels, localeNames, type Locale } from '@/i18n/dictionaries';
 
@@ -85,5 +86,27 @@ export function LanguageSwitcher({ className = '' }: { className?: string }) {
         </button>
       ))}
     </div>
+  );
+}
+
+/** Inline localized content: <L t={{ vi, en, ko }} /> */
+export function L({ t }: { t: { vi: string; en: string; ko: string } }) {
+  const { locale } = useContext(LanguageContext);
+  return <>{t[locale as 'vi' | 'en' | 'ko'] ?? t.vi}</>;
+}
+
+/** Translate known content terms inside a string (semesters, partner groups, course names). */
+export function useTerms() {
+  const { locale } = useContext(LanguageContext);
+  return useCallback(
+    (s: string) => {
+      if (locale === 'vi' || !s) return s;
+      let out = s;
+      for (const [vi, tr] of Object.entries(termsI18n).sort((a, b) => b[0].length - a[0].length)) {
+        if (out.includes(vi)) out = out.split(vi).join(tr[locale as 'en' | 'ko']);
+      }
+      return out;
+    },
+    [locale],
   );
 }
