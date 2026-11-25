@@ -20,3 +20,11 @@ export const kindOptions = [
 export const yearOptions = ['2026–2027', '2025–2026', '2022–2025'];
 export const semesterOptions = ['Kì 1', 'Kì 2', 'Hè'];
 export const categoryOptions = ['Nhiếp ảnh', 'Truyền thông', 'Quốc tế', 'Lãnh đạo', 'Học thuật', 'Chứng chỉ'];
+
+export const partnerGroupOptions = [
+  { title: 'HVNG & Các Khoa', value: 'hvng' },
+  { title: 'SSEAYP', value: 'sseayp' },
+  { title: 'Triển lãm & Nghệ thuật', value: 'art' },
+  { title: 'Cấp 3 & Cộng đồng', value: 'community' },
+  { title: 'Street & Travel', value: 'street' },
+];
