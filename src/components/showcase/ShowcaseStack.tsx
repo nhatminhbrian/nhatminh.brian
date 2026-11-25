@@ -6,7 +6,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ShowcaseItem } from '@/data/types';
 import { TicketSwitcher } from './TicketSwitcher';
-import { useT } from '@/components/i18n/LanguageProvider';
+import { useT, useTerms } from '@/components/i18n/LanguageProvider';
 
 type Props = {
   items: ShowcaseItem[];
@@ -43,6 +43,7 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const activeRef = useRef(0);
   const t = useT();
+  const term = useTerms();
 
   // which card is centred → active
   useEffect(() => {
@@ -124,7 +125,7 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
                     <div className="md:col-span-7">
                       <Roll active={isActive} delay={0.05}>
                         <span className="glass inline-block rounded-full px-3 py-1 font-mono text-[0.625rem] uppercase tracking-[0.16em] text-ice-100">
-                          {item.category}
+                          {term(item.category)}
                         </span>
                       </Roll>
                       <h3 id={`${item.id}-title`} className="display mt-3 text-[clamp(2.5rem,7.5vw,7.5rem)]">
@@ -132,9 +133,9 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
                       </h3>
                       <dl className="glass mt-5 max-w-xl rounded-xl px-4 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em]">
                         {[
-                          [t('show.role'), item.role],
-                          [t('show.yearSem'), item.yearSemester],
-                          [t('show.gearClient'), item.gearClient],
+                          [t('show.role'), term(item.role)],
+                          [t('show.yearSem'), term(item.yearSemester)],
+                          [t('show.gearClient'), term(item.gearClient)],
                         ].map(([k, v], r) => (
                           <div key={k} className="grid grid-cols-[7.5rem_1fr] gap-3 border-b border-hairline py-2 last:border-b-0 md:grid-cols-[10rem_1fr]">
                             <dt className="text-steel-300">{k}</dt>
