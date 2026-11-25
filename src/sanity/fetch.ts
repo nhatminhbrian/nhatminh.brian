@@ -19,13 +19,13 @@ type SanityImage = {
 const IMAGE = `{ ..., alt, caption, asset->{ _id, metadata { lqip, dimensions { width, height } } } }`;
 
 const FOLDERS = `*[_type == "photoFolder" && defined(slug.current)] | order(date desc) {
-  _id, title, "slug": slug.current, indexNumber, date, year, semester, partnerGroup, organization,
+  _id, title, "slug": slug.current, indexNumber, date, monthOnly, year, semester, partnerGroup, organization,
   location, gear, role, summary, story, quote, featured,
   coverImage ${IMAGE},
   images[] ${IMAGE}
 }`;
 
-const ACHIEVEMENTS = `*[_type == "achievement"] | order(date desc) {
+const ACHIEVEMENTS = `*[_type == "achievement"] | order(coalesce(order, 99999) asc, date desc) {
   _id, title, subtitle, organisation, role, period, year, semester, category, summary, details, link,
   cover ${IMAGE}
 }`;
@@ -60,8 +60,9 @@ export async function getCmsFolders(): Promise<FolderView[]> {
         .filter((m): m is ResolvedMedia => Boolean(m));
       const coverImage = toMedia(a.coverImage as SanityImage, title, `${a._id}-cover`) ?? images[0];
       if (!coverImage) return [];
-      const date = String(a.date ?? '');
-      const year = Number(a.year) || (date ? new Date(date).getFullYear() : new Date().getFullYear());
+      const fullDate = String(a.date ?? '');
+      const date = a.monthOnly ? fullDate.slice(0, 7) : fullDate;
+      const year = Number(a.year) || (fullDate ? new Date(fullDate).getFullYear() : new Date().getFullYear());
       const group = String(a.partnerGroup ?? 'hvng') as PartnerGroup;
       return [{
         id: String(a.slug),
