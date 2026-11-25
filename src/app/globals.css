@@ -354,3 +354,20 @@ html[lang='ko'] .prose-ice { line-height: 1.85; }
 
 /* Archival metadata: tabular figures everywhere mono is used */
 .font-mono { font-variant-numeric: tabular-nums; }
+
+/* Korean inside portfolio editions: PDF faces have no Hangul */
+html[lang='ko'] [data-edition] {
+  --portfolio-font-display: var(--font-ko-display) !important;
+  --portfolio-font-sub: var(--font-ko-display) !important;
+  --portfolio-font-body: var(--font-ko-sans) !important;
+  --portfolio-font-script: var(--font-ko-editorial) !important;
+}
+
+/* Global navbar stays crisp over coloured / light portfolio themes */
+body:has(article[data-edition]) header.fixed {
+  background: rgb(7 13 20 / 0.82);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
+}
+body:has(article[data-edition]) header.fixed a,
+body:has(article[data-edition]) header.fixed button { color: var(--color-ice-100); }
