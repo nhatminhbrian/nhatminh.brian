@@ -15,6 +15,7 @@ export default async function GalleryPage() {
     id: f.id,
     indexNumber: f.indexNumber,
     title: f.title,
+    i18n: f.i18n,
     year: f.year,
     semester: f.semester,
     organization: f.organization,
