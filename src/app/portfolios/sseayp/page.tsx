@@ -20,8 +20,9 @@ const CREAM = '#fcf0e4';
 const WHITE = '#ffffff';
 const INK = '#1d1d1b';
 
-const rounded: CSSProperties = { fontFamily: "'Bowlby One', sans-serif", lineHeight: 0.92, letterSpacing: '-0.01em' };
-const condensed: CSSProperties = { fontFamily: "'Anton', sans-serif", lineHeight: 0.95, letterSpacing: '0.005em' };
+/* TAN St Canard → Bowlby One (display); Gotham Black → Montserrat Black (act titles) */
+const rounded: CSSProperties = { fontFamily: 'var(--portfolio-font-display)', lineHeight: 0.92, letterSpacing: '-0.01em' };
+const condensed: CSSProperties = { fontFamily: 'var(--portfolio-font-sub)', fontWeight: 900, lineHeight: 0.95, letterSpacing: '-0.035em' };
 
 /* Yellow geometry from the PDF: triangles, quarter-discs, half-discs, stars. */
 type ShapeKind = 'tri' | 'quarter' | 'half' | 'disc' | 'star' | 'sparkle' | 'pill';
