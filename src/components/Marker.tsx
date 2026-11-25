@@ -1,4 +1,4 @@
-type Props = { index: string; label: string; className?: string; as?: 'h2' | 'h3' | 'p' };
+type Props = { index: string; label: React.ReactNode; className?: string; as?: 'h2' | 'h3' | 'p' };
 
 /** Swiss section header: (01) — LABEL, sitting on a hairline. */
 export function Marker({ index, label, className = '', as: Tag = 'h2' }: Props) {
