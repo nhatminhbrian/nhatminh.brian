@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useId, useMemo, useState } from 'react';
+import { useT } from '@/components/i18n/LanguageProvider';
 import type { AcademicYear, Achievement, AchievementCategory, ResolvedMedia, Semester } from '@/data/types';
 
 type Item = Omit<Achievement, 'cover'> & { cover?: ResolvedMedia };
@@ -28,6 +29,7 @@ function FilterGroup<T extends string>({
   onChange: (v: T | typeof ALL) => void;
   counts: Record<string, number>;
 }) {
+  const allLabel = useT()('common.all');
   return (
     <fieldset className="min-w-0">
       <legend className="eyebrow mb-3">{label}</legend>
@@ -44,7 +46,7 @@ function FilterGroup<T extends string>({
               onClick={() => onChange(opt)}
               className="flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-hairline bg-ice-100/[0.03] px-4 text-sm text-ice-300 transition-colors hover:border-hairline-strong hover:text-ice-100 disabled:opacity-35 aria-pressed:border-ice-100 aria-pressed:bg-ice-100 aria-pressed:text-night-950"
             >
-              {opt}
+              {opt === ALL ? allLabel : opt}
               <span className="font-mono text-[0.625rem] opacity-70">{n}</span>
             </button>
           );
@@ -60,6 +62,7 @@ export function Archive({ items, years, semesters, categories }: Props) {
   const [category, setCategory] = useState<AchievementCategory | typeof ALL>(ALL);
   const [open, setOpen] = useState<Set<string>>(() => new Set());
   const baseId = useId();
+  const t = useT();
 
   const match = (a: Item, y = year, s = semester, c = category) =>
     (y === ALL || a.year === y) && (s === ALL || a.semester === s) && (c === ALL || a.category === c);
@@ -94,15 +97,15 @@ export function Archive({ items, years, semesters, categories }: Props) {
     <div>
       <div className="z-30 -mx-[var(--gutter)] border-y border-hairline bg-night-950/30 px-[var(--gutter)] py-5 backdrop-blur-xl backdrop-saturate-150 lg:sticky lg:top-14">
         <div className="grid gap-5 lg:grid-cols-[auto_auto_1fr]">
-          <FilterGroup label="Năm học · Academic year" options={years} value={year} onChange={setYear} counts={counts.y} />
-          <FilterGroup label="Học kì · Semester" options={semesters} value={semester} onChange={setSemester} counts={counts.s} />
-          <FilterGroup label="Lĩnh vực · Category" options={categories} value={category} onChange={setCategory} counts={counts.c} />
+          <FilterGroup label={t('ach.year')} options={years} value={year} onChange={setYear} counts={counts.y} />
+          <FilterGroup label={t('ach.semester')} options={semesters} value={semester} onChange={setSemester} counts={counts.s} />
+          <FilterGroup label={t('ach.category')} options={categories} value={category} onChange={setCategory} counts={counts.c} />
         </div>
         <p className="mt-4 flex items-center gap-4 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-steel-300" aria-live="polite">
-          <span>{filtered.length} / {items.length} entries</span>
+          <span>{filtered.length} / {items.length} {t('ach.entries')}</span>
           {filtering && (
             <button type="button" onClick={reset} className="min-h-11 border-b border-steel-400 text-ice-100 hover:border-ice-100">
-              Clear filters
+              {t('ach.clear')}
             </button>
           )}
         </p>
@@ -110,9 +113,9 @@ export function Archive({ items, years, semesters, categories }: Props) {
 
       {filtered.length === 0 ? (
         <div className="border-b border-hairline py-24 text-center">
-          <p className="display text-4xl">No entries for this combination.</p>
+          <p className="display text-4xl">{t('ach.none')}</p>
           <button type="button" onClick={reset} className="mt-6 min-h-11 border border-hairline-strong px-5 font-mono text-xs uppercase tracking-[0.14em] text-ice-100 hover:bg-ice-100 hover:text-night-950">
-            Show all achievements
+            {t('ach.showAll')}
           </button>
         </div>
       ) : (
