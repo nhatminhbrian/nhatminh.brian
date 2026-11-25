@@ -1,13 +1,15 @@
 import type { Metadata, Viewport } from 'next';
-import { Suspense } from 'react';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
 import { LiveBackground } from '@/components/LiveBackground';
+import { LanguageProvider } from '@/components/i18n/LanguageProvider';
 // Self-hosted variable fonts (Vietnamese subsets included) — no build-time network fetch
 import '@fontsource-variable/cormorant-garamond/wght.css';
 import '@fontsource-variable/cormorant-garamond/wght-italic.css';
 import '@fontsource-variable/inter-tight/wght.css';
 import '@fontsource-variable/jetbrains-mono/wght.css';
+import '@fontsource-variable/noto-sans-kr/wght.css';
+import '@fontsource-variable/noto-serif-kr/wght.css';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -35,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="vi" className="antialiased">
       <body>
+        <LanguageProvider>
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-ice-100 focus:px-4 focus:py-2 focus:text-night-950"
@@ -43,13 +46,12 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         </a>
         <LiveBackground />
         <div aria-hidden className="grain" />
-        <Suspense fallback={null}>
-          <SiteHeader />
-        </Suspense>
+        <SiteHeader />
         <main id="main" className="pt-14">
           {children}
         </main>
         <SiteFooter />
+        </LanguageProvider>
       </body>
     </html>
   );

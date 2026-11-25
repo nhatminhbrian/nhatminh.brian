@@ -17,8 +17,8 @@
   --color-hairline: rgb(184 206 224 / 0.16);
   --color-hairline-strong: rgb(184 206 224 / 0.32);
 
-  --font-serif: "Cormorant Garamond Variable", "Cormorant Garamond", Georgia, serif;
-  --font-sans: "Inter Tight Variable", "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond Variable", "Cormorant Garamond", "Noto Serif KR Variable", Georgia, serif;
+  --font-sans: "Inter Tight Variable", "Inter Tight", "Noto Sans KR Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
 
   --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
@@ -182,34 +182,41 @@ html:has([data-snap-stack]) {
 .live-bg__pool {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(80px);
+  filter: blur(70px);
   will-change: transform;
+  mix-blend-mode: screen;
 }
 .live-bg__pool--a {
-  width: 58vmax; height: 58vmax; right: -18vmax; top: -24vmax;
-  background: radial-gradient(circle, rgb(58 91 122 / 0.55), transparent 65%);
-  animation: pool-a 38s ease-in-out infinite alternate;
+  width: 60vmax; height: 60vmax; right: -16vmax; top: -22vmax;
+  background: radial-gradient(circle, rgb(58 91 122 / 0.85), transparent 62%);
+  animation: pool-a 18s ease-in-out infinite alternate;
 }
 .live-bg__pool--b {
-  width: 46vmax; height: 46vmax; left: -20vmax; top: 30vh;
-  background: radial-gradient(circle, rgb(155 182 206 / 0.16), transparent 65%);
-  animation: pool-b 46s ease-in-out infinite alternate;
+  width: 48vmax; height: 48vmax; left: -18vmax; top: 28vh;
+  background: radial-gradient(circle, rgb(155 182 206 / 0.32), transparent 62%);
+  animation: pool-b 22s ease-in-out infinite alternate;
 }
 .live-bg__pool--c {
-  width: 64vmax; height: 64vmax; left: 25vw; bottom: -40vmax;
-  background: radial-gradient(circle, rgb(43 70 95 / 0.5), transparent 65%);
-  animation: pool-c 52s ease-in-out infinite alternate;
+  width: 66vmax; height: 66vmax; left: 22vw; bottom: -38vmax;
+  background: radial-gradient(circle, rgb(43 70 95 / 0.9), transparent 62%);
+  animation: pool-c 26s ease-in-out infinite alternate;
 }
-@keyframes pool-a { to { transform: translate3d(-14vw, 18vh, 0) scale(1.15); } }
-@keyframes pool-b { to { transform: translate3d(22vw, -12vh, 0) scale(0.9); } }
-@keyframes pool-c { to { transform: translate3d(-18vw, -14vh, 0) scale(1.1); } }
+.live-bg__pool--d {
+  width: 34vmax; height: 34vmax; left: 40vw; top: 10vh;
+  background: radial-gradient(circle, rgb(111 143 172 / 0.30), transparent 62%);
+  animation: pool-d 15s ease-in-out infinite alternate;
+}
+@keyframes pool-a { 50% { transform: translate3d(-10vw, 12vh, 0) scale(1.1); } 100% { transform: translate3d(-22vw, 26vh, 0) scale(1.25); } }
+@keyframes pool-b { 50% { transform: translate3d(16vw, -8vh, 0) scale(0.85); } 100% { transform: translate3d(34vw, 10vh, 0) scale(1.1); } }
+@keyframes pool-c { 50% { transform: translate3d(-14vw, -10vh, 0) scale(1.1); } 100% { transform: translate3d(10vw, -22vh, 0) scale(0.95); } }
+@keyframes pool-d { 50% { transform: translate3d(-24vw, 30vh, 0) scale(1.3); } 100% { transform: translate3d(20vw, 44vh, 0) scale(0.9); } }
 
 .live-bg__aurora {
   position: absolute;
-  inset: -20% -10%;
-  background: conic-gradient(from 200deg at 60% 40%, transparent 0deg, rgb(155 182 206 / 0.07) 40deg, transparent 90deg, rgb(58 91 122 / 0.10) 200deg, transparent 260deg);
-  filter: blur(40px);
-  animation: aurora 60s linear infinite;
+  inset: -30% -20%;
+  background: conic-gradient(from 200deg at 60% 40%, transparent 0deg, rgb(155 182 206 / 0.14) 40deg, transparent 95deg, rgb(58 91 122 / 0.22) 200deg, transparent 260deg, rgb(226 237 245 / 0.06) 320deg, transparent 360deg);
+  filter: blur(36px);
+  animation: aurora 32s linear infinite;
   will-change: transform;
 }
 @keyframes aurora { to { transform: rotate(360deg); } }
@@ -217,17 +224,19 @@ html:has([data-snap-stack]) {
 .live-bg__glow {
   position: absolute;
   left: 0; top: 0;
-  width: 600px; height: 600px;
+  width: 900px; height: 900px;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgb(155 182 206 / 0.10), transparent 60%);
-  opacity: 0;
-  transition: opacity 1s;
-  will-change: transform;
+  background: radial-gradient(circle, rgb(155 182 206 / 0.26), rgb(58 91 122 / 0.12) 35%, transparent 62%);
+  opacity: 0.35;
+  transition: opacity 0.6s;
+  will-change: transform, opacity;
+  mix-blend-mode: screen;
 }
+.live-bg__canvas { position: absolute; inset: 0; }
 .live-bg__vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(7 13 20 / 0.75));
+  background: radial-gradient(130% 95% at 50% 40%, transparent 60%, rgb(7 13 20 / 0.7));
 }
 
 /* ───────── Liquid glass ───────── */
@@ -271,5 +280,6 @@ html:has([data-snap-stack]) {
 
 @media (prefers-reduced-motion: reduce) {
   .live-bg__pool, .live-bg__aurora { animation: none; }
+  .live-bg__glow { display: none; }
   .rise { animation: none; }
 }

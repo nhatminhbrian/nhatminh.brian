@@ -3,6 +3,7 @@ import { Photo } from '@/components/Photo';
 import { Marker } from '@/components/Marker';
 import { Reveal } from '@/components/Reveal';
 import { HeroParallax } from '@/components/home/HeroParallax';
+import { T } from '@/components/i18n/LanguageProvider';
 import { IndexNav, type IndexItem } from '@/components/home/IndexNav';
 import { ShowcaseStack } from '@/components/showcase/ShowcaseStack';
 import { getFeaturedWorks, resolve } from '@/lib/content';
@@ -23,10 +24,10 @@ export default async function HomePage() {
   const podium = resolve(profile.diplomacyPortrait);
 
   const index: IndexItem[] = [
-    { index: '01', label: 'Gallery', labelVi: 'Thư viện ảnh · 8 bộ sưu tập', href: '/gallery', meta: 'Client & event photography grouped by partner — SSEAYP, Đoàn Thanh niên HVNG, Street & Heritage.', preview: resolve({ id: 'sseayp-004-008', alt: '' }) },
-    { index: '02', label: 'Portfolios', labelVi: 'Ba ấn bản tương tác', href: '/portfolios', meta: 'Project Portfolio, SSEAYP 49th and Nhãn Quan Thế Kỷ — re-engineered for the web, with original PDFs.', preview: resolve({ id: 'nqtk-005-009', alt: '' }) },
-    { index: '03', label: 'Achievements', labelVi: 'Thành tích theo năm học', href: '/achievements', meta: 'Filterable archive by academic year, semester and category, 2022 → 2027.', preview: resolve({ id: 'portrait-podium', alt: '' }) },
-    { index: '04', label: 'Contact', labelVi: 'Liên hệ', href: '#contact', meta: `${profile.email} · ${profile.handle}`, preview: resolve({ id: 'portrait-camera-2', alt: '' }) },
+    { index: '01', label: 'Gallery', labelKey: 'nav.gallery', subKey: 'index.gallery', labelVi: 'Thư viện ảnh', href: '/gallery', meta: 'Event folders indexed by year and partner group — SSEAYP, Đoàn Thanh niên HVNG, Street & Travel.', preview: resolve({ id: 'sseayp-004-008', alt: '' }) },
+    { index: '02', label: 'Portfolios', labelKey: 'nav.portfolios', subKey: 'index.portfolios', labelVi: 'Ba ấn bản tương tác', href: '/portfolios', meta: 'Project Portfolio, SSEAYP 49th and Nhãn Quan Thế Kỷ — re-engineered for the web, with original PDFs.', preview: resolve({ id: 'nqtk-005-009', alt: '' }) },
+    { index: '03', label: 'Achievements', labelKey: 'nav.achievements', subKey: 'index.achievements', labelVi: 'Thành tích theo năm học', href: '/achievements', meta: 'Filterable archive by academic year, semester and category, 2022 → 2027.', preview: resolve({ id: 'portrait-podium', alt: '' }) },
+    { index: '04', label: 'Contact', labelKey: 'nav.contact', subKey: 'index.contact', labelVi: 'Liên hệ', href: '#contact', meta: `${profile.email} · ${profile.handle}`, preview: resolve({ id: 'portrait-camera-2', alt: '' }) },
   ];
 
   return (
@@ -35,7 +36,7 @@ export default async function HomePage() {
       <section className="hairline-grid relative overflow-hidden" aria-labelledby="hero-title">
         <div className="frame grid grid-cols-12 gap-x-4 pb-16 pt-8 md:pb-24 md:pt-12">
           <div className="col-span-12 flex items-center justify-between font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-steel-300 md:col-span-12">
-            <span>(00) — Portfolio 2026</span>
+            <span><T k="home.portfolioYear" /></span>
             <span className="hidden sm:inline">{profile.city}</span>
             <span>{profile.handle}</span>
           </div>
@@ -63,10 +64,10 @@ export default async function HomePage() {
 
           <div className="col-span-12 mt-8 grid content-start gap-6 md:col-span-5 md:row-start-3 md:mt-6">
             <p className="font-serif text-2xl italic leading-snug text-ice-100 md:text-3xl">
-              “{profile.tagline}”
+              “<T k="home.tagline" />”
             </p>
             <p className="eyebrow">
-              {profile.handle} · {profile.role}
+              {profile.handle} · <T k="home.role" />
             </p>
           </div>
         </div>
@@ -75,8 +76,8 @@ export default async function HomePage() {
       {/* ─── Index 01–04 ──────────────────────────────────── */}
       <section className="frame mt-8" aria-labelledby="index-title">
         <div className="mb-6 flex items-end justify-between">
-          <h2 id="index-title" className="eyebrow">Index — 01 / 04</h2>
-          <p className="hidden font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-400 md:block">Hover to preview</p>
+          <h2 id="index-title" className="eyebrow"><T k="home.index" /></h2>
+          <p className="hidden font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-400 md:block"><T k="home.hover" /></p>
         </div>
         <IndexNav items={index} />
       </section>
@@ -84,22 +85,22 @@ export default async function HomePage() {
       {/* ─── Featured Works — cinema-archival stack ───────── */}
       <section className="mt-32" aria-labelledby="featured-title">
         <div className="frame">
-          <Marker index="(★)" label="Featured Works" />
+          <Marker index="(★)" label={<T k="home.featured" />} />
           <h2 id="featured-title" className="display mt-8 text-[clamp(2.75rem,7vw,6.5rem)]">
-            Now <em className="text-steel-300">screening</em>
+            <em className="text-steel-300"><T k="home.nowScreening" /></em>
           </h2>
-          <p className="mt-3 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-steel-400">Scroll or swipe through the reel · use the ticket to jump</p>
+          <p className="mt-3 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-steel-400"><T k="home.reelHint" /></p>
         </div>
         <ShowcaseStack items={featured} label="Featured" />
       </section>
 
       {/* ─── Dual-lens bio ────────────────────────────────── */}
       <section className="frame mt-16" aria-labelledby="lens-title">
-        <Marker index="(A/B)" label="Dual-lens bio" />
+        <Marker index="(A/B)" label={<T k="home.dualLens" />} />
         <div className="mt-10 grid gap-10 md:grid-cols-12">
           <Reveal className="md:col-span-5">
             <h2 id="lens-title" className="display text-[clamp(2.75rem,6vw,5.5rem)]">
-              Two disciplines, <em className="text-steel-300">one</em> way of seeing.
+              <T k="home.dualTitle" />
             </h2>
             <div className="relative mt-10 aspect-[3/4] w-3/4 overflow-hidden rounded-3xl md:w-full">
               <Photo media={podium} fill sizes="(min-width: 768px) 40vw, 75vw" />
@@ -129,7 +130,7 @@ export default async function HomePage() {
 
       {/* ─── About & philosophy ───────────────────────────── */}
       <section className="frame mt-32" aria-labelledby="about-title">
-        <Marker index="(05)" label="About — Hello, I’m Brian" />
+        <Marker index="(05)" label={<T k="home.about" />} />
         <div className="mt-10 grid gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
             <div className="relative aspect-[2/3] overflow-hidden rounded-3xl">
@@ -138,7 +139,7 @@ export default async function HomePage() {
           </div>
           <div className="md:col-span-7 md:col-start-6">
             <h2 id="about-title" className="display text-[clamp(2.5rem,5vw,4.5rem)]">
-              A photojournalist’s grandson, <em className="text-steel-300">raised on K-dramas.</em>
+              <T k="home.aboutTitle" />
             </h2>
             <div className="mt-8 space-y-5">
               {aboutStory.map((p) => (
@@ -153,7 +154,7 @@ export default async function HomePage() {
 
         <div className="mt-20 grid gap-10 md:grid-cols-12">
           <h3 className="display text-[clamp(2.25rem,4vw,3.75rem)] md:col-span-4">
-            Creative <em className="text-steel-300">philosophy</em>
+            <T k="home.philosophy" />
           </h3>
           <ol className="md:col-span-8">
             {philosophy.map((p, i) => (
@@ -168,7 +169,7 @@ export default async function HomePage() {
 
       {/* ─── Milestones & credentials ─────────────────────── */}
       <section className="frame mt-32" aria-labelledby="milestones-title">
-        <Marker index="(06)" label="Milestones" />
+        <Marker index="(06)" label={<T k="home.milestones" />} />
         <h2 id="milestones-title" className="sr-only">Milestones</h2>
         <ol className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {milestones.map((m) => (
@@ -193,7 +194,7 @@ export default async function HomePage() {
           ))}
         </ul>
         <Link href="/achievements" className="mt-10 inline-flex min-h-11 items-center gap-3 border-b border-ice-300 font-mono text-xs uppercase tracking-[0.14em] text-ice-100 hover:border-ice-100">
-          Full achievements archive →
+          <T k="home.fullArchive" />
         </Link>
       </section>
     </>
