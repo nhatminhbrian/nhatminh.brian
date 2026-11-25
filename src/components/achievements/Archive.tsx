@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useId, useMemo, useState } from 'react';
-import { useT } from '@/components/i18n/LanguageProvider';
+import { useT, useTerms, useTr } from '@/components/i18n/LanguageProvider';
 import type { AcademicYear, Achievement, AchievementCategory, ResolvedMedia, Semester } from '@/data/types';
 
 type Item = Omit<Achievement, 'cover'> & { cover?: ResolvedMedia };
@@ -63,6 +63,8 @@ export function Archive({ items, years, semesters, categories }: Props) {
   const [open, setOpen] = useState<Set<string>>(() => new Set());
   const baseId = useId();
   const t = useT();
+  const L = useTr();
+  const term = useTerms();
 
   const match = (a: Item, y = year, s = semester, c = category) =>
     (y === ALL || a.year === y) && (s === ALL || a.semester === s) && (c === ALL || a.category === c);
@@ -144,15 +146,15 @@ export function Archive({ items, years, semesters, categories }: Props) {
                         <span className="pt-1 font-mono text-xs text-steel-400 md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
                         <span className="md:col-span-6">
                           <span className="block font-serif text-2xl leading-tight text-ice-100 transition-colors group-hover:text-steel-300 md:text-3xl">
-                            {a.title}
+                            {L(a, 'title') as string}
                           </span>
-                          <span className="mt-1 block text-sm text-ice-300">{a.organisation}</span>
+                          <span className="mt-1 block text-sm text-ice-300">{L(a, 'organisation') as string}</span>
                           <span className="mt-3 flex flex-wrap gap-2 md:hidden">
                             <Tag>{a.semester}</Tag><Tag>{a.category}</Tag>
                           </span>
                         </span>
                         <span className="hidden gap-2 md:col-span-4 md:flex md:flex-wrap md:pt-2">
-                          <Tag>{a.semester}</Tag><Tag>{a.category}</Tag><Tag muted>{a.period}</Tag>
+                          <Tag>{term(a.semester)}</Tag><Tag>{term(a.category)}</Tag><Tag muted>{L(a, 'period') as string}</Tag>
                         </span>
                         <span aria-hidden className="flex h-11 w-11 items-center justify-center border border-hairline text-xl text-ice-100 transition-transform duration-300 group-hover:border-hairline-strong md:col-span-1 md:justify-self-end">
                           <span className={`transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`}>+</span>
@@ -163,18 +165,18 @@ export function Archive({ items, years, semesters, categories }: Props) {
                       <div
                         id={panelId}
                         role="region"
-                        aria-label={a.title}
+                        aria-label={L(a, 'title') as string}
                         className={`grid transition-[grid-template-rows] duration-500 ease-[var(--ease-editorial)] ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
                         inert={!isOpen}
                       >
                         <div className="overflow-hidden">
                           <div className="grid gap-6 pb-10 md:grid-cols-12 md:gap-6">
                             <div className="md:col-span-6 md:col-start-2">
-                              {a.subtitle && <p className="font-serif text-xl italic text-steel-300">{a.subtitle}</p>}
-                              {a.role && <p className="eyebrow mt-3">{a.role} · {a.period}</p>}
-                              <p className="prose-ice mt-4">{a.summary}</p>
+                              {a.subtitle && <p className="font-serif text-xl italic text-steel-300">{L(a, 'subtitle') as string}</p>}
+                              {a.role && <p className="eyebrow mt-3">{L(a, 'role') as string} · {L(a, 'period') as string}</p>}
+                              <p className="prose-ice mt-4">{L(a, 'summary') as string}</p>
                               <ul className="mt-5 space-y-2">
-                                {a.details.map((d) => (
+                                {(L(a, 'details') as string[]).map((d) => (
                                   <li key={d} className="grid grid-cols-[1rem_1fr] text-sm leading-relaxed text-ice-300">
                                     <span aria-hidden className="text-steel-400">—</span>{d}
                                   </li>
