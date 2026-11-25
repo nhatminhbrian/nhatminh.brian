@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { editions } from '@/data/portfolios';
 import type { PortfolioEdition } from '@/data/types';
 import { ReadingProgress } from './ReadingProgress';
+import { T } from '@/components/i18n/LanguageProvider';
 
 export function DownloadPdf({ edition, variant = 'solid' }: { edition: PortfolioEdition; variant?: 'solid' | 'ghost' }) {
   return (
@@ -15,7 +16,7 @@ export function DownloadPdf({ edition, variant = 'solid' }: { edition: Portfolio
           : 'border border-hairline-strong text-ice-100 hover:bg-ice-100 hover:text-night-950'
       }`}
     >
-      <span aria-hidden>↓</span> Download Original PDF
+      <span aria-hidden>↓</span> <T k="common.download" />
       <span className="opacity-60">{edition.pdf.pages}pp · {edition.pdf.sizeMb}MB</span>
     </a>
   );
@@ -33,7 +34,7 @@ export function EditionShell({ edition, children }: { edition: PortfolioEdition;
       <div className="sticky top-14 z-30 bg-night-950/30 shadow-[inset_0_-1px_0_rgb(226_237_245/0.12)] backdrop-blur-xl backdrop-saturate-150">
         <div className="frame flex h-12 items-center justify-between gap-4">
           <Link href="/portfolios" className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-steel-300 hover:text-ice-100">
-            ← (02) Portfolios
+            <T k="port.back" />
           </Link>
           <nav aria-label="Editions" className="flex items-center gap-1">
             {editions.map((e) => (
@@ -58,16 +59,16 @@ export function EditionShell({ edition, children }: { edition: PortfolioEdition;
 
       <footer className="frame mt-24 grid gap-8 border-t border-hairline pt-10 md:grid-cols-12">
         <div className="md:col-span-4">
-          <p className="eyebrow">Original edition</p>
+          <p className="eyebrow"><T k="port.original" /></p>
           <p className="mt-3 text-ice-300">{edition.title} — {edition.pdf.pages} pages, as designed for print.</p>
           <div className="mt-5"><DownloadPdf edition={edition} /></div>
         </div>
         <Link href={`/portfolios/${prev.slug}`} className="group md:col-span-4">
-          <p className="eyebrow">← Previous {prev.index}</p>
+          <p className="eyebrow"><T k="port.prev" /> {prev.index}</p>
           <p className="mt-3 font-serif text-3xl text-ice-100 group-hover:italic group-hover:text-steel-300">{prev.title}</p>
         </Link>
         <Link href={`/portfolios/${next.slug}`} className="group md:col-span-4 md:text-right">
-          <p className="eyebrow">Next {next.index} →</p>
+          <p className="eyebrow">{next.index} <T k="port.next" /></p>
           <p className="mt-3 font-serif text-3xl text-ice-100 group-hover:italic group-hover:text-steel-300">{next.title}</p>
         </Link>
       </footer>
