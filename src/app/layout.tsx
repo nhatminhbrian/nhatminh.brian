@@ -13,7 +13,7 @@ import '@fontsource-variable/noto-serif-kr/wght.css';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://nhatminh-brian.vercel.app'),
+  metadataBase: new URL('https://nhatminhbrian.vercel.app'),
   title: {
     default: 'Brian · Nguyễn Nhật Minh — @_wandergraph_',
     template: '%s — Brian',
