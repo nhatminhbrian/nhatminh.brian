@@ -1,6 +1,7 @@
+import { city } from '@/data/home.i18n';
 import Link from 'next/link';
 import { profile } from '@/data/profile';
-import { T } from '@/components/i18n/LanguageProvider';
+import { L, T } from '@/components/i18n/LanguageProvider';
 
 export function SiteFooter() {
   return (
@@ -40,7 +41,7 @@ export function SiteFooter() {
         </dl>
       </div>
       <div className="frame flex flex-col gap-2 border-t border-hairline py-5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-steel-400 sm:flex-row sm:justify-between">
-        <span>© Brian · {profile.name} — {profile.city}</span>
+        <span>© Brian · {profile.name} — <L t={city} /></span>
         <span>{profile.gear}</span>
         <Link href="/portfolios" className="hover:text-ice-100"><T k="footer.download" /></Link>
       </div>
