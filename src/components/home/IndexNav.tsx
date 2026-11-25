@@ -5,11 +5,14 @@ import Link from 'next/link';
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
 import { useState } from 'react';
 import type { ResolvedMedia } from '@/data/types';
+import { useT } from '@/components/i18n/LanguageProvider';
 
 export type IndexItem = {
   index: string;
   label: string;
   labelVi: string;
+  labelKey?: string;
+  subKey?: string;
   href: string;
   meta: string;
   preview: ResolvedMedia;
@@ -17,6 +20,7 @@ export type IndexItem = {
 
 export function IndexNav({ items }: { items: IndexItem[] }) {
   const [active, setActive] = useState<number | null>(null);
+  const t = useT();
   const reduce = useReducedMotion();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -53,10 +57,10 @@ export function IndexNav({ items }: { items: IndexItem[] }) {
               <span className="font-mono text-xs text-steel-300 md:col-span-1">({item.index})</span>
               <span className="md:col-span-7">
                 <span className="display block text-[clamp(2.5rem,7vw,6.5rem)] transition-[letter-spacing,color] duration-500 ease-[var(--ease-editorial)] group-hover:text-steel-300 group-hover:italic md:group-hover:tracking-normal">
-                  {item.label}
+                  {item.labelKey ? t(item.labelKey, item.label) : item.label}
                 </span>
                 <span className="mt-1 block font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-steel-400">
-                  {item.labelVi}
+                  {item.subKey ? t(item.subKey, item.labelVi) : item.labelVi}
                 </span>
               </span>
               <span className="hidden text-sm text-ice-300 md:col-span-3 md:block">{item.meta}</span>
