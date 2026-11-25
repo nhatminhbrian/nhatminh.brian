@@ -41,12 +41,12 @@ const runner = (dark = false): ReactNode => (
 );
 
 const chapters = [
-  { id: 'loi-tua', n: '00', label: 'Lời tựa · Creative rationale' },
-  { id: 'hoi-1', n: 'I', label: 'Hồi I · Phá vỡ sự bất đối xứng' },
-  { id: 'hoi-2', n: 'II', label: 'Hồi II · Ngôn ngữ của khói lửa và rỉ sét' },
-  { id: 'hoi-3', n: 'III', label: 'Hồi III · Tọa độ toàn cầu' },
-  { id: 'vi-thanh', n: 'IV', label: 'Vĩ thanh · Người quan sát' },
-  { id: 'cam-on', n: '—', label: 'Xin cảm ơn!' },
+  { id: 'loi-tua', n: '00', label: { vi: 'Lời tựa · Tuyên ngôn sáng tạo', en: 'Preface · Creative rationale', ko: '서문 · 창작 선언' } },
+  { id: 'hoi-1', n: 'I', label: { vi: 'Hồi I · Phá vỡ sự bất đối xứng', en: 'Act I · Breaking the asymmetry', ko: '1막 · 비대칭을 깨다' } },
+  { id: 'hoi-2', n: 'II', label: { vi: 'Hồi II · Ngôn ngữ của khói lửa và rỉ sét', en: 'Act II · The language of fire and rust', ko: '2막 · 포화와 녹의 언어' } },
+  { id: 'hoi-3', n: 'III', label: { vi: 'Hồi III · Tọa độ toàn cầu', en: 'Act III · Global coordinates', ko: '3막 · 세계의 좌표' } },
+  { id: 'vi-thanh', n: 'IV', label: { vi: 'Vĩ thanh · Người quan sát', en: 'Epilogue · The observer', ko: '에필로그 · 관찰자' } },
+  { id: 'cam-on', n: '—', label: { vi: 'Xin cảm ơn!', en: 'Thank you!', ko: '감사합니다!' } },
 ];
 
 export default function NhanQuanTheKyPage() {
