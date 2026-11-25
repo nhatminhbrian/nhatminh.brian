@@ -3,11 +3,8 @@ import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
 import { LiveBackground } from '@/components/LiveBackground';
 import { LanguageProvider } from '@/components/i18n/LanguageProvider';
-// Self-hosted variable fonts (Vietnamese subsets included) — no build-time network fetch
-import '@fontsource-variable/cormorant-garamond/wght.css';
-import '@fontsource-variable/cormorant-garamond/wght-italic.css';
-import '@fontsource-variable/inter-tight/wght.css';
-import '@fontsource-variable/jetbrains-mono/wght.css';
+import { fontVariables } from './fonts';
+// Korean UI faces (self-hosted)
 import '@fontsource-variable/noto-sans-kr/wght.css';
 import '@fontsource-variable/noto-serif-kr/wght.css';
 import './globals.css';
@@ -35,7 +32,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="vi" className="antialiased">
+    <html lang="vi" className={`${fontVariables} antialiased`}>
       <body>
         <LanguageProvider>
         <a
