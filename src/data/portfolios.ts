@@ -8,10 +8,10 @@ export const editions: PortfolioEdition[] = [
     title: 'Project Portfolio',
     kicker: 'by Nhat Minh Nguyen',
     language: 'EN',
-    context: 'Future Action Summit Australia · Diplomatic Academy of Vietnam',
+    context: 'UIC Admissions · Underwood International College, Yonsei University',
     summary:
-      'Selected projects that combine creativity with responsibility — luminescent. the double album, The Closet, and street work from Hà Nội — aligned with SDG 4 and SDG 10.',
-    pdf: { href: '/pdf/project.pdf', label: 'Project_Portfolio_EN.pdf', pages: 43, sizeMb: 22 },
+      'My most outstanding and meaningful works from high school — luminescent. the double album, The Closet, and street work from Hà Nội — written for the UIC Yonsei Admissions Committee.',
+    pdf: { href: '/pdf/project.pdf', label: 'Project_Portfolio_UIC.pdf', pages: 42, sizeMb: 10 },
     cover: { id: 'project-f588', alt: 'Minh in a blazer and red tie holding a compact camera' },
     palette: { accent: '#2f7bf5', label: 'Electric blue' },
   },
@@ -56,12 +56,17 @@ export const projectEdition = {
     { id: 'luminescent', n: '3', label: 'luminescent.' },
     { id: 'closet', n: '4', label: 'The Closet' },
     { id: 'other', n: '5', label: 'Other projects' },
-    { id: 'conclusion', n: '6', label: 'Conclusion' },
+    { id: 'contact', n: '6', label: 'Contact' },
   ],
   introduction: [
-    'My name is Nhat Minh Nguyen, an undergraduate student majoring in International Economics, with a strong interest in youth engagement and sustainable development. Alongside my academic studies, I have been actively involved in creative and extracurricular projects, which have shaped the way I observe society and understand the role of youth in driving positive change.',
-    'Through photography and visual communication, I focus on storytelling as a tool for education, inclusion, and representation, aligning closely with the Sustainable Development Goals, particularly SDG 4 (Quality Education) and SDG 10 (Reduced Inequalities).',
-    'This portfolio presents selected projects that reflect my approach to combining creativity with responsibility — using visual media not only as a form of personal expression, but as a means to foster dialogue, empathy, and awareness within communities.',
+    'Dear UIC Admissions Committee,',
+    'My name is Nhat Minh Nguyen, but I go by Brian Nguyen. As a Korean major student at the Foreign Language Specialized School (54th class), I have had the opportunity to grow academically while actively engaging in extracurricular activities. Through this journey, I have gained valuable experience in media, specifically in photography and design, which have shaped my personal projects both in and outside of school.',
+    'This portfolio presents my most outstanding and meaningful works, highlighting my creativity and dedication. I hope it provides you with a deeper understanding of who I am and helps you evaluate my application more effectively.',
+    'Thank you for your time and consideration.',
+  ],
+  about: [
+    'I grew up in a family deeply passionate about photography. My grandfather, a former photojournalist, sparked my love for street photography during my childhood.',
+    'As I grew older, I became fascinated by K-dramas, music videos, and tech media from companies like Samsung and Apple. This led me to wonder — what if I could merge traditional street photography with the dynamic, creative world of media? The fusion of these two fields could create something truly unique.',
   ],
   events: [
     'Beyond photography, I have a deep passion for running events — especially recapping them. Through these events I encounter all kinds of people: young couples, groups of friends, my own teachers, and even unexpected VIP guests who energize the entire audience.',
@@ -73,9 +78,9 @@ export const projectEdition = {
     m('project-007-033', 'Rapper in a yellow jersey under blue stage light'),
   ],
   overview: [
-    'Throughout my three years of high school, I participated in over 40 clubs, projects, and organizations, holding roles such as Vice Head of Logistics, Head of Media, Designer, and Media Lead — both within and beyond my school, on national and international scales.',
-    'Alongside collective work, I developed multiple personal photography and media projects and served as an Honorary Reporter for Korea.net, contributing to the promotion of Korean culture and tourism.',
-    'What I value most, however, is not the number of activities, but the people I met, the lessons learned, and the multicultural environments I experienced.',
+    'Throughout my three years of high school, I have participated in a total of 34 different projects, clubs, and organizations, taking on various roles such as Vice President, Head of Media, Design, and more — both within and outside of school, on a national and international scale. I have also carried out numerous personal projects, even serving as an Honorary Reporter for Korea.net to promote Korean culture and tourism.',
+    'However, I do not take pride in the sheer number of activities I have engaged in. Instead, I am truly proud of the people I have met, the experiences I have gained, and the diverse academic and professional cultures I have been exposed to.',
+    'Studying in a Korean-specialized class let me cook Korean dishes in class, translate Korean films together, practise Hangeul calligraphy with young Korean volunteers — and, most importantly, learn about Yonsei University, specifically UIC. On February 27, 2023, I met the UIC Yonsei admissions team: the moment I decided to pursue my dream of studying at Yonsei.',
   ],
   overviewMedia: [
     m('project-008-047', 'Student organisation on school steps'),
@@ -88,7 +93,7 @@ export const projectEdition = {
     intro:
       'luminescent. is a conceptual photography project created for my 17th birthday, exploring the contrast and harmony between two opposing yet complementary aspects of human nature.',
     outro:
-      'More than just a photography series, luminescent. is a personal narrative that visualizes the duality within each of us — how light and shadow, strength and vulnerability, coexist to form a complete and luminous whole.',
+      'More than just a photography series, luminescent. is a personal narrative that visualizes the duality within each of us — how light and shadow, strength and vulnerability, coexist to form a complete and luminous whole — just as I step into a new chapter of my life at 17.',
     sides: [
       {
         key: 'red',
@@ -202,11 +207,15 @@ export const projectEdition = {
       media: [m('project-f917', 'Memory Station K54 hoodie'), m('project-f918', 'Media department hoodie back print'), m('project-f925', 'HSSH “Life in Lens” T-shirt')],
     },
   ],
-  conclusion: [
-    'This portfolio represents more than a collection of visual works — it reflects my ongoing journey as a young creator seeking to understand and shape the world through storytelling, observation, and action.',
-    'As a student of International Economics, I stand at the intersection of creativity and socio-economic thinking. My academic background equips me with an understanding of development frameworks and global challenges, while my creative practice enables me to translate these ideas into narratives that resonate with communities.',
-    'Moving forward, I aim to continue using visual communication as a catalyst for awareness, connection, and change — bridging stories and strategies, people and policies, creativity and development.',
-  ],
+  contact: {
+    closing:
+      'Thank you for your interest. Photography is not just my passion but my way of expressing perspectives and identities. I look forward to further exploring creativity and storytelling at UIC Yonsei.',
+    links: [
+      { label: 'IG photography', value: '@_wandergraph_', href: 'https://instagram.com/_wandergraph_' },
+      { label: 'IG main', value: '@ntjst_brian', href: 'https://instagram.com/ntjst_brian' },
+      { label: 'Email', value: 'nhatminh.brian@gmail.com', href: 'mailto:nhatminh.brian@gmail.com' },
+    ],
+  },
 };
 
 /* ───────────── (02) SSEAYP 49th ───────────── */

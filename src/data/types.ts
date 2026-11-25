@@ -21,6 +21,7 @@ export type AcademicYear = '2026–2027' | '2025–2026' | '2022–2025';
 export type Semester = 'Kì 1' | 'Kì 2' | 'Hè';
 export type AchievementCategory =
   | 'Học thuật'
+  | 'Cộng đồng'
   | 'Truyền thông'
   | 'Nhiếp ảnh'
   | 'Lãnh đạo'

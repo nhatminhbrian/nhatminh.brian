@@ -13,12 +13,12 @@ export type ShowcaseCredit = {
 
 export const editionCredits: Record<string, ShowcaseCredit> = {
   project: {
-    year: '2026',
+    year: '2025',
     role: 'Author · Photographer · Designer',
-    yearSemester: '2025–2026 · Kì 2',
-    gearClient: 'Future Action Summit Australia',
-    specs: '43PP · EN',
-    quote: 'Photography is more than a passion — it is my way of understanding people, perspectives, and the social challenges around us.',
+    yearSemester: '2024–2025 · Kì 2',
+    gearClient: 'UIC · Yonsei University',
+    specs: '42PP · EN',
+    quote: 'Photography is not just my passion but my way of expressing perspectives and identities.',
   },
   sseayp: {
     year: '2026',
