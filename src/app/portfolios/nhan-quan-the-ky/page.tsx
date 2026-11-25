@@ -20,7 +20,8 @@ const ESPRESSO = '#221c14';
 const INK = '#1c1711';
 const RED = '#d2281e';
 
-const heavy: CSSProperties = { fontFamily: "'Anton', sans-serif", lineHeight: 0.9, letterSpacing: '-0.01em' };
+/* DT Phudu (PDF) → Phudu */
+const heavy: CSSProperties = { fontFamily: 'var(--portfolio-font-display)', fontWeight: 900, lineHeight: 0.92, letterSpacing: '-0.015em' };
 
 function Pic({ m, className = '', sizes = '(min-width: 768px) 40vw, 84vw', priority }: { m: ResolvedMedia; className?: string; sizes?: string; priority?: boolean }) {
   return (
