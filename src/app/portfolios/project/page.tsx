@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { CSSProperties, ReactNode } from 'react';
+import { P as Pick } from '@/components/i18n/LanguageProvider';
 import { Photo } from '@/components/Photo';
 import { EditionStage } from '@/components/portfolios/stage/EditionStage';
 import { Letterbox } from '@/components/portfolios/stage/Letterbox';
@@ -43,13 +44,13 @@ const foot = (page: number, dark = false) => (
 );
 
 const chapters = [
-  { id: 'contents', n: '00', label: 'Table of content' },
-  { id: 'introduction', n: '1', label: 'Introduction' },
-  { id: 'overview', n: '2', label: 'Project overview' },
-  { id: 'luminescent', n: '3', label: 'luminescent. the double album' },
-  { id: 'closet', n: '4', label: 'The Closet project' },
-  { id: 'other', n: '5', label: 'Some other projects' },
-  { id: 'contact', n: '6', label: 'Contact' },
+  { id: 'contents', n: '00', label: { vi: 'Mục lục', en: 'Table of content', ko: '목차' } },
+  { id: 'introduction', n: '1', label: { vi: 'Giới thiệu', en: 'Introduction', ko: '소개' } },
+  { id: 'overview', n: '2', label: { vi: 'Tổng quan dự án', en: 'Project overview', ko: '프로젝트 개요' } },
+  { id: 'luminescent', n: '3', label: { vi: 'luminescent. album đôi', en: 'luminescent. the double album', ko: 'luminescent. 더블 앨범' } },
+  { id: 'closet', n: '4', label: { vi: 'Dự án The Closet', en: 'The Closet project', ko: '더 클로젯 프로젝트' } },
+  { id: 'other', n: '5', label: { vi: 'Các dự án khác', en: 'Some other projects', ko: '기타 프로젝트' } },
+  { id: 'contact', n: '6', label: { vi: 'Liên hệ', en: 'Contact', ko: '연락처' } },
 ];
 
 export default function ProjectEditionPage() {
@@ -111,7 +112,7 @@ export default function ProjectEditionPage() {
                   className="flex min-h-12 items-center justify-center rounded-full px-6 text-center text-sm font-semibold transition-transform hover:-translate-y-0.5"
                   style={{ background: BLUE, color: CREAM }}
                 >
-                  {c.n}. {c.label}
+                  {c.n}. <Pick v={c.label} />
                 </a>
               </li>
             ))}
