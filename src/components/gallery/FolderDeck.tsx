@@ -5,12 +5,15 @@ import Link from 'next/link';
 import { motion, useReducedMotion, type PanInfo } from 'framer-motion';
 import { useCallback, useRef, useState } from 'react';
 import type { ResolvedMedia } from '@/data/types';
+import type { I18nFields } from '@/i18n/pick';
+import { useTr } from '@/components/i18n/LanguageProvider';
 import { SlotText } from '@/components/showcase/SlotText';
 
 export type DeckFolder = {
   id: string;
   indexNumber: string;
   title: string;
+  i18n?: I18nFields;
   year: number;
   organization: string;
   date: string;
@@ -28,6 +31,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
  * Touch: drag/flick horizontally, or use the step buttons. Click the front card to open it.
  */
 export function FolderDeck({ folders, label }: { folders: DeckFolder[]; label: string }) {
+  const L = useTr();
   const [active, setActive] = useState(0);
   const [dir, setDir] = useState(1);
   const reduce = useReducedMotion();
@@ -75,7 +79,7 @@ export function FolderDeck({ folders, label }: { folders: DeckFolder[]; label: s
       <div className="relative z-20 mb-3 flex justify-center md:mb-4">
         <span className="inline-flex max-w-[92vw] items-center gap-2 rounded-full bg-ice-100 px-4 py-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-night-950 shadow-[0_10px_30px_-10px_rgb(226_237_245/0.4)]">
           <SlotText value={front.indexNumber} direction={dir} className="font-semibold" />
-          <SlotText value={front.title} direction={dir} className="max-w-[60vw] truncate normal-case tracking-normal md:max-w-[32rem]" />
+          <SlotText value={L(front, 'title') as string} direction={dir} className="max-w-[60vw] truncate normal-case tracking-normal md:max-w-[32rem]" />
           <SlotText value={String(front.year)} direction={dir} className="text-steel-600" />
         </span>
       </div>
@@ -126,12 +130,12 @@ export function FolderDeck({ folders, label }: { folders: DeckFolder[]; label: s
                 <span className="absolute -top-px left-6 h-3 w-24 rounded-b-md bg-ice-100/15 backdrop-blur" />
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 md:p-6">
                   <div className="min-w-0">
-                    <p className="font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-300">{f.organization}</p>
-                    <p className="mt-1 truncate font-serif text-2xl text-ice-100 md:text-4xl">{f.title}</p>
+                    <p className="font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-300">{L(f, 'organization') as string}</p>
+                    <p className="mt-1 truncate font-serif text-2xl text-ice-100 md:text-4xl">{L(f, 'title') as string}</p>
                   </div>
                   <p className="shrink-0 text-right font-mono text-[0.625rem] uppercase tracking-[0.12em] text-ice-300">
                     {f.count} frames
-                    {f.location && <span className="mt-0.5 hidden max-w-48 truncate text-steel-400 md:block">{f.location}</span>}
+                    {f.location && <span className="mt-0.5 hidden max-w-48 truncate text-steel-400 md:block">{L(f, 'location') as string}</span>}
                   </p>
                 </div>
               </>

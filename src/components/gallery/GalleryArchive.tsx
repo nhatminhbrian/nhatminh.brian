@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useMemo, useState } from 'react';
 import type { PartnerGroup } from '@/data/types';
 import { FolderDeck, type DeckFolder } from './FolderDeck';
-import { T, useT } from '@/components/i18n/LanguageProvider';
+import { T, useT, useTr } from '@/components/i18n/LanguageProvider';
 
 export type ArchiveFolder = DeckFolder & { partnerGroup: PartnerGroup; semester?: string };
 type Group = { id: PartnerGroup; label: string };
@@ -19,6 +19,7 @@ const ALL = 'all' as const;
  */
 export function GalleryArchive({ folders, groups }: { folders: ArchiveFolder[]; groups: Group[] }) {
   const t = useT();
+  const L = useTr();
   const years = useMemo(() => [...new Set(folders.map((f) => f.year))].sort((a, b) => b - a), [folders]);
   const [year, setYear] = useState<number | typeof ALL>(years[0] ?? ALL);
   const [group, setGroup] = useState<PartnerGroup | typeof ALL>(ALL);
@@ -147,13 +148,13 @@ export function GalleryArchive({ folders, groups }: { folders: ArchiveFolder[]; 
                           <Image src={f.cover.src} alt="" fill sizes="44px" className="object-cover" />
                         </span>
                         <span className="min-w-0">
-                          <span className="block truncate font-serif text-lg text-ice-100 group-hover:text-steel-300 md:text-xl">{f.title}</span>
-                          <span className="block truncate text-xs text-steel-400">{f.organization}</span>
+                          <span className="block truncate font-serif text-lg text-ice-100 group-hover:text-steel-300 md:text-xl">{L(f, 'title') as string}</span>
+                          <span className="block truncate text-xs text-steel-400">{L(f, 'organization') as string}</span>
                         </span>
                       </Link>
                     </td>
                     <td className="hidden py-3 text-sm text-ice-300 md:table-cell">{t(`group.${f.partnerGroup}`, groups.find((g) => g.id === f.partnerGroup)?.label)}</td>
-                    <td className="hidden max-w-56 truncate py-3 text-sm text-steel-400 lg:table-cell">{f.location ?? '—'}</td>
+                    <td className="hidden max-w-56 truncate py-3 text-sm text-steel-400 lg:table-cell">{(L(f, 'location') as string) ?? '—'}</td>
                     <td className="py-3 text-right font-mono text-xs text-ice-300">{f.date.slice(0, 7).split('-').reverse().join('/')}</td>
                     <td className="hidden py-3 text-right font-mono text-xs text-steel-400 sm:table-cell">{f.count}</td>
                   </tr>
