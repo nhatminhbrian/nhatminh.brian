@@ -4,6 +4,7 @@ import { createClient } from 'next-sanity';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import type { Achievement, FolderView, PartnerGroup, ResolvedMedia } from '@/data/types';
 import { apiVersion, dataset, projectId } from './env';
+import type { I18nFields } from '@/i18n/pick';
 
 const client = createClient({ projectId, dataset, apiVersion, useCdn: true, perspective: 'published' });
 const builder = createImageUrlBuilder({ projectId, dataset });
@@ -20,13 +21,13 @@ const IMAGE = `{ ..., alt, caption, asset->{ _id, metadata { lqip, dimensions { 
 
 const FOLDERS = `*[_type == "photoFolder" && defined(slug.current)] | order(date desc) {
   _id, title, "slug": slug.current, indexNumber, date, monthOnly, year, semester, partnerGroup, organization,
-  location, gear, role, summary, story, quote, featured,
+  location, gear, role, summary, story, quote, featured, translations,
   coverImage ${IMAGE},
   images[] ${IMAGE}
 }`;
 
 const ACHIEVEMENTS = `*[_type == "achievement"] | order(coalesce(order, 99999) asc, date desc) {
-  _id, title, subtitle, organisation, role, period, year, semester, category, summary, details, link,
+  _id, title, subtitle, organisation, role, period, year, semester, category, summary, details, link, translations,
   cover ${IMAGE}
 }`;
 
@@ -44,6 +45,13 @@ function toMedia(img: SanityImage | undefined, fallbackAlt: string, key: string)
     height,
     blur: img.asset.metadata?.lqip ?? '',
   };
+}
+
+type Tx = Record<string, string | string[] | undefined>;
+function toI18n(t: unknown, map: (o: Tx) => Tx = (o) => o): I18nFields | undefined {
+  const tt = t as { en?: Tx; ko?: Tx } | null | undefined;
+  if (!tt) return undefined;
+  return { en: tt.en ? map(tt.en) : undefined, ko: tt.ko ? map(tt.ko) : undefined };
 }
 
 /** All published photo folders, newest first. Cached ~1 minute; [] if Sanity is unreachable. */
@@ -80,6 +88,7 @@ export async function getCmsFolders(): Promise<FolderView[]> {
         story: String(a.story ?? '').split(/\n\s*\n/).map((t) => t.trim()).filter(Boolean),
         quote: (a.quote as string) || undefined,
         featured: Boolean(a.featured),
+        i18n: toI18n(a.translations, (o) => ({ ...o, story: o.story ? String(o.story).split(/\n\s*\n/).map((t) => t.trim()).filter(Boolean) : undefined })),
         coverImage,
         images,
         source: 'sanity' as const,
@@ -111,6 +120,7 @@ export async function getCmsAchievements(): Promise<CmsAchievement[]> {
       summary: String(a.summary ?? ''),
       details: (a.details as string[] | null) ?? [],
       cover: toMedia(a.cover as SanityImage, String(a.title ?? ''), `${a._id}-cover`),
+      i18n: toI18n(a.translations),
       link: (a.link as { href?: string; label?: string } | null)?.href
         ? { href: (a.link as { href: string }).href, label: (a.link as { label?: string }).label || 'Xem thêm' }
         : undefined,
