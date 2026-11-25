@@ -1,13 +1,12 @@
 import 'server-only';
 /**
  * Content access layer. Pages only talk to these functions.
- * Two sources are merged here:
- *  - src/data/*   — the archive built from the original PDFs (static, in the repo)
- *  - public/gallery — folders dropped into the repo (indexed by scripts/gallery-index.mjs)
- *  - Sanity       — photo folders and achievements Brian adds in /studio (cached ~1 min)
+ *  - Sanity (/studio) — every photo folder and achievement; edit them there (cached ~1 min)
+ *  - public/gallery   — optional folders dropped into the repo (scripts/gallery-index.mjs)
+ *  - src/data/*       — portfolio editions, profile and the media used by them
  */
-import { achievements, academicYears, categories, semesters } from '@/data/achievements';
-import { archiveFolders, partnerGroups } from '@/data/folders';
+import { academicYears, categories, semesters } from '@/data/achievements';
+import { partnerGroups } from '@/data/folders';
 import generatedFolders from '@/data/folders.generated.json';
 import { editions, getEdition } from '@/data/portfolios';
 import { resolve, resolveAll } from '@/data/media';
@@ -27,7 +26,7 @@ export async function getAchievements() {
     years: academicYears,
     semesters,
     categories,
-    items: [...cms, ...achievements.map((a) => ({ ...a, cover: a.cover ? resolve(a.cover) : undefined }))],
+    items: cms,
   };
 }
 
@@ -37,25 +36,18 @@ type FsFolder = Omit<FolderView, 'source' | 'indexNumber'> & { indexNumber?: str
 
 /**
  * Every photo folder from all three sources, newest first.
- * Precedence when ids collide: Sanity > public/gallery > archive.
+ * Precedence when ids collide: Sanity > public/gallery.
  * Missing index numbers are assigned per year in chronological order (01 = earliest).
  */
 export async function getFolders(): Promise<FolderView[]> {
   const cms = await getCmsFolders();
-  const archive: FolderView[] = archiveFolders.map((f) => ({
-    ...f,
-    indexNumber: f.indexNumber ?? '',
-    coverImage: resolve(f.coverImage),
-    images: resolveAll(f.images),
-    source: 'archive',
-  }));
   const fs: FolderView[] = (generatedFolders as unknown as FsFolder[]).map((f) => ({
     ...f,
     indexNumber: f.indexNumber ?? '',
     source: 'filesystem',
   }));
   const byId = new Map<string, FolderView>();
-  for (const f of [...archive, ...fs, ...cms]) byId.set(f.id, f);
+  for (const f of [...fs, ...cms]) byId.set(f.id, f);
   const all = [...byId.values()];
 
   const years = new Map<number, FolderView[]>();
@@ -137,7 +129,7 @@ function folderToShowcase(f: FolderView): ShowcaseItem {
 
 const reindex = (items: ShowcaseItem[]) => items.map((s, i) => ({ ...s, index: pad(i + 1) }));
 
-/** Home: the three editions, then folders flagged “featured” (archive or Studio), newest first. */
+/** Home: the three editions, then folders flagged “featured” in Studio, newest first. */
 export async function getFeaturedWorks(): Promise<ShowcaseItem[]> {
   const featured = (await getFolders()).filter((f) => f.featured).slice(0, 5).map(folderToShowcase);
   return reindex([...getEditionShowcase(), ...featured]);
