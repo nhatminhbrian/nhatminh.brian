@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Photo } from '@/components/Photo';
 import { MasonryGallery } from '@/components/gallery/MasonryGallery';
-import { T } from '@/components/i18n/LanguageProvider';
+import { T, Tr, TrParas } from '@/components/i18n/LanguageProvider';
 import { getFolderBySlug, getFolderSlugs, partnerGroups } from '@/lib/content';
 import { DEFAULT_GEAR } from '@/data/folders';
 
@@ -32,6 +32,7 @@ export default async function FolderPage({ params }: PageProps<'/gallery/[slug]'
   const r = await getFolderBySlug(slug);
   if (!r) notFound();
   const { folder: f, next } = r;
+  const tx = { title: f.title, organization: f.organization, location: f.location, summary: f.summary, story: f.story, i18n: f.i18n };
   const group = partnerGroups.find((g) => g.id === f.partnerGroup);
 
   return (
@@ -48,19 +49,19 @@ export default async function FolderPage({ params }: PageProps<'/gallery/[slug]'
           <span className="inline-flex items-center gap-2 rounded-full bg-ice-100 px-3 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-night-950">
             {f.indexNumber} · {f.year}
           </span>
-          <h1 className="display mt-4 text-[clamp(3rem,9vw,8rem)]">{f.title}</h1>
-          <p className="mt-3 font-serif text-xl italic text-steel-300">{f.organization}</p>
+          <h1 className="display mt-4 text-[clamp(3rem,9vw,8rem)]"><Tr item={tx} k="title" /></h1>
+          <p className="mt-3 font-serif text-xl italic text-steel-300"><Tr item={tx} k="organization" /></p>
         </div>
         <dl className="glass grid grid-cols-2 gap-4 self-end rounded-2xl p-5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] md:col-span-3">
           <div><dt className="text-steel-400"><T k="gallery.date" /></dt><dd className="mt-1 text-ice-100">{formatDate(f.date)}</dd></div>
           <div><dt className="text-steel-400"><T k="gallery.colFrames" /></dt><dd className="mt-1 text-ice-100">{String(f.images.length).padStart(2, '0')}</dd></div>
-          {f.location && <div className="col-span-2"><dt className="text-steel-400"><T k="gallery.place" /></dt><dd className="mt-1 normal-case tracking-normal text-ice-100">{f.location}</dd></div>}
+          {f.location && <div className="col-span-2"><dt className="text-steel-400"><T k="gallery.place" /></dt><dd className="mt-1 normal-case tracking-normal text-ice-100"><Tr item={tx} k="location" /></dd></div>}
           <div className="col-span-2"><dt className="text-steel-400"><T k="gallery.kit" /></dt><dd className="mt-1 text-ice-100">{f.gear ?? DEFAULT_GEAR}</dd></div>
         </dl>
         {(f.summary || f.story?.length) && (
           <div className="space-y-4 md:col-span-7">
-            {f.summary && <p className="prose-ice text-lg">{f.summary}</p>}
-            {f.story?.map((s) => <p key={s} className="prose-ice">{s}</p>)}
+            {f.summary && <p className="prose-ice text-lg"><Tr item={tx} k="summary" /></p>}
+            {f.story?.length ? <TrParas item={tx} k="story" className="prose-ice" /> : null}
           </div>
         )}
       </header>
