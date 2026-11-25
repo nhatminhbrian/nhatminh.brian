@@ -3,15 +3,17 @@ import 'server-only';
  * Content access layer. Pages only talk to these functions.
  * Two sources are merged here:
  *  - src/data/*   — the archive built from the original PDFs (static, in the repo)
- *  - Sanity       — albums (Bộ ảnh) and achievements Minh adds in /studio (cached ~1 min)
+ *  - public/gallery — folders dropped into the repo (indexed by scripts/gallery-index.mjs)
+ *  - Sanity       — photo folders and achievements Brian adds in /studio (cached ~1 min)
  */
 import { achievements, academicYears, categories, semesters } from '@/data/achievements';
-import { collections, getCollection } from '@/data/gallery';
+import { archiveFolders, partnerGroups } from '@/data/folders';
+import generatedFolders from '@/data/folders.generated.json';
 import { editions, getEdition } from '@/data/portfolios';
 import { resolve, resolveAll } from '@/data/media';
-import { collectionCredits, editionCredits } from '@/data/showcase';
-import type { GalleryCollection, PortfolioEdition, ResolvedMedia, ShowcaseItem } from '@/data/types';
-import { getCmsAchievements, getCmsAlbums, type CmsAlbum } from '@/sanity/fetch';
+import { editionCredits } from '@/data/showcase';
+import type { FolderView, PortfolioEdition, ShowcaseItem } from '@/data/types';
+import { getCmsAchievements, getCmsFolders } from '@/sanity/fetch';
 
 export { resolve, resolveAll };
 
@@ -29,79 +31,57 @@ export async function getAchievements() {
   };
 }
 
-/* ───────── Gallery ───────── */
+/* ───────── Gallery folders ───────── */
 
-export type RecapCard = { slug: string; title: string; dateLabel: string; count: number; cover?: ResolvedMedia };
+type FsFolder = Omit<FolderView, 'source' | 'indexNumber'> & { indexNumber?: string };
 
-export type CollectionView = Omit<GalleryCollection, 'cover' | 'photos'> & {
-  cover?: ResolvedMedia;
-  photos: ResolvedMedia[];
-  count: number;
-  recaps: RecapCard[];
-  /** true when this entry is a Sanity album rather than an archive collection */
-  isAlbum?: boolean;
-};
+/**
+ * Every photo folder from all three sources, newest first.
+ * Precedence when ids collide: Sanity > public/gallery > archive.
+ * Missing index numbers are assigned per year in chronological order (01 = earliest).
+ */
+export async function getFolders(): Promise<FolderView[]> {
+  const cms = await getCmsFolders();
+  const archive: FolderView[] = archiveFolders.map((f) => ({
+    ...f,
+    indexNumber: f.indexNumber ?? '',
+    coverImage: resolve(f.coverImage),
+    images: resolveAll(f.images),
+    source: 'archive',
+  }));
+  const fs: FolderView[] = (generatedFolders as unknown as FsFolder[]).map((f) => ({
+    ...f,
+    indexNumber: f.indexNumber ?? '',
+    source: 'filesystem',
+  }));
+  const byId = new Map<string, FolderView>();
+  for (const f of [...archive, ...fs, ...cms]) byId.set(f.id, f);
+  const all = [...byId.values()];
 
-const toRecap = (a: CmsAlbum): RecapCard => ({
-  slug: a.slug,
-  title: a.title,
-  dateLabel: a.dateLabel,
-  count: a.photos.length,
-  cover: a.cover,
-});
-
-function albumToCollection(a: CmsAlbum, index: number): CollectionView {
-  return {
-    slug: a.slug,
-    index: `(${pad(index)})`,
-    partner: a.title,
-    partnerEn: `${a.partnerLabel}${a.dateLabel ? ` · ${a.dateLabel}` : ''}`,
-    kind: a.kind,
-    years: a.dateLabel || a.year,
-    summary: a.summary,
-    statement: a.story,
-    gear: a.gear,
-    cover: a.cover,
-    photos: a.photos,
-    count: a.photos.length,
-    recaps: [],
-    isAlbum: true,
-  };
+  const years = new Map<number, FolderView[]>();
+  for (const f of all) years.set(f.year, [...(years.get(f.year) ?? []), f]);
+  for (const list of years.values()) {
+    list
+      .toSorted((a, b) => a.date.localeCompare(b.date))
+      .forEach((f, i) => {
+        if (!f.indexNumber) f.indexNumber = pad(i + 1);
+      });
+  }
+  return all.toSorted((a, b) => b.date.localeCompare(a.date) || a.title.localeCompare(b.title));
 }
 
-function localToCollection(c: GalleryCollection, albums: CmsAlbum[]): CollectionView {
-  const recaps = albums.filter((a) => a.partner === c.slug).map(toRecap);
-  return {
-    ...c,
-    cover: c.cover ? resolve(c.cover) : recaps[0]?.cover,
-    photos: resolveAll(c.photos),
-    count: c.photos.length + recaps.reduce((n, r) => n + r.count, 0),
-    recaps,
-    pending: c.pending && recaps.length === 0,
-  };
+export async function getFolderBySlug(slug: string) {
+  const all = await getFolders();
+  const i = all.findIndex((f) => f.id === slug);
+  if (i < 0) return undefined;
+  return { folder: all[i], prev: all[i - 1], next: all[i + 1] ?? all[0] };
 }
 
-export async function getCollections(): Promise<CollectionView[]> {
-  const albums = await getCmsAlbums();
-  const local = collections.map((c) => localToCollection(c, albums));
-  const standalone = albums
-    .filter((a) => !collections.some((c) => c.slug === a.slug))
-    .map((a, i) => albumToCollection(a, collections.length + i + 1));
-  return [...local, ...standalone];
+export async function getFolderSlugs() {
+  return (await getFolders()).map((f) => f.id);
 }
 
-export async function getCollectionBySlug(slug: string): Promise<CollectionView | undefined> {
-  const albums = await getCmsAlbums();
-  const local = getCollection(slug);
-  if (local) return localToCollection(local, albums);
-  const i = albums.findIndex((a) => a.slug === slug);
-  return i >= 0 ? albumToCollection(albums[i], collections.length + i + 1) : undefined;
-}
-
-export async function getCollectionSlugs() {
-  const albums = await getCmsAlbums();
-  return [...collections.map((c) => c.slug), ...albums.map((a) => a.slug)];
-}
+export { partnerGroups };
 
 /* ───────── Portfolios ───────── */
 
@@ -137,64 +117,28 @@ export function getEditionShowcase(): ShowcaseItem[] {
   });
 }
 
-function albumToShowcase(a: CmsAlbum): ShowcaseItem | undefined {
-  if (!a.cover) return undefined;
+function folderToShowcase(f: FolderView): ShowcaseItem {
+  const group = partnerGroups.find((g) => g.id === f.partnerGroup)?.label ?? '';
   return {
-    id: `album-${a.id}`,
-    href: `/gallery/${a.slug}`,
+    id: `folder-${f.id}`,
+    href: `/gallery/${f.id}`,
     index: '',
-    year: a.year,
-    title: a.title,
-    category: `${a.kind} · ${a.partnerLabel}`,
-    role: a.role,
-    yearSemester: [a.academicYear, a.semester].filter(Boolean).join(' · ') || a.dateLabel,
-    gearClient: a.gear,
-    specs: `${a.photos.length} frames`,
-    quote: a.quote || a.summary,
-    cover: a.cover,
+    year: String(f.year),
+    title: f.title,
+    category: group,
+    role: f.role ?? 'Photographer',
+    yearSemester: [f.year, f.semester].filter(Boolean).join(' · '),
+    gearClient: f.organization,
+    specs: `${f.images.length} frames`,
+    quote: f.quote || f.summary || f.organization,
+    cover: f.coverImage,
   };
-}
-
-function localSeriesShowcase(): ShowcaseItem[] {
-  return collections
-    .filter((c) => !c.pending && c.cover && collectionCredits[c.slug])
-    .map((c) => {
-      const cr = collectionCredits[c.slug];
-      return {
-        id: `gallery-${c.slug}`,
-        href: `/gallery/${c.slug}`,
-        index: '',
-        year: cr.year,
-        title: c.partner,
-        category: c.kind,
-        role: cr.role,
-        yearSemester: cr.yearSemester,
-        gearClient: cr.gearClient,
-        specs: `${c.kind} · ${c.photos.length} frames`,
-        quote: cr.quote,
-        cover: resolve(c.cover!),
-      };
-    });
 }
 
 const reindex = (items: ShowcaseItem[]) => items.map((s, i) => ({ ...s, index: pad(i + 1) }));
 
-/** /gallery: newest Sanity albums first, then the archive series. */
-export async function getGalleryShowcase(): Promise<ShowcaseItem[]> {
-  const albums = await getCmsAlbums();
-  const cms = albums.map(albumToShowcase).filter((s): s is ShowcaseItem => Boolean(s));
-  return reindex([...cms, ...localSeriesShowcase()]);
-}
-
-/** Home: the three editions, albums flagged "featured" in Studio, then the strongest archive series. */
+/** Home: the three editions, then folders flagged “featured” (archive or Studio), newest first. */
 export async function getFeaturedWorks(): Promise<ShowcaseItem[]> {
-  const albums = await getCmsAlbums();
-  const featured = albums
-    .filter((a) => a.featured)
-    .map(albumToShowcase)
-    .filter((s): s is ShowcaseItem => Boolean(s));
-  const series = localSeriesShowcase().filter((s) =>
-    ['gallery-sseayp', 'gallery-concept-studio', 'gallery-street-heritage'].includes(s.id),
-  );
-  return reindex([...getEditionShowcase(), ...featured, ...series]);
+  const featured = (await getFolders()).filter((f) => f.featured).slice(0, 5).map(folderToShowcase);
+  return reindex([...getEditionShowcase(), ...featured]);
 }
