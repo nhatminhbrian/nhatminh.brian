@@ -51,6 +51,7 @@ export const photoFolder = defineType({
       fields: [defineField({ name: 'alt', title: 'Mô tả ảnh (alt)', type: 'string' })],
     }),
     defineField({ name: 'date', title: 'Ngày', type: 'date', group: 'info', options: { dateFormat: 'DD/MM/YYYY' }, validation: (r) => r.required() }),
+    defineField({ name: 'monthOnly', title: 'Chỉ hiện tháng/năm', type: 'boolean', group: 'info', description: 'Bật nếu không nhớ ngày cụ thể — web sẽ hiện 01/2026 thay vì 01/01/2026.', initialValue: false }),
     defineField({
       name: 'year',
       title: 'Năm (tab)',

@@ -12,6 +12,7 @@ export const achievement = defineType({
     defineField({ name: 'role', title: 'Vai trò', type: 'string' }),
     defineField({ name: 'period', title: 'Thời gian (hiển thị)', type: 'string', description: 'VD: 01/2026 — 03/2026', validation: (r) => r.required() }),
     defineField({ name: 'date', title: 'Ngày (để sắp xếp)', type: 'date' }),
+    defineField({ name: 'order', title: 'Thứ tự hiển thị', type: 'number', description: 'Số nhỏ hiện trước trong cùng năm học. Bỏ trống thì xếp cuối, theo ngày.' }),
     defineField({
       name: 'year',
       title: 'Năm học',
@@ -57,6 +58,7 @@ export const achievement = defineType({
       ],
     }),
   ],
+  orderings: [{ title: 'Thứ tự hiển thị', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
   preview: {
     select: { title: 'title', year: 'year', semester: 'semester', category: 'category', media: 'cover' },
     prepare: ({ title, year, semester, category, media }) => ({
