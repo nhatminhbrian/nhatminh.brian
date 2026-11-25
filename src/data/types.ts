@@ -1,3 +1,4 @@
+import type { I18nFields } from '@/i18n/pick';
 /**
  * Content model. Every type here maps 1:1 to a future Sanity schema
  * (see `sanity` notes in src/lib/content.ts). Keep fields serialisable.
@@ -29,6 +30,8 @@ export type AchievementCategory =
   | 'Chứng chỉ';
 
 export type Achievement = {
+  /** EN/KO overrides entered in Studio */
+  i18n?: I18nFields;
   id: string;
   title: string;
   subtitle?: string;
@@ -102,6 +105,8 @@ export type PartnerGroup = 'hvng' | 'sseayp' | 'art' | 'community' | 'street';
  * automatically under its `year` tab and `partnerGroup` pill.
  */
 export type PhotoFolder = {
+  /** EN/KO overrides entered in Studio */
+  i18n?: I18nFields;
   /** stable id, also used as the URL slug: /gallery/<id> */
   id: string;
   /** optional manual order within the year ("01", "02"…); computed from date when omitted */
