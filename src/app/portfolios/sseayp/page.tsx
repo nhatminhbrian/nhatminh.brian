@@ -20,8 +20,8 @@ const CREAM = '#fcf0e4';
 const WHITE = '#ffffff';
 const INK = '#1d1d1b';
 
-/* TAN St Canard → Bowlby One (display); Gotham Black → Montserrat Black (act titles) */
-const rounded: CSSProperties = { fontFamily: 'var(--portfolio-font-display)', lineHeight: 0.92, letterSpacing: '-0.01em' };
+/* Fraunces for display (diacritic-safe); Gotham Black → Montserrat Black (act titles) */
+const rounded: CSSProperties = { fontFamily: 'var(--portfolio-font-display)', fontWeight: 600, lineHeight: 0.95, letterSpacing: '-0.03em' };
 const condensed: CSSProperties = { fontFamily: 'var(--portfolio-font-sub)', fontWeight: 900, lineHeight: 0.95, letterSpacing: '-0.035em' };
 
 /* Yellow geometry from the PDF: triangles, quarter-discs, half-discs, stars. */
@@ -60,12 +60,12 @@ const byline = (onRed = true): ReactNode => (
 );
 
 const chapters = [
-  { id: 'xin-chao', n: '00', label: 'Xin chào' },
-  { id: 'act-1', n: 'I', label: 'Act 1 · The Beginning' },
-  { id: 'act-2', n: 'II', label: 'Act 2 · The Identity' },
-  { id: 'act-3', n: 'III', label: 'Act 3 · The Connection' },
-  { id: 'act-4', n: 'IV', label: 'Act 4 · The Cradle' },
-  { id: 'thank-you', n: '—', label: 'Thank you' },
+  { id: 'xin-chao', n: '00', label: { vi: 'Xin chào', en: 'Hello', ko: '안녕하세요' } },
+  { id: 'act-1', n: 'I', label: { vi: 'Hồi 1 · Khởi đầu', en: 'Act 1 · The Beginning', ko: '1막 · 시작' } },
+  { id: 'act-2', n: 'II', label: { vi: 'Hồi 2 · Bản sắc', en: 'Act 2 · The Identity', ko: '2막 · 정체성' } },
+  { id: 'act-3', n: 'III', label: { vi: 'Hồi 3 · Kết nối', en: 'Act 3 · The Connection', ko: '3막 · 연결' } },
+  { id: 'act-4', n: 'IV', label: { vi: 'Hồi 4 · Cái nôi', en: 'Act 4 · The Cradle', ko: '4막 · 요람' } },
+  { id: 'thank-you', n: '—', label: { vi: 'Cảm ơn', en: 'Thank you', ko: '감사합니다' } },
 ];
 
 export default function SseaypEditionPage() {
