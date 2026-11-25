@@ -3,112 +3,89 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Photo } from '@/components/Photo';
 import { MasonryGallery } from '@/components/gallery/MasonryGallery';
-import { getCollectionBySlug, getCollections, getCollectionSlugs } from '@/lib/content';
-import { profile } from '@/data/profile';
+import { T } from '@/components/i18n/LanguageProvider';
+import { getFolderBySlug, getFolderSlugs, partnerGroups } from '@/lib/content';
+import { DEFAULT_GEAR } from '@/data/folders';
 
 export async function generateStaticParams() {
-  return (await getCollectionSlugs()).map((slug) => ({ slug }));
+  return (await getFolderSlugs()).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<'/gallery/[slug]'>): Promise<Metadata> {
   const { slug } = await params;
-  const c = await getCollectionBySlug(slug);
-  if (!c) return {};
+  const r = await getFolderBySlug(slug);
+  if (!r) return {};
+  const f = r.folder;
   return {
-    title: `${c.partner} — Gallery`,
-    description: c.summary,
-    openGraph: c.cover ? { images: [{ url: c.cover.src, width: c.cover.width, height: c.cover.height }] } : undefined,
+    title: `${f.title} — Gallery`,
+    description: f.summary ?? `${f.organization} · ${f.year}`,
+    openGraph: { images: [{ url: f.coverImage.src, width: f.coverImage.width, height: f.coverImage.height }] },
   };
 }
 
-export default async function CollectionPage({ params }: PageProps<'/gallery/[slug]'>) {
-  const { slug } = await params;
-  const [c, all] = await Promise.all([getCollectionBySlug(slug), getCollections()]);
-  if (!c) notFound();
+const formatDate = (d: string) => d.split('-').reverse().join('/');
 
-  const pos = all.findIndex((x) => x.slug === slug);
-  const next = all[(pos + 1) % all.length];
+export default async function FolderPage({ params }: PageProps<'/gallery/[slug]'>) {
+  const { slug } = await params;
+  const r = await getFolderBySlug(slug);
+  if (!r) notFound();
+  const { folder: f, next } = r;
+  const group = partnerGroups.find((g) => g.id === f.partnerGroup);
 
   return (
     <article>
       <header className="frame grid gap-6 pb-12 pt-10 md:grid-cols-12 md:pt-16">
-        <nav aria-label="Breadcrumb" className="eyebrow md:col-span-12">
-          <Link href="/gallery" className="hover:text-ice-100">(01) Gallery</Link> <span aria-hidden>/</span> {c.index} {c.kind}
+        <nav aria-label="Breadcrumb" className="eyebrow flex flex-wrap gap-x-2 md:col-span-12">
+          <Link href="/gallery" className="hover:text-ice-100">(01) Gallery</Link>
+          <span aria-hidden>/</span>
+          <span>{f.year}</span>
+          <span aria-hidden>/</span>
+          <span><T k={`group.${f.partnerGroup}`} fallback={group?.label} /></span>
         </nav>
-        <h1 className="display text-[clamp(3.25rem,10vw,9rem)] md:col-span-9">{c.partner}</h1>
-        <dl className="grid grid-cols-2 gap-4 self-end font-mono text-[0.6875rem] uppercase tracking-[0.12em] md:col-span-3">
-          <div><dt className="text-steel-400">Period</dt><dd className="mt-1 text-ice-100">{c.years}</dd></div>
-          <div><dt className="text-steel-400">Frames</dt><dd className="mt-1 text-ice-100">{c.pending ? '—' : String(c.count).padStart(2, '0')}</dd></div>
-          <div className="col-span-2"><dt className="text-steel-400">Kit</dt><dd className="mt-1 text-ice-100">{c.gear ?? profile.gear}</dd></div>
-        </dl>
-        <p className="font-serif text-xl italic text-steel-300 md:col-span-6">{c.partnerEn}</p>
-        <div className="space-y-4 md:col-span-6">
-          <p className="prose-ice">{c.summary}</p>
-          {c.statement?.map((s) => <p key={s} className="prose-ice">{s}</p>)}
-          {c.relatedPortfolio && (
-            <Link href={c.relatedPortfolio} className="inline-flex min-h-11 items-center border-b border-ice-300 font-mono text-xs uppercase tracking-[0.14em] text-ice-100 hover:border-ice-100">
-              Read the portfolio edition →
-            </Link>
-          )}
+        <div className="md:col-span-9">
+          <span className="inline-flex items-center gap-2 rounded-full bg-ice-100 px-3 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-night-950">
+            {f.indexNumber} · {f.year}
+          </span>
+          <h1 className="display mt-4 text-[clamp(3rem,9vw,8rem)]">{f.title}</h1>
+          <p className="mt-3 font-serif text-xl italic text-steel-300">{f.organization}</p>
         </div>
+        <dl className="glass grid grid-cols-2 gap-4 self-end rounded-2xl p-5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] md:col-span-3">
+          <div><dt className="text-steel-400"><T k="gallery.date" /></dt><dd className="mt-1 text-ice-100">{formatDate(f.date)}</dd></div>
+          <div><dt className="text-steel-400"><T k="gallery.colFrames" /></dt><dd className="mt-1 text-ice-100">{String(f.images.length).padStart(2, '0')}</dd></div>
+          {f.location && <div className="col-span-2"><dt className="text-steel-400"><T k="gallery.place" /></dt><dd className="mt-1 normal-case tracking-normal text-ice-100">{f.location}</dd></div>}
+          <div className="col-span-2"><dt className="text-steel-400"><T k="gallery.kit" /></dt><dd className="mt-1 text-ice-100">{f.gear ?? DEFAULT_GEAR}</dd></div>
+        </dl>
+        {(f.summary || f.story?.length) && (
+          <div className="space-y-4 md:col-span-7">
+            {f.summary && <p className="prose-ice text-lg">{f.summary}</p>}
+            {f.story?.map((s) => <p key={s} className="prose-ice">{s}</p>)}
+          </div>
+        )}
       </header>
 
-      {c.cover && !c.pending && c.photos.length > 0 && (
-        <div className="frame">
-          <div className="relative aspect-[16/9] overflow-hidden md:aspect-[21/9]">
-            <Photo media={c.cover} fill priority sizes="100vw" />
-          </div>
+      <div className="frame">
+        <div className="relative aspect-[16/9] overflow-hidden rounded-3xl md:aspect-[21/9]">
+          <Photo media={f.coverImage} fill priority sizes="100vw" />
         </div>
-      )}
+      </div>
 
-      <section className="frame mt-12 md:mt-20" aria-label={`${c.partner} photographs`}>
-        {c.recaps.length > 0 && (
-          <div className={c.photos.length ? 'mb-20' : ''}>
-            <h2 className="eyebrow border-t border-hairline pt-3">Bộ ảnh · Recaps — {String(c.recaps.length).padStart(2, '0')}</h2>
-            <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {c.recaps.map((r) => (
-                <li key={r.slug}>
-                  <Link href={`/gallery/${r.slug}`} className="group block">
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-night-850">
-                      {r.cover && <Photo media={r.cover} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" imgClassName="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />}
-                    </div>
-                    <p className="mt-3 flex items-baseline justify-between gap-3">
-                      <span className="font-serif text-2xl text-ice-100 group-hover:text-steel-300">{r.title}</span>
-                      <span className="shrink-0 font-mono text-[0.6875rem] text-steel-400">{r.dateLabel} · {r.count}</span>
-                    </p>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {c.photos.length > 0 ? (
-          <MasonryGallery photos={c.photos} label={c.partner} gear={c.gear} />
-        ) : c.recaps.length > 0 ? null : (
-          <div className="grid gap-6 border border-hairline p-8 md:grid-cols-12 md:p-14">
-            <p className="eyebrow md:col-span-12">Archive in preparation</p>
-            <p className="display text-[clamp(2.25rem,5vw,4rem)] md:col-span-8">
-              This collection is being edited and will be published soon.
-            </p>
-            <div className="flex flex-col gap-3 md:col-span-4 md:self-end">
-              <a href={profile.instagram} className="inline-flex min-h-11 items-center justify-between border border-hairline-strong px-5 font-mono text-xs uppercase tracking-[0.14em] text-ice-100 hover:bg-ice-100 hover:text-night-950">
-                See latest on {profile.handle} <span aria-hidden>↗</span>
-              </a>
-              <Link href="/gallery" className="inline-flex min-h-11 items-center font-mono text-xs uppercase tracking-[0.14em] text-steel-300 hover:text-ice-100">
-                ← Back to all collections
-              </Link>
-            </div>
-          </div>
-        )}
+      <section className="frame mt-12 md:mt-20" aria-label={`${f.title} photographs`}>
+        <MasonryGallery photos={f.images} label={f.title} gear={f.gear ?? DEFAULT_GEAR} />
       </section>
 
-      <nav aria-label="Next collection" className="frame mt-24">
-        <Link href={`/gallery/${next.slug}`} className="group grid gap-2 border-t border-hairline pt-6 md:grid-cols-12">
-          <span className="eyebrow md:col-span-2">Next {next.index}</span>
-          <span className="display text-[clamp(2.5rem,7vw,6rem)] transition-colors group-hover:italic group-hover:text-steel-300 md:col-span-10">
-            {next.partner} →
-          </span>
-        </Link>
+      <nav aria-label="Next folder" className="frame mt-24 grid gap-6 md:grid-cols-12">
+        <Link href="/gallery" className="eyebrow self-end hover:text-ice-100 md:col-span-3"><T k="gallery.backAll" /></Link>
+        {next && next.id !== f.id && (
+          <Link href={`/gallery/${next.id}`} className="glass glass-sheen group flex items-center gap-5 rounded-3xl p-4 md:col-span-9">
+            <span className="relative h-24 w-32 shrink-0 overflow-hidden rounded-2xl">
+              <Photo media={next.coverImage} fill sizes="128px" />
+            </span>
+            <span className="min-w-0">
+              <span className="eyebrow"><T k="gallery.nextFolder" /> · {next.year}</span>
+              <span className="mt-1 block truncate font-serif text-3xl text-ice-100 group-hover:italic md:text-5xl">{next.title} →</span>
+            </span>
+          </Link>
+        )}
       </nav>
     </article>
   );
