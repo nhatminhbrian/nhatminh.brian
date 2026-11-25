@@ -4,15 +4,11 @@ import { editions } from '@/data/portfolios';
 import type { PortfolioEdition } from '@/data/types';
 import { AmbientLayer } from './AmbientLayer';
 import { FloatingBar, type Chapter } from './FloatingBar';
-import { themes, themeVars, type ThemeKey } from './themes';
+import { themeConfig, portfolioVars, type ThemeKey } from './themes';
+import { portfolioFontVariables } from '@/app/portfolios/fonts';
 
-type Bar = { bg: string; ink: string; line: string; accent: string; accentInk: string };
-
-const bars: Record<ThemeKey, Bar> = {
-  project: { bg: '#101010', ink: '#fbfae8', line: 'rgb(251 250 232 / 0.16)', accent: '#5685cd', accentInk: '#fbfae8' },
-  sseayp: { bg: '#a50f16', ink: '#fcf0e4', line: 'rgb(255 210 31 / 0.35)', accent: '#ffd21f', accentInk: '#a50f16' },
-  'nhan-quan-the-ky': { bg: '#221c14', ink: '#f4f1ea', line: 'rgb(244 241 234 / 0.16)', accent: '#d2281e', accentInk: '#f4f1ea' },
-};
+/** Floating-bar ink: the bar sits on the edition's surface colour. */
+const barInk: Record<ThemeKey, string> = { project: '#fbfae8', sseayp: '#fcf0e4', 'nhan-quan-the-ky': '#f4f1ea' };
 
 /**
  * Per-edition stage: overrides the site palette with the PDF's own ambient theme,
@@ -20,16 +16,16 @@ const bars: Record<ThemeKey, Bar> = {
  */
 export function EditionStage({ edition, chapters, children }: { edition: PortfolioEdition; chapters: Chapter[]; children: ReactNode }) {
   const key = edition.slug as ThemeKey;
-  const t = themes[key];
-  const b = bars[key];
+  const t = themeConfig[key];
   const style = {
-    ...themeVars(t),
-    '--ed-bar': b.bg,
-    '--ed-ink-bar': b.ink,
-    '--ed-bar-line': b.line,
-    '--ed-bar-accent': b.accent,
-    '--ed-bar-accent-ink': b.accentInk,
-    color: t.ink,
+    ...portfolioVars(t),
+    '--ed-bar': 'var(--portfolio-surface)',
+    '--ed-ink-bar': barInk[key],
+    '--ed-bar-line': 'color-mix(in srgb, var(--portfolio-accent) 35%, transparent)',
+    '--ed-bar-accent': 'var(--portfolio-accent)',
+    '--ed-bar-accent-ink': 'var(--portfolio-on-accent)',
+    color: 'var(--portfolio-ink)',
+    fontFamily: 'var(--portfolio-font-body)',
   } as CSSProperties;
 
   const i = editions.findIndex((e) => e.slug === edition.slug);
@@ -37,19 +33,20 @@ export function EditionStage({ edition, chapters, children }: { edition: Portfol
   const links = editions.map((e) => ({ slug: e.slug, index: e.index, title: e.title }));
 
   return (
-    <article data-edition={edition.slug} style={style} className="relative -mt-14">
-      <AmbientLayer fallback={t.bg} />
+    <article data-edition={edition.slug} style={style} className={`${portfolioFontVariables} relative -mt-14`}>
+      <AmbientLayer fallback={t.colors.matte} />
       {children}
       <Link
         href={`/portfolios/${next.slug}`}
-        data-ambient="#000000"
-        className="group relative block overflow-hidden bg-black px-[var(--gutter)] pb-36 pt-24 text-white"
+        data-ambient={t.colors.surface}
+        className="group relative block overflow-hidden px-[var(--gutter)] pb-36 pt-24"
+        style={{ background: 'var(--portfolio-surface)', color: barInk[key] }}
       >
-        <span className="font-mono text-[0.625rem] uppercase tracking-[0.3em] text-white/50">Next reel · {next.index}</span>
-        <span className="mt-4 block text-[clamp(2.5rem,8vw,7rem)] font-semibold leading-[0.9] tracking-tight transition-transform duration-700 group-hover:translate-x-3">
+        <span className="font-mono text-[0.625rem] uppercase tracking-[0.3em] opacity-60">Next reel · {next.index}</span>
+        <span className="mt-4 block text-[clamp(2.5rem,8vw,7rem)] font-semibold leading-[0.9] tracking-tight transition-transform duration-700 group-hover:translate-x-3" style={{ fontFamily: 'var(--portfolio-font-display)' }}>
           {next.title} <span aria-hidden>→</span>
         </span>
-        <span className="mt-6 block max-w-xl text-white/60">{next.summary}</span>
+        <span className="mt-6 block max-w-xl opacity-70">{next.summary}</span>
       </Link>
       <FloatingBar current={links[i]} editions={links} chapters={chapters} pdf={edition.pdf} />
     </article>

@@ -69,16 +69,17 @@ export function Letterbox({ id, slate, slateRight, title, canvas, after, ambient
 
   return (
     <section ref={ref} id={id} data-ambient={ambient} data-glow={glow} className={`relative ${tall} scroll-mt-14`}>
-      <div className="sticky top-0 h-svh overflow-hidden bg-black">
+      <div className="sticky top-0 h-svh overflow-hidden" style={{ background: 'var(--portfolio-matte, #000)' }}>
         <motion.div className="absolute inset-0 overflow-hidden will-change-[clip-path]" style={{ clipPath }}>
           <motion.div className="absolute inset-0" style={{ scale: canvasScale }}>{canvas}</motion.div>
         </motion.div>
 
         {/* registration marks on the matte */}
-        <motion.div aria-hidden className="pointer-events-none absolute inset-0 text-white" style={{ opacity: matte }}>
-          <span className="absolute inset-y-0 w-px bg-white/[0.09]" style={{ left: `${hin}%` }} />
-          <span className="absolute inset-y-0 w-px bg-white/[0.09]" style={{ right: `${hin}%` }} />
-          <span className="absolute inset-y-0 left-1/2 w-px bg-white/[0.04]" />
+        <motion.div aria-hidden className="pointer-events-none absolute inset-0" style={{ opacity: matte, color: 'var(--portfolio-accent, #fff)' }}>
+          <span className="absolute inset-y-0 w-px bg-current opacity-25" style={{ left: `${hin}%` }} />
+          <span className="absolute inset-y-0 w-px bg-current opacity-25" style={{ right: `${hin}%` }} />
+          <span className="absolute inset-y-0 left-1/2 w-px bg-current opacity-10" />
+          <span className="absolute border border-current opacity-60" style={{ left: `${hin}%`, right: `${hin}%`, top: `${vin}%`, bottom: `${vin}%` }} />
           {[['left', 'top'], ['right', 'top'], ['left', 'bottom'], ['right', 'bottom']].map(([x, y]) => (
             <span
               key={x + y}
@@ -86,14 +87,14 @@ export function Letterbox({ id, slate, slateRight, title, canvas, after, ambient
               style={{
                 [x]: `calc(${hin}% - 14px)`,
                 [y]: `calc(${vin}% - 14px)`,
-                [`border${y === 'top' ? 'Bottom' : 'Top'}`]: '1px solid rgb(255 255 255 / 0.35)',
-                [`border${x === 'left' ? 'Right' : 'Left'}`]: '1px solid rgb(255 255 255 / 0.35)',
+                [`border${y === 'top' ? 'Bottom' : 'Top'}`]: '1px solid currentColor',
+                [`border${x === 'left' ? 'Right' : 'Left'}`]: '1px solid currentColor',
               }}
             />
           ))}
-          <p className="absolute max-w-[70%] truncate font-mono text-[0.625rem] uppercase tracking-[0.18em] text-white/55" style={{ left: `${hin}%`, top: `calc(${vin}% - 2.25rem)` }}>{slate}</p>
-          {slateRight && <p className="absolute hidden font-mono md:block text-[0.625rem] uppercase tracking-[0.18em] text-white/55" style={{ right: `${hin}%`, top: `calc(${vin}% - 2.25rem)` }}>{slateRight}</p>}
-          <p className="absolute inset-x-0 text-center font-mono text-[0.625rem] uppercase tracking-[0.3em] text-white/45" style={{ bottom: `calc(${vin}% - 2.5rem)` }}>
+          <p className="absolute max-w-[70%] truncate font-mono text-[0.625rem] uppercase tracking-[0.18em] " style={{ color: 'var(--portfolio-muted, #fff)', left: `${hin}%`, top: `calc(${vin}% - 2.25rem)` }}>{slate}</p>
+          {slateRight && <p className="absolute hidden font-mono md:block text-[0.625rem] uppercase tracking-[0.18em] " style={{ color: 'var(--portfolio-muted, #fff)', right: `${hin}%`, top: `calc(${vin}% - 2.25rem)` }}>{slateRight}</p>}
+          <p className="absolute inset-x-0 text-center font-mono text-[0.625rem] uppercase tracking-[0.3em]" style={{ color: 'var(--portfolio-muted, #fff)', bottom: `calc(${vin}% - 2.5rem)` }}>
             Scroll to open <span className="inline-block animate-bounce">↓</span>
           </p>
         </motion.div>
