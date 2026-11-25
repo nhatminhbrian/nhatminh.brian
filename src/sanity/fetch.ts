@@ -2,9 +2,8 @@ import 'server-only';
 import { cacheLife, cacheTag } from 'next/cache';
 import { createClient } from 'next-sanity';
 import { createImageUrlBuilder } from '@sanity/image-url';
-import type { Achievement, ResolvedMedia } from '@/data/types';
+import type { Achievement, FolderView, PartnerGroup, ResolvedMedia } from '@/data/types';
 import { apiVersion, dataset, projectId } from './env';
-import { partnerOptions } from './schemaTypes/options';
 
 const client = createClient({ projectId, dataset, apiVersion, useCdn: true, perspective: 'published' });
 const builder = createImageUrlBuilder({ projectId, dataset });
@@ -19,39 +18,17 @@ type SanityImage = {
 
 const IMAGE = `{ ..., alt, caption, asset->{ _id, metadata { lqip, dimensions { width, height } } } }`;
 
-const ALBUMS = `*[_type == "album" && defined(slug.current)] | order(date desc) {
-  _id, title, "slug": slug.current, partner, kind, date, summary, story, quote, role, gear,
-  academicYear, semester, featured,
-  cover ${IMAGE},
-  photos[] ${IMAGE}
+const FOLDERS = `*[_type == "photoFolder" && defined(slug.current)] | order(date desc) {
+  _id, title, "slug": slug.current, indexNumber, date, year, semester, partnerGroup, organization,
+  location, gear, role, summary, story, quote, featured,
+  coverImage ${IMAGE},
+  images[] ${IMAGE}
 }`;
 
 const ACHIEVEMENTS = `*[_type == "achievement"] | order(date desc) {
   _id, title, subtitle, organisation, role, period, year, semester, category, summary, details, link,
   cover ${IMAGE}
 }`;
-
-export type CmsAlbum = {
-  id: string;
-  slug: string;
-  title: string;
-  partner: string;
-  partnerLabel: string;
-  kind: 'Client' | 'Event' | 'Personal';
-  date: string;
-  dateLabel: string;
-  year: string;
-  summary: string;
-  story: string[];
-  quote: string;
-  role: string;
-  gear: string;
-  academicYear?: string;
-  semester?: string;
-  featured: boolean;
-  cover?: ResolvedMedia;
-  photos: ResolvedMedia[];
-};
 
 function toMedia(img: SanityImage | undefined, fallbackAlt: string, key: string): ResolvedMedia | undefined {
   const dims = img?.asset?.metadata?.dimensions;
@@ -69,45 +46,43 @@ function toMedia(img: SanityImage | undefined, fallbackAlt: string, key: string)
   };
 }
 
-/** All published albums, newest first. Cached ~1 minute; returns [] if Sanity is unreachable. */
-export async function getCmsAlbums(): Promise<CmsAlbum[]> {
+/** All published photo folders, newest first. Cached ~1 minute; [] if Sanity is unreachable. */
+export async function getCmsFolders(): Promise<FolderView[]> {
   'use cache';
   cacheLife('minutes');
-  cacheTag('sanity', 'albums');
+  cacheTag('sanity', 'folders');
   try {
-    const raw = await client.fetch<Array<Record<string, unknown>>>(ALBUMS);
-    return raw.map((a) => {
+    const raw = await client.fetch<Array<Record<string, unknown>>>(FOLDERS);
+    return raw.flatMap((a) => {
       const title = String(a.title ?? '');
-      const photos = ((a.photos as SanityImage[] | null) ?? [])
+      const images = ((a.images as SanityImage[] | null) ?? [])
         .map((p, i) => toMedia(p, `${title} — frame ${String(i + 1).padStart(2, '0')}`, `${a._id}-${i}`))
         .filter((m): m is ResolvedMedia => Boolean(m));
-      const cover = toMedia(a.cover as SanityImage, title, `${a._id}-cover`) ?? photos[0];
+      const coverImage = toMedia(a.coverImage as SanityImage, title, `${a._id}-cover`) ?? images[0];
+      if (!coverImage) return [];
       const date = String(a.date ?? '');
-      const d = date ? new Date(date) : null;
-      return {
-        id: String(a._id),
-        slug: String(a.slug),
+      const year = Number(a.year) || (date ? new Date(date).getFullYear() : new Date().getFullYear());
+      const group = String(a.partnerGroup ?? 'hvng') as PartnerGroup;
+      return [{
+        id: String(a.slug),
+        indexNumber: String(a.indexNumber ?? ''),
         title,
-        partner: String(a.partner ?? 'other'),
-        partnerLabel: partnerOptions.find((o) => o.value === a.partner)?.title ?? 'Recap',
-        kind: (a.kind as CmsAlbum['kind']) ?? 'Event',
+        year,
+        semester: (a.semester as FolderView['semester']) || undefined,
+        partnerGroup: group,
+        organization: String(a.organization ?? ''),
         date,
-        dateLabel: d ? d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '',
-        year: d ? String(d.getFullYear()) : '',
-        summary: String(a.summary ?? ''),
-        story: String(a.story ?? '')
-          .split(/\n\s*\n/)
-          .map((s) => s.trim())
-          .filter(Boolean),
-        quote: String(a.quote ?? a.summary ?? ''),
-        role: String(a.role ?? 'Photographer'),
-        gear: String(a.gear ?? 'CANON 6D • EF 24-105MM F/4'),
-        academicYear: a.academicYear as string | undefined,
-        semester: a.semester as string | undefined,
+        location: (a.location as string) || undefined,
+        gear: (a.gear as string) || undefined,
+        role: (a.role as string) || undefined,
+        summary: (a.summary as string) || undefined,
+        story: String(a.story ?? '').split(/\n\s*\n/).map((t) => t.trim()).filter(Boolean),
+        quote: (a.quote as string) || undefined,
         featured: Boolean(a.featured),
-        cover,
-        photos,
-      };
+        coverImage,
+        images,
+        source: 'sanity' as const,
+      }];
     });
   } catch {
     return [];
