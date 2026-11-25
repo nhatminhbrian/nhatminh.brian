@@ -4,9 +4,11 @@ import { SiteFooter } from '@/components/SiteFooter';
 import { LiveBackground } from '@/components/LiveBackground';
 import { LanguageProvider } from '@/components/i18n/LanguageProvider';
 import { fontVariables } from './fonts';
-// Korean UI faces (self-hosted)
-import '@fontsource-variable/noto-sans-kr/wght.css';
-import '@fontsource-variable/noto-serif-kr/wght.css';
+// Korean editorial faces (self-hosted, unicode-range sliced — only fetched when Hangul renders)
+import '@fontsource-variable/hahmlet/wght.css';
+import '@fontsource/gowun-batang/400.css';
+import '@fontsource/gowun-batang/700.css';
+import '@fontsource/gowun-dodum/400.css';
 import './globals.css';
 
 export const metadata: Metadata = {

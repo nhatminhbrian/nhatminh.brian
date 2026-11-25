@@ -18,10 +18,10 @@
   --color-hairline-strong: rgb(184 206 224 / 0.32);
 
   /* European editorial & museum-archive pairing (fonts registered in src/app/fonts.ts) */
-  --font-display: var(--font-fraunces), "Noto Serif KR Variable", Georgia, serif;
-  --font-serif: var(--font-fraunces), "Noto Serif KR Variable", Georgia, serif;
-  --font-sans: var(--font-schibsted), var(--font-bevietnam), "Noto Sans KR Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-editorial: var(--font-spectral), "Noto Serif KR Variable", Georgia, serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-schibsted), var(--font-bevietnam), ui-sans-serif, system-ui, sans-serif;
+  --font-editorial: var(--font-spectral), Georgia, serif;
   --font-mono: var(--font-spacemono), ui-monospace, monospace;
 
   --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
@@ -332,8 +332,25 @@ html:has([data-snap-stack]) {
 
 /* Schibsted Grotesk has no Vietnamese glyphs: the Vietnamese interface uses Be Vietnam Pro
    for whole words instead of mixing faces letter by letter. */
-html[lang='vi'] { --font-sans: var(--font-bevietnam), "Noto Sans KR Variable", ui-sans-serif, system-ui, sans-serif; }
-html[lang='ko'] { --font-sans: var(--font-schibsted), "Noto Sans KR Variable", ui-sans-serif, system-ui, sans-serif; }
+html[lang='vi'] { --font-sans: var(--font-bevietnam), ui-sans-serif, system-ui, sans-serif; }
+
+/* Korean: contemporary editorial pairing (Hahmlet / Gowun Batang / Gowun Dodum) */
+:root {
+  --font-ko-display: 'Hahmlet Variable', 'Gowun Batang', serif;
+  --font-ko-editorial: 'Gowun Batang', serif;
+  --font-ko-sans: 'Gowun Dodum', var(--font-schibsted), sans-serif;
+}
+html[lang='ko'] {
+  --font-display: var(--font-ko-display);
+  --font-serif: var(--font-ko-display);
+  --font-editorial: var(--font-ko-editorial);
+  --font-sans: var(--font-ko-sans);
+  word-break: keep-all;
+  line-break: strict;
+}
+html[lang='ko'] body { letter-spacing: -0.005em; }
+html[lang='ko'] .display { letter-spacing: -0.02em; line-height: 1.12; font-weight: 400; }
+html[lang='ko'] .prose-ice { line-height: 1.85; }
 
 /* Archival metadata: tabular figures everywhere mono is used */
 .font-mono { font-variant-numeric: tabular-nums; }

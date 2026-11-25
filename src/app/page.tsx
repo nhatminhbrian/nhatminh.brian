@@ -3,19 +3,12 @@ import { Photo } from '@/components/Photo';
 import { Marker } from '@/components/Marker';
 import { Reveal } from '@/components/Reveal';
 import { HeroParallax } from '@/components/home/HeroParallax';
-import { T } from '@/components/i18n/LanguageProvider';
+import { L, T } from '@/components/i18n/LanguageProvider';
+import { aboutI18n, credentialLabels, interestsI18n, city, lensesI18n, milestonesI18n, philosophyI18n, visionI18n } from '@/data/home.i18n';
 import { IndexNav, type IndexItem } from '@/components/home/IndexNav';
 import { ShowcaseStack } from '@/components/showcase/ShowcaseStack';
 import { getFeaturedWorks, resolve } from '@/lib/content';
-import { aboutStory, artisticVision, credentials, interests, lenses, philosophy, profile } from '@/data/profile';
-
-const milestones = [
-  { year: '2022', text: 'THPT Chuyên Ngoại ngữ — chuyên tiếng Hàn; bắt đầu hành trình qua 48 dự án & CLB.' },
-  { year: '2023', text: 'TOPIK II · Level 4. Media and design roles across school clubs.' },
-  { year: '2024', text: 'IELTS 8.5. luminescent. — the double album, for my 17th birthday.' },
-  { year: '2025', text: 'Jan21st Studio internship; The Closet. Graduated with GPA 9.4 → DAV.' },
-  { year: '2026', text: 'SSEAYP 49th media collaborator; Nhãn Quan Thế Kỷ; SSEAYP 50th.' },
-];
+import { credentials, profile } from '@/data/profile';
 
 export default async function HomePage() {
   const featured = await getFeaturedWorks();
@@ -37,7 +30,7 @@ export default async function HomePage() {
         <div className="frame grid grid-cols-12 gap-x-4 pb-16 pt-8 md:pb-24 md:pt-12">
           <div className="col-span-12 flex items-center justify-between font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-steel-300 md:col-span-12">
             <span><T k="home.portfolioYear" /></span>
-            <span className="hidden sm:inline">{profile.city}</span>
+            <span className="hidden sm:inline"><L t={city} /></span>
             <span>{profile.handle}</span>
           </div>
 
@@ -109,17 +102,17 @@ export default async function HomePage() {
           </Reveal>
 
           <div className="grid gap-4 self-start md:col-span-7">
-            {lenses.map((lens, i) => (
-              <Reveal key={lens.label} delay={i * 0.1} className="glass glass-sheen rounded-3xl p-6 md:p-10">
-                <p className="flex items-baseline justify-between">
-                  <span className="font-mono text-xs text-steel-300">{lens.index} {lens.label}</span>
-                  <span className="font-mono text-[0.625rem] uppercase tracking-[0.12em] text-steel-400">{lens.meta}</span>
+            {lensesI18n.map((lens, i) => (
+              <Reveal key={lens.index} delay={i * 0.1} className="glass glass-sheen rounded-3xl p-6 md:p-10">
+                <p className="flex items-baseline justify-between gap-4">
+                  <span className="shrink-0 whitespace-nowrap font-mono text-xs text-steel-300">{lens.index} <L t={lens.label} /></span>
+                  <span className="text-right font-mono text-[0.625rem] uppercase tracking-[0.12em] text-steel-400">{lens.meta}</span>
                 </p>
-                <h3 className="mt-6 font-serif text-4xl text-ice-100 md:text-5xl">{lens.title}</h3>
-                <p className="mt-1 font-serif text-xl italic text-steel-300">{lens.titleVi}</p>
+                <h3 className="mt-6 font-serif text-4xl text-ice-100 md:text-5xl"><L t={lens.title} /></h3>
+                <p className="mt-1 font-serif text-xl italic text-steel-300"><L t={lens.sub} /></p>
                 <div className="mt-6 space-y-4">
                   {lens.body.map((p) => (
-                    <p key={p} className="prose-ice">{p}</p>
+                    <p key={p.en} className="prose-ice"><L t={p} /></p>
                   ))}
                 </div>
               </Reveal>
@@ -142,12 +135,12 @@ export default async function HomePage() {
               <T k="home.aboutTitle" />
             </h2>
             <div className="mt-8 space-y-5">
-              {aboutStory.map((p) => (
-                <p key={p} className="prose-ice">{p}</p>
+              {aboutI18n.map((p) => (
+                <p key={p.en} className="prose-ice"><L t={p} /></p>
               ))}
             </div>
             <blockquote className="mt-10 border-l border-steel-600 pl-6 font-serif text-2xl italic leading-snug text-ice-100">
-              {artisticVision}
+              <L t={visionI18n} />
             </blockquote>
           </div>
         </div>
@@ -157,10 +150,10 @@ export default async function HomePage() {
             <T k="home.philosophy" />
           </h3>
           <ol className="md:col-span-8">
-            {philosophy.map((p, i) => (
-              <li key={p} className="grid grid-cols-[3rem_1fr] items-baseline gap-4 border-t border-hairline py-5 last:border-b">
+            {philosophyI18n.map((p, i) => (
+              <li key={p.en} className="grid grid-cols-[3rem_1fr] items-baseline gap-4 border-t border-hairline py-5 last:border-b">
                 <span className="font-mono text-xs text-steel-300">({String(i + 1).padStart(2, '0')})</span>
-                <span className="text-lg text-ice-100 md:text-xl">{p}</span>
+                <span className="text-lg text-ice-100 md:text-xl"><L t={p} /></span>
               </li>
             ))}
           </ol>
@@ -172,25 +165,25 @@ export default async function HomePage() {
         <Marker index="(06)" label={<T k="home.milestones" />} />
         <h2 id="milestones-title" className="sr-only">Milestones</h2>
         <ol className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          {milestones.map((m) => (
+          {milestonesI18n.map((m) => (
             <li key={m.year} className="glass glass-sheen rounded-2xl p-6 transition-transform duration-500 ease-[var(--ease-editorial)] hover:-translate-y-1">
               <p className="display text-5xl">{m.year}</p>
-              <p className="mt-4 text-sm leading-relaxed text-ice-300">{m.text}</p>
+              <p className="mt-4 text-sm leading-relaxed text-ice-300"><L t={m.text} /></p>
             </li>
           ))}
         </ol>
         <dl className="mt-10 grid grid-cols-2 gap-6 md:grid-cols-4">
           {credentials.map((c) => (
             <div key={c.label} className="border-t border-hairline pt-4">
-              <dt className="eyebrow">{c.label}</dt>
+              <dt className="eyebrow">{credentialLabels[c.label] ? <L t={credentialLabels[c.label]} /> : c.label}</dt>
               <dd className="mt-2 font-serif text-4xl text-ice-100">{c.value}</dd>
               <dd className="font-mono text-[0.625rem] text-steel-400">{c.year}</dd>
             </div>
           ))}
         </dl>
         <ul className="mt-10 flex flex-wrap gap-2">
-          {interests.map((i) => (
-            <li key={i} className="border border-hairline px-3 py-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-steel-300">{i}</li>
+          {interestsI18n.map((i) => (
+            <li key={i.en} className="border border-hairline px-3 py-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-steel-300"><L t={i} /></li>
           ))}
         </ul>
         <Link href="/achievements" className="mt-10 inline-flex min-h-11 items-center gap-3 border-b border-ice-300 font-mono text-xs uppercase tracking-[0.14em] text-ice-100 hover:border-ice-100">
