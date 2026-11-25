@@ -6,6 +6,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ShowcaseItem } from '@/data/types';
 import { TicketSwitcher } from './TicketSwitcher';
+import { useT } from '@/components/i18n/LanguageProvider';
 
 type Props = {
   items: ShowcaseItem[];
@@ -41,6 +42,7 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const activeRef = useRef(0);
+  const t = useT();
 
   // which card is centred → active
   useEffect(() => {
@@ -130,9 +132,9 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
                       </h3>
                       <dl className="glass mt-5 max-w-xl rounded-xl px-4 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em]">
                         {[
-                          ['Role', item.role],
-                          ['Year / Semester', item.yearSemester],
-                          ['Gear / Client', item.gearClient],
+                          [t('show.role'), item.role],
+                          [t('show.yearSem'), item.yearSemester],
+                          [t('show.gearClient'), item.gearClient],
                         ].map(([k, v], r) => (
                           <div key={k} className="grid grid-cols-[7.5rem_1fr] gap-3 border-b border-hairline py-2 last:border-b-0 md:grid-cols-[10rem_1fr]">
                             <dt className="text-steel-300">{k}</dt>
@@ -157,7 +159,7 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
                           className="ticket-notch group inline-flex min-h-12 items-center gap-3 bg-ice-100 px-6 font-mono text-xs font-medium uppercase tracking-[0.18em] text-night-950 transition-colors hover:bg-steel-300"
                           aria-label={`Explore ${item.title}`}
                         >
-                          Explore
+                          {t('common.explore')}
                           <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
                         </Link>
                       </div>
