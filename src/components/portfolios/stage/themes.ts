@@ -65,7 +65,7 @@ export const themeConfig = {
       onAccent: '#a50f16',
     },
     fonts: {
-      headingFont: "'Bowlby One', var(--font-montserrat), sans-serif", // TAN St Canard → Bowlby One
+      headingFont: 'var(--font-fraunces), Georgia, serif', // refined editorial serif (Vietnamese-safe)
       subFont: 'var(--font-montserrat), sans-serif', // Gotham Black → Montserrat Black
       bodyFont: 'var(--font-montserrat), sans-serif', // Montserrat (original)
       scriptFont: 'var(--font-montserrat), sans-serif',

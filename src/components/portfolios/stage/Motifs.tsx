@@ -1,3 +1,4 @@
+import { T } from '@/components/i18n/LanguageProvider';
 import type { CSSProperties, ReactNode } from 'react';
 
 /** Hand-drawn ribbon squiggles (Project Portfolio blue / Nhãn Quan white loops). */
@@ -59,8 +60,8 @@ export function Folio({ left, right, page, className = '' }: { left?: ReactNode;
 export function SwipeHint({ count, className = '' }: { count: number; className?: string }) {
   return (
     <p className={`mt-3 flex items-center justify-between font-mono text-[0.625rem] uppercase tracking-[0.18em] opacity-60 md:hidden ${className}`}>
-      <span>Swipe</span>
-      <span>{String(count).padStart(2, '0')} frames →</span>
+      <span><T k="stage.swipe" /></span>
+      <span>{String(count).padStart(2, '0')} <T k="stage.frames" /></span>
     </p>
   );
 }

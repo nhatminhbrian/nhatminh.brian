@@ -3,8 +3,10 @@
 import Link from 'next/link';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll, useSpring } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
+import { usePick } from '@/components/i18n/LanguageProvider';
+import type { Localized } from '@/i18n/pick';
 
-export type Chapter = { id: string; n: string; label: string };
+export type Chapter = { id: string; n: string; label: Localized };
 type EditionLink = { slug: string; index: string; title: string };
 
 type Props = {
@@ -16,6 +18,7 @@ type Props = {
 
 /** Theme-matched floating bar: back to /portfolios · chapter switcher · original PDF. */
 export function FloatingBar({ current, editions, chapters, pdf }: Props) {
+  const pick = usePick();
   const [open, setOpen] = useState(false);
   const [shown, setShown] = useState(false);
   const [active, setActive] = useState(chapters[0]?.id);
@@ -79,7 +82,7 @@ export function FloatingBar({ current, editions, chapters, pdf }: Props) {
                     className="flex min-h-11 items-center gap-3 rounded-2xl px-3 text-sm hover:bg-white/10 aria-[current=true]:bg-white/15"
                   >
                     <span className="w-8 font-mono text-[0.6875rem] opacity-60">{c.n}</span>
-                    <span>{c.label}</span>
+                    <span>{pick(c.label)}</span>
                   </a>
                 </li>
               ))}
@@ -117,7 +120,7 @@ export function FloatingBar({ current, editions, chapters, pdf }: Props) {
           className="flex min-h-11 min-w-0 flex-1 items-center gap-3 rounded-full px-3 text-left hover:bg-white/10"
         >
           <span className="font-mono text-[0.6875rem] opacity-60">{chapter?.n}</span>
-          <span className="truncate text-sm">{chapter?.label}</span>
+          <span className="truncate text-sm">{pick(chapter?.label)}</span>
           <span aria-hidden className={`ml-auto text-xs transition-transform ${open ? 'rotate-180' : ''}`}>▴</span>
         </button>
         <a

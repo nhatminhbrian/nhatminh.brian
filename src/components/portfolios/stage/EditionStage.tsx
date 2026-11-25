@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { T } from '@/components/i18n/LanguageProvider';
 import type { CSSProperties, ReactNode } from 'react';
 import { editions } from '@/data/portfolios';
 import type { PortfolioEdition } from '@/data/types';
@@ -42,7 +43,7 @@ export function EditionStage({ edition, chapters, children }: { edition: Portfol
         className="group relative block overflow-hidden px-[var(--gutter)] pb-36 pt-24"
         style={{ background: 'var(--portfolio-surface)', color: barInk[key] }}
       >
-        <span className="font-mono text-[0.625rem] uppercase tracking-[0.3em] opacity-60">Next reel · {next.index}</span>
+        <span className="font-mono text-[0.625rem] uppercase tracking-[0.3em] opacity-60"><T k="stage.nextReel" /> · {next.index}</span>
         <span className="mt-4 block text-[clamp(2.5rem,8vw,7rem)] font-semibold leading-[0.9] tracking-tight transition-transform duration-700 group-hover:translate-x-3" style={{ fontFamily: 'var(--portfolio-font-display)' }}>
           {next.title} <span aria-hidden>→</span>
         </span>

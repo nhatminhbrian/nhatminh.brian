@@ -2,6 +2,7 @@
 
 import { motion, useMotionValue, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useT } from '@/components/i18n/LanguageProvider';
 
 type Props = {
   id?: string;
@@ -29,6 +30,7 @@ type Props = {
 export function Letterbox({ id, slate, slateRight, title, canvas, after, ambient, glow, variant = 'intro', titleClassName = '' }: Props) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
+  const t = useT();
   const [mobile, setMobile] = useState(false);
   const v = useMotionValue(variant === 'intro' ? 20 : 24);
   const h = useMotionValue(12);
@@ -95,7 +97,7 @@ export function Letterbox({ id, slate, slateRight, title, canvas, after, ambient
           <p className="absolute max-w-[70%] truncate font-mono text-[0.625rem] uppercase tracking-[0.18em] " style={{ color: 'var(--portfolio-muted, #fff)', left: `${hin}%`, top: `calc(${vin}% - 2.25rem)` }}>{slate}</p>
           {slateRight && <p className="absolute hidden font-mono md:block text-[0.625rem] uppercase tracking-[0.18em] " style={{ color: 'var(--portfolio-muted, #fff)', right: `${hin}%`, top: `calc(${vin}% - 2.25rem)` }}>{slateRight}</p>}
           <p className="absolute inset-x-0 text-center font-mono text-[0.625rem] uppercase tracking-[0.3em]" style={{ color: 'var(--portfolio-muted, #fff)', bottom: `calc(${vin}% - 2.5rem)` }}>
-            Scroll to open <span className="inline-block animate-bounce">↓</span>
+            {t('stage.scroll')} <span className="inline-block animate-bounce">↓</span>
           </p>
         </motion.div>
 
