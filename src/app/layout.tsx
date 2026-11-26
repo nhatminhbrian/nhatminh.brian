@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { AmbientBackdrop } from '@/components/AmbientBackdrop';
 import { MarginaliaRails } from '@/components/MarginaliaRails';
 import { RouteTheme } from '@/components/RouteTheme';
+import { introGateScript } from '@/components/home/introGate';
 import { LanguageProvider } from '@/components/i18n/LanguageProvider';
 import { fontVariables } from './fonts';
 import '@fontsource/ephesis/400.css';
@@ -39,7 +40,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="vi" className={`${fontVariables} antialiased`}>
+    <html lang="vi" className={`${fontVariables} antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introGateScript }} />
+      </head>
       <body>
         <LanguageProvider>
         <a

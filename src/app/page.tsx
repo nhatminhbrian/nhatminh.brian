@@ -10,6 +10,8 @@ import { IndexNav, type IndexItem } from '@/components/home/IndexNav';
 import { ShowcaseStack } from '@/components/showcase/ShowcaseStack';
 import { getFeaturedWorks, resolve } from '@/lib/content';
 import { credentials, profile } from '@/data/profile';
+import { MobileIntro } from '@/components/home/MobileIntro';
+import { InterestReel } from '@/components/home/InterestReel';
 
 export default async function HomePage() {
   const [featured, home] = await Promise.all([getFeaturedWorks(), getHome()]);
@@ -25,8 +27,15 @@ export default async function HomePage() {
     { index: '04', label: 'Contact', labelKey: 'nav.contact', subKey: 'index.contact', labelVi: 'Liên hệ', href: '#contact', meta: `${profile.email} · ${profile.handle}`, preview: resolve({ id: 'portrait-camera-2', alt: '' }) },
   ];
 
+  // splash frames: Studio featured covers first, then local archive fallbacks
+  const introPhotos = [
+    ...featured.map((f) => f.cover),
+    ...['sseayp-004-008', 'nqtk-005-009', 'portrait-camera-2', 'project-006-019', 'sseayp-005-012', 'nqtk-007-015', 'portrait-foie', 'project-007-030', 'sseayp-003-004'].flatMap((id) => { try { return [resolve({ id, alt: '' })]; } catch { return []; } }),
+  ].filter((m, i, a) => m?.src && a.findIndex((x) => x?.src === m.src) === i).slice(0, 9);
+
   return (
     <>
+      <MobileIntro photos={introPhotos} />
       {/* ─── Hero ─────────────────────────────────────────── */}
       <section className="hairline-grid relative overflow-hidden" aria-labelledby="hero-title">
         <div className="frame grid grid-cols-12 gap-x-4 pb-16 pt-10 md:pb-24 md:pt-14">
@@ -184,11 +193,7 @@ export default async function HomePage() {
             </div>
           ))}
         </dl>
-        <ul className="mt-10 flex flex-wrap gap-2">
-          {interestsI18n.map((i) => (
-            <li key={i.en} className="border border-hairline px-3 py-1.5 ui-label text-[0.6875rem] text-steel-300"><L t={i} /></li>
-          ))}
-        </ul>
+        <InterestReel items={interestsI18n} />
         <Link href="/achievements" className="mt-10 inline-flex min-h-11 items-center gap-3 border-b border-ice-300 ui-label text-[0.6875rem] text-ice-100 hover:border-ice-100">
           <T k="home.fullArchive" />
         </Link>

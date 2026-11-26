@@ -16,6 +16,8 @@ export type ResolvedMedia = MediaRef & {
   width: number;
   height: number;
   blur: string;
+  /** Studio EN/KO alt + caption overrides (vi lives in alt / caption) */
+  loc?: Partial<Record<'en' | 'ko', { alt?: string; caption?: string }>>;
 };
 
 export type AcademicYear = '2026–2027' | '2025–2026' | '2022–2025';

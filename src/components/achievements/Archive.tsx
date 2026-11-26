@@ -3,10 +3,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useId, useMemo, useState } from 'react';
-import { useT, useTerms, useTr } from '@/components/i18n/LanguageProvider';
+import { useLocale, useT, useTerms, useTr } from '@/components/i18n/LanguageProvider';
+import { Lightbox } from '@/components/gallery/Lightbox';
 import type { AcademicYear, Achievement, AchievementCategory, ResolvedMedia, Semester } from '@/data/types';
 
-type Item = Omit<Achievement, 'cover'> & { cover?: ResolvedMedia };
+type Item = Omit<Achievement, 'cover'> & { cover?: ResolvedMedia; photos?: ResolvedMedia[] };
 type Props = {
   items: Item[];
   years: AcademicYear[];
@@ -66,6 +67,14 @@ export function Archive({ items, years, semesters, categories }: Props) {
   const t = useT();
   const L = useTr();
   const term = useTerms();
+  const { locale } = useLocale();
+  const [viewer, setViewer] = useState<{ id: string; i: number } | null>(null);
+  const photosOf = (a: Item): ResolvedMedia[] => {
+    const list = a.photos?.length ? a.photos : a.cover ? [a.cover] : [];
+    if (locale === 'vi') return list;
+    return list.map((m) => ({ ...m, alt: m.loc?.[locale]?.alt || m.alt, caption: m.loc?.[locale]?.caption || m.caption }));
+  };
+  const viewing = viewer ? items.find((a) => a.id === viewer.id) : undefined;
 
   const match = (a: Item, y = year, s = semester, c = category) =>
     (y === ALL || a.year === y) && (s === ALL || a.semester === s) && (c === ALL || a.category === c);
@@ -189,17 +198,27 @@ export function Archive({ items, years, semesters, categories }: Props) {
                                 </Link>
                               )}
                             </div>
-                            {a.cover && (
-                              <div className="relative aspect-[4/3] overflow-hidden md:col-span-4 md:col-start-9">
-                                <Image
-                                  src={a.cover.src}
-                                  alt={a.cover.alt}
-                                  fill
-                                  sizes="(min-width: 768px) 30vw, 100vw"
-                                  placeholder="blur"
-                                  blurDataURL={a.cover.blur}
-                                  className="object-cover"
-                                />
+                            {photosOf(a).length > 0 && (
+                              <div className={`grid grid-cols-2 gap-3 md:col-span-4 md:col-start-9 ${photosOf(a).length > 2 ? 'md:grid-cols-3' : ''} ${photosOf(a).length === 1 ? '!grid-cols-1' : ''}`}>
+                                {photosOf(a).map((m, i) => (
+                                  <button
+                                    key={m.id}
+                                    type="button"
+                                    onClick={() => setViewer({ id: a.id, i })}
+                                    aria-label={`${m.alt} - ${i + 1}/${photosOf(a).length}`}
+                                    className={`group relative overflow-hidden rounded-[2px] bg-night-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ice-100 ${photosOf(a).length === 1 ? 'aspect-[4/3]' : 'aspect-square'}`}
+                                  >
+                                    <Image
+                                      src={m.src}
+                                      alt={m.alt}
+                                      fill
+                                      sizes={photosOf(a).length === 1 ? '(min-width: 768px) 30vw, 100vw' : '(min-width: 768px) 12vw, 50vw'}
+                                      placeholder={m.blur ? 'blur' : 'empty'}
+                                      blurDataURL={m.blur || undefined}
+                                      className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02]"
+                                    />
+                                  </button>
+                                ))}
                               </div>
                             )}
                           </div>
@@ -212,6 +231,16 @@ export function Archive({ items, years, semesters, categories }: Props) {
             </section>
           );
         })
+      )}
+      {viewing && (
+        <Lightbox
+          photos={photosOf(viewing)}
+          index={viewer!.i}
+          onClose={() => setViewer(null)}
+          onIndex={(i) => setViewer((v) => (v ? { ...v, i } : v))}
+          label={L(viewing, 'title') as string}
+          gear={L(viewing, 'organisation') as string}
+        />
       )}
     </div>
   );

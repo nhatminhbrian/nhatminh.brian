@@ -32,6 +32,7 @@ const FOLDERS = `*[_type == "photoFolder" && defined(slug.current)] | order(date
 
 const ACHIEVEMENTS = `*[_type == "achievement"] | order(coalesce(order, 99999) asc, date desc) {
   _id, title, subtitle, organisation, role, period, year, semester, category, summary, details, link, translations,
+  "images": images[]${IMAGE},
   cover ${IMAGE}
 }`;
 
@@ -44,6 +45,7 @@ function toMedia(img: SanityImage | undefined, fallbackAlt: string, key: string)
     id: key,
     alt: img.alt || fallbackAlt,
     caption: img.caption,
+    loc: (img as { translations?: ResolvedMedia['loc'] }).translations ?? undefined,
     src: builder.image(img).width(width).fit('max').auto('format').quality(82).url(),
     width,
     height,
@@ -103,7 +105,7 @@ export async function getCmsFolders(): Promise<FolderView[]> {
   }
 }
 
-export type CmsAchievement = Omit<Achievement, 'cover'> & { cover?: ResolvedMedia };
+export type CmsAchievement = Omit<Achievement, 'cover'> & { cover?: ResolvedMedia; photos: ResolvedMedia[] };
 
 export async function getCmsAchievements(): Promise<CmsAchievement[]> {
   'use cache';
@@ -124,6 +126,11 @@ export async function getCmsAchievements(): Promise<CmsAchievement[]> {
       summary: String(a.summary ?? ''),
       details: (a.details as string[] | null) ?? [],
       cover: toMedia(a.cover as SanityImage, String(a.title ?? ''), `${a._id}-cover`),
+      // new gallery first, legacy single image last - old entries keep their photo
+      photos: [
+        ...((a.images as SanityImage[] | null) ?? []).map((img, i) => toMedia(img, String(a.title ?? ''), `${a._id}-img-${i}`)),
+        toMedia(a.cover as SanityImage, String(a.title ?? ''), `${a._id}-cover`),
+      ].filter((m): m is ResolvedMedia => !!m),
       i18n: toI18n(a.translations),
       link: (a.link as { href?: string; label?: string } | null)?.href
         ? { href: (a.link as { href: string }).href, label: (a.link as { label?: string }).label || 'Xem thêm' }

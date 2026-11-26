@@ -492,3 +492,11 @@ html[lang='ko'] .display { font-stretch: 100%; }
 
 /* Global backdrop is always Nocturnal Steel; editions paint inside their own wrapper */
 html, body { background-color: #070d14; }
+
+/* Mobile intro splash: hidden before paint when it should not play */
+html[data-intro-skip] .mobile-intro { display: none !important; }
+@media (min-width: 768px), (prefers-reduced-motion: reduce) { .mobile-intro { display: none !important; } }
+/* While the splash plays, let it escape .page-canvas so it covers the fixed navbar */
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  html:not([data-intro-skip]) .page-canvas { z-index: auto; }
+}

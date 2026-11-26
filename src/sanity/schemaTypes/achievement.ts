@@ -42,10 +42,46 @@ export const achievement = defineType({
       of: [defineArrayMember({ type: 'string' })],
     }),
     defineField({
+      name: 'images',
+      title: 'Thư viện ảnh',
+      description: 'Kéo thả nhiều ảnh cùng lúc vào lưới; kéo để đổi thứ tự. Ảnh đầu tiên là ảnh đại diện.',
+      type: 'array',
+      options: { layout: 'grid' },
+      of: [
+        defineArrayMember({
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: 'alt', title: 'Mô tả ảnh (alt) - VI', type: 'string' }),
+            defineField({ name: 'caption', title: 'Chú thích - VI', type: 'string' }),
+            defineField({
+              name: 'translations',
+              title: 'Bản dịch EN / KO',
+              type: 'object',
+              options: { collapsible: true, collapsed: true },
+              fields: (['en', 'ko'] as const).map((lang) =>
+                defineField({
+                  name: lang,
+                  title: lang === 'en' ? 'English' : '한국어',
+                  type: 'object',
+                  fields: [
+                    defineField({ name: 'alt', title: 'Alt', type: 'string' }),
+                    defineField({ name: 'caption', title: 'Caption', type: 'string' }),
+                  ],
+                }),
+              ),
+            }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
       name: 'cover',
-      title: 'Ảnh',
+      title: 'Ảnh (cũ - một ảnh)',
+      description: 'Trường cũ, vẫn hiển thị sau các ảnh trong Thư viện ảnh. Ảnh mới hãy thêm vào Thư viện ảnh.',
       type: 'image',
       options: { hotspot: true },
+      hidden: ({ value }) => !value,
       fields: [defineField({ name: 'alt', title: 'Mô tả ảnh (alt)', type: 'string' })],
     }),
     defineField({
@@ -69,11 +105,11 @@ export const achievement = defineType({
   ],
   orderings: [{ title: 'Thứ tự hiển thị', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
   preview: {
-    select: { title: 'title', year: 'year', semester: 'semester', category: 'category', media: 'cover' },
-    prepare: ({ title, year, semester, category, media }) => ({
+    select: { title: 'title', year: 'year', semester: 'semester', category: 'category', first: 'images.0', cover: 'cover' },
+    prepare: ({ title, year, semester, category, first, cover }) => ({
       title,
       subtitle: [year, semester, category].filter(Boolean).join(' · '),
-      media,
+      media: first ?? cover,
     }),
   },
 });
