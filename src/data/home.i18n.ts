@@ -128,9 +128,16 @@ export const milestonesI18n: { year: string; text: Loc }[] = [
 
 /** Showcase/featured metadata terms that come from content (semesters, groups, courses). */
 export const termsI18n: Record<string, Omit<Loc, 'vi'>> = {
-  'Kì 1': { en: 'Sem 1', ko: '1학기' },
-  'Kì 2': { en: 'Sem 2', ko: '2학기' },
-  'Hè': { en: 'Summer', ko: '여름' },
+  'Kì 1': { en: 'Semester 1', ko: '1학기' },
+  'Kì 2': { en: 'Semester 2', ko: '2학기' },
+  'Hè': { en: 'Summer', ko: '여름학기' },
+  'Nhiếp ảnh': { en: 'Photography', ko: '사진' },
+  'Truyền thông': { en: 'Communications', ko: '미디어·홍보' },
+  'Quốc tế': { en: 'International', ko: '국제교류' },
+  'Lãnh đạo': { en: 'Leadership', ko: '리더십' },
+  'Học thuật': { en: 'Academic', ko: '학술' },
+  'Cộng đồng': { en: 'Community', ko: '공익·봉사' },
+  'Chứng chỉ': { en: 'Certifications', ko: '자격·어학' },
   'HVNG & Các Khoa': { en: 'DAV & Faculties', ko: '외교아카데미·학부' },
   'Triển lãm & Nghệ thuật': { en: 'Exhibitions & Art', ko: '전시·예술' },
   'Cấp 3 & Cộng đồng': { en: 'High School & Community', ko: '고등학교·커뮤니티' },

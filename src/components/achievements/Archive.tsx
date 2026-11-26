@@ -30,6 +30,7 @@ function FilterGroup<T extends string>({
   counts: Record<string, number>;
 }) {
   const allLabel = useT()('common.all');
+  const term = useTerms();
   return (
     <fieldset className="min-w-0">
       <legend className="eyebrow mb-3">{label}</legend>
@@ -46,7 +47,7 @@ function FilterGroup<T extends string>({
               onClick={() => onChange(opt)}
               className="flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-hairline bg-ice-100/[0.03] px-4 text-sm text-ice-300 transition-colors hover:border-hairline-strong hover:text-ice-100 disabled:opacity-35 aria-pressed:border-ice-100 aria-pressed:bg-ice-100 aria-pressed:text-night-950"
             >
-              {opt === ALL ? allLabel : opt}
+              {opt === ALL ? allLabel : term(opt)}
               <span className="ui-label text-[0.625rem] opacity-70">{n}</span>
             </button>
           );
@@ -150,7 +151,7 @@ export function Archive({ items, years, semesters, categories }: Props) {
                           </span>
                           <span className="mt-1 block text-sm text-ice-300">{L(a, 'organisation') as string}</span>
                           <span className="mt-3 flex flex-wrap gap-2 md:hidden">
-                            <Tag>{a.semester}</Tag><Tag>{a.category}</Tag>
+                            <Tag>{term(a.semester)}</Tag><Tag>{term(a.category)}</Tag>
                           </span>
                         </span>
                         <span className="hidden gap-2 md:col-span-4 md:flex md:flex-wrap md:pt-2">
