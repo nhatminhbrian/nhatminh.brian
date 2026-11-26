@@ -44,7 +44,7 @@ export function InterestReel({ items }: { items: Localized[] }) {
 
   if (!n) return null;
   const anchor = ANCHOR[locale] ?? ANCHOR.vi;
-  const type = 'font-display font-normal whitespace-nowrap text-[clamp(1rem,4.6vw,1.125rem)] sm:text-2xl md:text-[28px] tracking-[-0.01em]';
+  const type = 'font-display font-normal whitespace-nowrap text-[clamp(1rem,4.2vw,1.35rem)] sm:text-2xl md:text-[28px] tracking-[-0.01em]';
 
   if (reduce) {
     return (

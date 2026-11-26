@@ -58,7 +58,7 @@ export function MobileIntro({ photos }: { photos: ResolvedMedia[] }) {
     <motion.div
       aria-hidden
       onClick={() => setPhase('done')}
-      className="mobile-intro fixed inset-0 z-[100] overflow-hidden md:hidden"
+      className="mobile-intro fixed inset-x-0 top-0 z-[100] h-[100dvh] overflow-hidden will-change-transform md:hidden"
       style={{ background: PAPER, color: INK, pointerEvents: exiting ? 'none' : 'auto' }}
       initial={false}
       animate={exiting ? { scale: 0.88, opacity: 0 } : { scale: 1, opacity: 1 }}

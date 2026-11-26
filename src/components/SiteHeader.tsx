@@ -44,9 +44,9 @@ export function SiteHeader() {
     <Suspense fallback={null}>
       <RouteSync />
     </Suspense>
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#070D14]/70 backdrop-blur-2xl backdrop-saturate-150">
-      <div className="frame flex h-14 items-center justify-between">
-        <Link href="/" className="group flex items-baseline gap-3" aria-label="Brian · Nguyễn Nhật Minh - home">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#070D14]/95 pt-[env(safe-area-inset-top)] md:bg-[#070D14]/70 md:backdrop-blur-2xl md:backdrop-saturate-150">
+      <div className="frame flex h-14 items-center justify-between gap-3">
+        <Link href="/" className="group flex min-h-11 items-center gap-3" aria-label="Brian · Nguyễn Nhật Minh - home">
           <span className="font-display font-medium text-2xl leading-none text-ice-100">Brian.</span>
           <span className="hidden ui-label text-[0.6875rem] text-steel-300 sm:inline">
             @_wandergraph_
@@ -73,16 +73,16 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <LanguageSwitcher className="hidden md:flex" />
+        <LanguageSwitcher className="ml-auto md:ml-0" />
 
         <button
           type="button"
-          className="flex h-11 items-center gap-2 ui-label text-[0.6875rem] text-ice-100 md:hidden"
+          className="-mr-2.5 grid h-11 w-11 shrink-0 touch-manipulation place-items-center text-ice-100 md:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
+          aria-label={open ? t('nav.close') : t('nav.menu')}
           onClick={() => setOpen((v) => !v)}
         >
-          {open ? t('nav.close') : t('nav.menu')}
           <span aria-hidden className="relative block h-2.5 w-5">
             <span className={`absolute left-0 top-0 h-px w-full bg-ice-100 transition-transform ${open ? 'translate-y-[5px] rotate-45' : ''}`} />
             <span className={`absolute bottom-0 left-0 h-px w-full bg-ice-100 transition-transform ${open ? '-translate-y-[4px] -rotate-45' : ''}`} />
@@ -102,19 +102,18 @@ export function SiteHeader() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-x-0 top-14 z-[5] h-[var(--backstage)] md:hidden"
+          className="fixed inset-x-0 bottom-0 top-[calc(3.5rem+env(safe-area-inset-top))] z-40 overflow-y-auto overscroll-contain bg-[#070D14] pb-[max(2rem,env(safe-area-inset-bottom))] md:hidden"
         >
-          <ul className="flex flex-col items-center gap-1 pt-4 text-center">
+          <ul className="frame flex flex-col pt-6">
             {NAV.map((item, i) => (
               <motion.li key={item.href} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 + 0.05 * i, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}>
-                <Link href={item.href} onClick={() => setOpen(false)} className="flex min-h-12 items-baseline gap-2 px-4">
+                <Link href={item.href} onClick={() => setOpen(false)} className="flex min-h-16 items-baseline gap-3 border-b border-white/[0.06] py-3">
                   <span className="ui-label text-[0.625rem] text-steel-400">({item.index})</span>
-                  <span className="display text-3xl">{t(item.key, item.label)}</span>
+                  <span className="display text-4xl">{t(item.key, item.label)}</span>
                 </Link>
               </motion.li>
             ))}
           </ul>
-          <div className="mt-3 flex justify-center"><LanguageSwitcher className="w-fit" /></div>
         </motion.nav>
       )}
     </AnimatePresence>

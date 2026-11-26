@@ -36,6 +36,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: '#070D14',
   colorScheme: 'dark',
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
@@ -58,7 +59,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         <div aria-hidden className="grain" />
         <SiteHeader />
         <div className="page-canvas relative z-10 rounded-t-2xl md:rounded-t-3xl">
-          <main id="main" className="pt-14">
+          <main id="main" className="pt-[calc(3.5rem+env(safe-area-inset-top))]">
           {children}
         </main>
         <SiteFooter />

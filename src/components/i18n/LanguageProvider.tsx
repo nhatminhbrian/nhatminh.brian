@@ -72,7 +72,7 @@ export function T({ k, fallback }: { k: string; fallback?: string }) {
 export function LanguageSwitcher({ className = '' }: { className?: string }) {
   const { locale, setLocale } = useLocale();
   return (
-    <div role="radiogroup" aria-label="Language" className={`flex items-center rounded-full border border-white/[0.08] bg-white/[0.04] p-0.5 backdrop-blur-xl ${className}`}>
+    <div role="radiogroup" aria-label="Language" className={`flex items-center rounded-full border border-white/[0.08] bg-white/[0.04] p-0.5 md:backdrop-blur-xl ${className}`}>
       {locales.map((l) => (
         <button
           key={l}
@@ -81,7 +81,7 @@ export function LanguageSwitcher({ className = '' }: { className?: string }) {
           aria-checked={locale === l}
           title={localeNames[l]}
           onClick={() => setLocale(l)}
-          className={`min-h-8 min-w-9 rounded-full px-2 ui-label text-[0.6875rem] transition-colors ${locale === l ? 'bg-ice-100 text-night-950' : 'text-ice-300 hover:text-ice-100'}`}
+          className={`min-h-10 min-w-10 rounded-full px-2 ui-label md:min-h-8 md:min-w-9 text-[0.6875rem] transition-colors ${locale === l ? 'bg-ice-100 text-night-950' : 'text-ice-300 hover:text-ice-100'}`}
         >
           {localeLabels[l]}
         </button>

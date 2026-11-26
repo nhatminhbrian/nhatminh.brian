@@ -41,6 +41,7 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
   const [inView, setInView] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
+  const railRef = useRef<HTMLOListElement>(null);
   const activeRef = useRef(0);
   const t = useT();
   const term = useTerms();
@@ -48,8 +49,35 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
   /** Studio VI/EN/KO copy first, then the term map */
   const tx = (item: ShowcaseItem, k: keyof NonNullable<ShowcaseItem['loc']>) => (item.loc?.[k]?.en || item.loc?.[k]?.ko ? pick(item.loc[k]) : term(item[k]));
 
-  // which card is centred → active
+  const setActiveIndex = useCallback((i: number) => {
+    if (i === activeRef.current) return;
+    setDirection(i > activeRef.current ? 1 : -1);
+    activeRef.current = i;
+    setActive(i);
+  }, []);
+
+  // mobile: horizontal snap rail. rAF-throttled scroll read, state only changes when the index does
   useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        if (rail.scrollWidth <= rail.clientWidth) return; // desktop: vertical stack
+        const card = cardRefs.current[0];
+        const step = card ? card.offsetWidth + 12 : rail.clientWidth;
+        setActiveIndex(Math.min(items.length - 1, Math.max(0, Math.round(rail.scrollLeft / step))));
+      });
+    };
+    rail.addEventListener('scroll', onScroll, { passive: true });
+    return () => { rail.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
+  }, [items.length, setActiveIndex]);
+
+  // desktop: which card is centred → active
+  useEffect(() => {
+    if (window.matchMedia('(max-width: 767px)').matches) return;
     const obs = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
@@ -79,14 +107,24 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
 
   const jumpTo = useCallback((i: number) => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const rail = railRef.current;
+    if (rail && rail.scrollWidth > rail.clientWidth) {
+      rail.scrollTo({ left: cardRefs.current[i]?.offsetLeft ? cardRefs.current[i]!.offsetLeft - rail.offsetLeft - 16 : 0, behavior: reduce ? 'auto' : 'smooth' });
+      return;
+    }
     cardRefs.current[i]?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
   }, []);
 
   return (
     <section ref={sectionRef} data-snap-stack aria-label={label} className="relative">
-      <TicketSwitcher items={items} active={active} direction={direction} visible={inView} label={label} onJump={jumpTo} />
+      <div className="hidden md:block">
+        <TicketSwitcher items={items} active={active} direction={direction} visible={inView} label={label} onJump={jumpTo} />
+      </div>
 
-      <ol className="frame flex flex-col gap-3 py-[5.5rem] md:gap-6 md:py-24">
+      <ol
+        ref={railRef}
+        className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain scroll-px-4 px-4 pb-4 pt-8 md:frame md:snap-none md:flex-col md:gap-6 md:overflow-visible md:py-24"
+      >
         {items.map((item, i) => {
           const isActive = i === active;
           return (
@@ -94,11 +132,11 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
               key={item.id}
               ref={(el) => { cardRefs.current[i] = el; }}
               data-index={i}
-              className="snap-center"
+              className="w-[86vw] max-w-[26rem] shrink-0 snap-start md:w-auto md:max-w-none md:snap-center"
             >
               <article
                 aria-labelledby={`${item.id}-title`}
-                className={`relative isolate h-[calc(100svh-11rem)] min-h-[30rem] print border border-hairline bg-night-850 transition-[transform,opacity] duration-700 ease-[var(--ease-editorial)] md:h-[calc(100svh-12rem)] ${isActive ? 'scale-100 opacity-100' : 'scale-[0.97] opacity-70'}`}
+                className={`relative isolate h-[min(38rem,calc(100dvh-9rem))] min-h-[30rem] print border border-hairline bg-night-850 transition-[transform,opacity] duration-700 ease-[var(--ease-editorial)] md:h-[calc(100svh-12rem)] ${isActive ? 'scale-100 opacity-100' : 'scale-[0.97] opacity-70'}`}
               >
                 <Image
                   src={item.cover.src}
@@ -152,15 +190,15 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
                       <blockquote className="glass w-full max-w-[320px] text-balance rounded-2xl p-4 font-display font-medium text-lg leading-snug text-ice-100 md:p-5 md:text-2xl">
                         “{tx(item, 'quote')}”
                       </blockquote>
-                      <div className="flex flex-wrap items-center gap-3 md:justify-end">
+                      <div className="flex items-center gap-3 md:flex-wrap md:justify-end">
                         {item.secondary && (
-                          <a href={item.secondary.href} download className="inline-flex min-h-11 items-center ui-label text-[0.6875rem] text-ice-300 underline-offset-4 hover:text-ice-100 hover:underline">
+                          <a href={item.secondary.href} download className="inline-flex min-h-12 items-center rounded-full border border-white/15 px-4 ui-label text-[0.6875rem] text-ice-300 underline-offset-4 hover:text-ice-100 md:min-h-11 md:rounded-none md:border-0 md:px-0 md:hover:underline">
                             ↓ {item.secondary.label}
                           </a>
                         )}
                         <Link
                           href={item.href}
-                          className="ticket-notch group inline-flex min-h-12 items-center gap-3 bg-ice-100 px-6 ui-label text-[0.6875rem] font-medium text-night-950 transition-colors hover:bg-steel-300"
+                          className="ticket-notch group inline-flex min-h-12 flex-1 items-center justify-center gap-3 bg-ice-100 px-6 md:flex-none md:justify-start ui-label text-[0.6875rem] font-medium text-night-950 transition-colors hover:bg-steel-300"
                           aria-label={`Explore ${item.title}`}
                         >
                           {t('common.explore')}
@@ -175,6 +213,18 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
           );
         })}
       </ol>
+
+      {/* mobile reel position */}
+      <div className="flex items-center justify-between px-4 pb-6 md:hidden">
+        <p className="ui-label text-[0.625rem] tabular-nums text-steel-400">
+          {String(active + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
+        </p>
+        <div className="flex gap-1.5" aria-hidden>
+          {items.map((it, i) => (
+            <span key={it.id} className={`h-px w-6 origin-left bg-ice-100 transition-[transform,opacity] duration-500 ${i === active ? 'scale-x-100 opacity-100' : 'scale-x-50 opacity-30'}`} />
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

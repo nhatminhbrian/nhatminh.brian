@@ -150,9 +150,11 @@ body {
 }
 
 /* ───────── Cinema-archival showcase ───────── */
-html:has([data-snap-stack]) {
-  scroll-snap-type: y proximity;
-  scroll-padding-top: 3.5rem; /* fixed header */
+@media (min-width: 768px) {
+  html:has([data-snap-stack]) {
+    scroll-snap-type: y proximity;
+    scroll-padding-top: 3.5rem; /* fixed header */
+  }
 }
 
 /* Ticket stub: semicircular notches punched into both sides */
@@ -435,16 +437,7 @@ html[data-route-edition="sseayp"] header.fixed span, html[data-route-edition="pr
   mask-size: 51% 51%; mask-repeat: no-repeat; }
 .hanafuda::before { content: ''; position: absolute; inset: 3px; border: 1px solid var(--hanafuda-line, #f3efea); pointer-events: none; z-index: 1; opacity: 0.8; }
 
-/* ── Backstage menu: page canvas slides down on mobile ───────────────── */
-:root { --backstage: 20rem; }
-.page-canvas { transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.65s; }
-@media (max-width: 767px) {
-  html[data-menu='open'] .page-canvas {
-    transform: translateY(calc(var(--backstage) + 0.5rem));
-    overflow: hidden; pointer-events: none;
-    box-shadow: 0 -1px 0 rgb(226 237 245 / 0.18), 0 -30px 60px -20px rgb(0 0 0 / 0.7);
-  }
-}
+/* Mobile menu is an opaque sheet above the canvas (no canvas transform, so fixed UI and scroll stay intact) */
 
 /* signature accent */
 .signature { font-family: 'Ephesis', cursive; font-weight: 400; letter-spacing: 0; }
@@ -500,3 +493,10 @@ html[data-intro-skip] .mobile-intro { display: none !important; }
 @media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
   html:not([data-intro-skip]) .page-canvas { z-index: auto; }
 }
+
+/* Mobile ergonomics: no double-tap zoom delay, intentional tap highlight, hidden carousel scrollbars */
+a, button, [role='button'], summary, label { touch-action: manipulation; }
+html { -webkit-tap-highlight-color: rgb(184 206 224 / 0.12); }
+@media (pointer: fine) { html { overscroll-behavior: none; } }
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
