@@ -7,6 +7,7 @@
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
+import { media } from 'sanity-plugin-media';
 import { apiVersion, dataset, projectId } from './src/sanity/env';
 import { photoFolder } from './src/sanity/schemaTypes/photoFolder';
 import { achievement } from './src/sanity/schemaTypes/achievement';
@@ -61,6 +62,7 @@ export default defineConfig({
               ),
           ]),
     }),
+    media(),
     visionTool({ defaultApiVersion: apiVersion }),
   ],
 });
