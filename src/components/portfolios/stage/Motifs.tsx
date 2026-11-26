@@ -46,7 +46,7 @@ export function Script({ children, className = '', color, rotate = -6, as: Tag =
   );
 }
 
-/** Print-style running footer with page number — kept from the PDFs. */
+/** Print-style running footer with page number - kept from the PDFs. */
 export function Folio({ left, right, page, className = '' }: { left?: ReactNode; right?: ReactNode; page?: number | string; className?: string }) {
   return (
     <div className={`flex items-end justify-between gap-6 pt-10 text-[0.6875rem] opacity-70 ${className}`}>

@@ -9,8 +9,8 @@ import { sseaypEdition as S } from '@/data/portfolios';
 import type { ResolvedMedia } from '@/data/types';
 
 export const metadata: Metadata = {
-  title: 'SSEAYP 49th Photo Portfolio — web edition',
-  description: 'The Viet Nam Contingent of the Ship for Southeast Asian and Japanese Youth Program, in four acts — photos and design by Nguyen Nhat Minh.',
+  title: 'SSEAYP 49th Photo Portfolio - web edition',
+  description: 'The Viet Nam Contingent of the Ship for Southeast Asian and Japanese Youth Program, in four acts - photos and design by Nguyen Nhat Minh.',
 };
 
 /* Native palette (sampled from the PDF) */
@@ -75,7 +75,7 @@ const chapters = [
   { id: 'act-2', n: 'II', label: { vi: 'Hồi 2 · Bản sắc', en: 'Act 2 · The Identity', ko: '2막 · 정체성' } },
   { id: 'act-3', n: 'III', label: { vi: 'Hồi 3 · Kết nối', en: 'Act 3 · The Connection', ko: '3막 · 연결' } },
   { id: 'act-4', n: 'IV', label: { vi: 'Hồi 4 · Cái nôi', en: 'Act 4 · The Cradle', ko: '4막 · 요람' } },
-  { id: 'thank-you', n: '—', label: { vi: 'Cảm ơn', en: 'Thank you', ko: '감사합니다' } },
+  { id: 'thank-you', n: '-', label: { vi: 'Cảm ơn', en: 'Thank you', ko: '감사합니다' } },
 ];
 
 export default function SseaypEditionPage() {
@@ -113,7 +113,7 @@ export default function SseaypEditionPage() {
     <EditionStage edition={edition} chapters={chapters}>
       {/* ── Cover ── */}
       <Letterbox
-        slate="(02) — SSEAYP 49th · Photo Portfolio"
+        slate="(02) - SSEAYP 49th · Photo Portfolio"
         slateRight="16pp · 01–03/2026"
         ambient={WASHI}
         glow={RED}
@@ -144,7 +144,7 @@ export default function SseaypEditionPage() {
         }
       />
 
-      {/* ── Xin chào — white panel on red ── */}
+      {/* ── Xin chào - white panel on red ── */}
       <section id="xin-chao" data-ambient={WASHI} data-glow={YELLOW} className="relative scroll-mt-14 overflow-hidden py-16 md:py-24">
         <Shape kind="quarter" className="right-0 top-0 h-40 w-40 md:h-72 md:w-72" />
         <Shape color={GOLD} kind="disc" className="-bottom-24 left-[10%] h-48 w-48 md:h-72 md:w-72" />
@@ -202,7 +202,7 @@ export default function SseaypEditionPage() {
         </div>
       </section>
 
-      {/* A–RI–GA–TO — cream spread */}
+      {/* A–RI–GA–TO - cream spread */}
       <section data-ambient={CREAM} className="relative overflow-hidden py-16 md:py-24" style={{ color: INK }}>
         <Shape color={GOLD} kind="sparkle" className="bottom-10 right-[6%] size-16 md:size-24" />
         <div className="frame grid gap-10 md:grid-cols-12 md:items-center">
@@ -215,7 +215,7 @@ export default function SseaypEditionPage() {
             <p className="text-[clamp(2.25rem,4.5vw,3.75rem)] uppercase" style={{ ...condensed, color: RED }}>A – RI – GA – TO!<br />ARI GATO!<br />ARIGATOOO!</p>
             <p className="mt-1 font-semibold" style={{ color: RED }}>(ありがとう)</p>
             <p className="ed-body mt-5">{a1.notes[1].body}</p>
-            <p className="ed-body mt-5"><b style={{ color: RED }}>{a1.notes[2].title}</b> — {a1.notes[2].body}</p>
+            <p className="ed-body mt-5"><b style={{ color: RED }}>{a1.notes[2].title}</b> - {a1.notes[2].body}</p>
           </div>
         </div>
       </section>
@@ -279,7 +279,7 @@ export default function SseaypEditionPage() {
       <section data-ambient={WASHI} data-glow={YELLOW} className="py-16 md:py-24">
         <div className="frame grid gap-10 md:grid-cols-2">
           <p className="text-[clamp(1.25rem,2.2vw,1.75rem)] leading-snug">{a3.notes[0].body} Bright smiles and warm interactions in this elegant space are the perfect puzzle pieces for a portrait of <b style={{ color: RED }}>youth without borders</b>.</p>
-          <p className="ed-body">{a3.notes[1].body} This final act celebrates the power of networking and the limitless potential of youth — a vibrant ecosystem of inspiration, cultural exchange, and a shared vision for a <b style={{ color: RED }}>borderless tomorrow</b>.</p>
+          <p className="ed-body">{a3.notes[1].body} This final act celebrates the power of networking and the limitless potential of youth - a vibrant ecosystem of inspiration, cultural exchange, and a shared vision for a <b style={{ color: RED }}>borderless tomorrow</b>.</p>
         </div>
       </section>
 

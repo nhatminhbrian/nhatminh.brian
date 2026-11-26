@@ -3,9 +3,9 @@ import localFont from 'next/font/local';
 /*
  * Native-matched faces for the portfolio editions (Vietnamese-safe, self-hosted from
  * the Google Fonts sources). Fonts embedded in the PDFs (pdffonts):
- *   Project — PP Neue Machina, League Spartan, Canva Sans, Blowing
- *   SSEAYP  — TAN St Canard, Montserrat, Gotham Black
- *   NQTK    — DT Phudu, Allison, Montserrat
+ *   Project - PP Neue Machina, League Spartan, Canva Sans, Blowing
+ *   SSEAYP  - TAN St Canard, Montserrat, Gotham Black
+ *   NQTK    - DT Phudu, Allison, Montserrat
  * League Spartan, Montserrat, Phudu and Allison are the originals; the commercial
  * faces are matched in themes.ts (Archivo Expanded, Bowlby One, Ephesis).
  */

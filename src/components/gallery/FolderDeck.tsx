@@ -172,7 +172,7 @@ export function FolderDeck({ folders, label }: { folders: DeckFolder[]; label: s
                 transition={{ duration: reduce ? 0.15 : 0.6, ease }}
               >
                 {isFront ? (
-                  <Link href={`/gallery/${f.id}`} className="absolute inset-0 block focus-visible:outline-offset-[-4px]" aria-label={`Open ${f.title} — ${f.count} photos`} draggable={false}>
+                  <Link href={`/gallery/${f.id}`} className="absolute inset-0 block focus-visible:outline-offset-[-4px]" aria-label={`Open ${f.title} - ${f.count} photos`} draggable={false}>
                     {card}
                   </Link>
                 ) : (

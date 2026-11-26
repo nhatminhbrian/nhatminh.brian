@@ -1,9 +1,9 @@
 import 'server-only';
 /**
  * Content access layer. Pages only talk to these functions.
- *  - Sanity (/studio) — every photo folder and achievement; edit them there (cached ~1 min)
- *  - public/gallery   — optional folders dropped into the repo (scripts/gallery-index.mjs)
- *  - src/data/*       — portfolio editions, profile and the media used by them
+ *  - Sanity (/studio) - every photo folder and achievement; edit them there (cached ~1 min)
+ *  - public/gallery   - optional folders dropped into the repo (scripts/gallery-index.mjs)
+ *  - src/data/*       - portfolio editions, profile and the media used by them
  */
 import { academicYears, categories, semesters } from '@/data/achievements';
 import { partnerGroups } from '@/data/folders';

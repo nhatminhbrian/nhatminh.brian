@@ -1,4 +1,4 @@
-// Shared option lists — kept in sync with the site's filters and gallery groups.
+// Shared option lists - kept in sync with the site's filters and gallery groups.
 export const partnerOptions = [
   { title: 'Khoa Kinh tế Quốc tế', value: 'khoa-kinh-te-quoc-te' },
   { title: 'Đoàn Thanh niên HVNG', value: 'doan-thanh-nien-hvng' },

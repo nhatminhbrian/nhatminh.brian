@@ -1,6 +1,6 @@
 /**
  * ─────────────────────────────────────────────────────────────────────────────
- *  GALLERY FOLDERS — one event / shoot = one folder
+ *  GALLERY FOLDERS - one event / shoot = one folder
  * ─────────────────────────────────────────────────────────────────────────────
  *
  *  /gallery indexes every folder by YEAR (tabs) and PARTNER GROUP (pills).
@@ -15,7 +15,7 @@
  *        ├── folder.json      ← optional metadata (see public/gallery/README.md)
  *        ├── 01.jpg
  *        └── 02.jpg …
- *     Run `npm run gallery` (also runs automatically before every build) — it reads
+ *     Run `npm run gallery` (also runs automatically before every build) - it reads
  *     sizes, makes blur placeholders and writes src/data/folders.generated.json.
  *     Tip: `npm run gallery:optimize` shrinks big camera JPEGs to ≤2400px first.
  *

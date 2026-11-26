@@ -179,7 +179,7 @@ export function Archive({ items, years, semesters, categories }: Props) {
                               <ul className="mt-5 space-y-2">
                                 {(L(a, 'details') as string[]).map((d) => (
                                   <li key={d} className="grid grid-cols-[1rem_1fr] text-sm leading-relaxed text-ice-300">
-                                    <span aria-hidden className="text-steel-400">—</span>{d}
+                                    <span aria-hidden className="text-steel-400">-</span>{d}
                                   </li>
                                 ))}
                               </ul>

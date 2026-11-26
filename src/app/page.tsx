@@ -19,8 +19,8 @@ export default async function HomePage() {
   const podium = resolve(profile.diplomacyPortrait);
 
   const index: IndexItem[] = [
-    { index: '01', label: 'Gallery', labelKey: 'nav.gallery', subKey: 'index.gallery', labelVi: 'Thư viện ảnh', href: '/gallery', meta: 'Event folders indexed by year and partner group — SSEAYP, Đoàn Thanh niên HVNG, Street & Travel.', preview: resolve({ id: 'sseayp-004-008', alt: '' }) },
-    { index: '02', label: 'Portfolios', labelKey: 'nav.portfolios', subKey: 'index.portfolios', labelVi: 'Ba ấn bản tương tác', href: '/portfolios', meta: 'Project Portfolio, SSEAYP 49th and Nhãn Quan Thế Kỷ — re-engineered for the web, with original PDFs.', preview: resolve({ id: 'nqtk-005-009', alt: '' }) },
+    { index: '01', label: 'Gallery', labelKey: 'nav.gallery', subKey: 'index.gallery', labelVi: 'Thư viện ảnh', href: '/gallery', meta: 'Event folders indexed by year and partner group - SSEAYP, Đoàn Thanh niên HVNG, Street & Travel.', preview: resolve({ id: 'sseayp-004-008', alt: '' }) },
+    { index: '02', label: 'Portfolios', labelKey: 'nav.portfolios', subKey: 'index.portfolios', labelVi: 'Ba ấn bản tương tác', href: '/portfolios', meta: 'Project Portfolio, SSEAYP 49th and Nhãn Quan Thế Kỷ - re-engineered for the web, with original PDFs.', preview: resolve({ id: 'nqtk-005-009', alt: '' }) },
     { index: '03', label: 'Achievements', labelKey: 'nav.achievements', subKey: 'index.achievements', labelVi: 'Thành tích theo năm học', href: '/achievements', meta: 'Filterable archive by academic year, semester and category, 2022 → 2027.', preview: resolve({ id: 'portrait-podium', alt: '' }) },
     { index: '04', label: 'Contact', labelKey: 'nav.contact', subKey: 'index.contact', labelVi: 'Liên hệ', href: '#contact', meta: `${profile.email} · ${profile.handle}`, preview: resolve({ id: 'portrait-camera-2', alt: '' }) },
   ];
@@ -42,7 +42,7 @@ export default async function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-night-950/70 via-transparent to-transparent" />
             </HeroParallax>
             <p className="mt-3 hidden justify-between ui-label text-[0.625rem] text-steel-400 md:flex">
-              <span>Fig. 01 — Self, under open sky</span>
+              <span>Fig. 01 - Self, under open sky</span>
               <span>{profile.gear}</span>
             </p>
           </div>
@@ -77,7 +77,7 @@ export default async function HomePage() {
         <IndexNav items={index} />
       </section>
 
-      {/* ─── Featured Works — cinema-archival stack ───────── */}
+      {/* ─── Featured Works - cinema-archival stack ───────── */}
       <section className="mt-32" aria-labelledby="featured-title">
         <div className="frame">
           <Marker index="(★)" label={<T k="home.featured" />} />
@@ -100,7 +100,7 @@ export default async function HomePage() {
             <div className="print relative mt-10 aspect-[3/4] w-3/4 md:w-full">
               <Photo media={podium} fill sizes="(min-width: 768px) 40vw, 75vw" />
             </div>
-            <p className="mt-3 ui-label text-[0.625rem] text-steel-400">Fig. 02 — Diplomatic Academy of Viet Nam</p>
+            <p className="mt-3 ui-label text-[0.625rem] text-steel-400">Fig. 02 - Diplomatic Academy of Viet Nam</p>
           </Reveal>
 
           <div className="grid gap-4 self-start md:col-span-7">

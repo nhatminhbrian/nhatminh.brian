@@ -32,7 +32,7 @@ export const profile = {
   } satisfies MediaRef,
 } as const;
 
-/** Dual-lens bio — two disciplines, one way of seeing. */
+/** Dual-lens bio - two disciplines, one way of seeing. */
 export const lenses = [
   {
     index: '(A)',
@@ -40,10 +40,10 @@ export const lenses = [
     title: 'International Economics',
     titleVi: 'Kinh tế Quốc tế',
     body: [
-      'Cử nhân ngành Kinh tế Quốc tế tại Học viện Ngoại giao (2025–2029), tập trung vào kinh tế học, kinh doanh quốc tế và hệ thống thị trường — rèn luyện tư duy phân tích và ra quyết định qua phương pháp học tình huống (case-study).',
+      'Cử nhân ngành Kinh tế Quốc tế tại Học viện Ngoại giao (2025–2029), tập trung vào kinh tế học, kinh doanh quốc tế và hệ thống thị trường - rèn luyện tư duy phân tích và ra quyết định qua phương pháp học tình huống (case-study).',
       'Sustainable development is not only measured through policies, data or economic indicators, but also through lived experiences, human emotions, and the voices that often go unheard.',
     ],
-    meta: 'DAV · KTQT52C1 · 2025 — 2029',
+    meta: 'DAV · KTQT52C1 · 2025 - 2029',
   },
   {
     index: '(B)',
@@ -52,7 +52,7 @@ export const lenses = [
     titleVi: 'Truyền thông Marketing Quốc tế',
     body: [
       'Trong lý thuyết truyền thông quốc tế, hiện vật không chỉ là những vật thể tĩnh lặng; chúng là những “chủ thể” tham gia trực tiếp vào quá trình kiến tạo diễn ngôn quốc gia.',
-      'Visual communication as a catalyst for awareness, connection and change — bridging stories and strategies, people and policies, creativity and development.',
+      'Visual communication as a catalyst for awareness, connection and change - bridging stories and strategies, people and policies, creativity and development.',
     ],
     meta: 'Global consumer brands · Youth culture · Creative business strategy',
   },
@@ -61,19 +61,19 @@ export const lenses = [
 export const aboutStory = [
   'I grew up in a family with a deep connection to photography. My grandfather was a photojournalist, and it was through him that I first learned to appreciate street photography and the power of capturing real life.',
   'As I grew older, I became fascinated by K-dramas, music videos and the visual language of technology brands. That led me to a question: could the raw authenticity of street photography merge with the creativity, emotional intensity and pace of modern media?',
-  'I believe the intersection of these two worlds is where meaningful visual stories emerge — stories that do not merely capture moments, but convey emotions, perspectives and the evolving mindset of today’s youth.',
+  'I believe the intersection of these two worlds is where meaningful visual stories emerge - stories that do not merely capture moments, but convey emotions, perspectives and the evolving mindset of today’s youth.',
 ];
 
 export const philosophy = [
   'Begin with passion and commit with full belief.',
-  'Create with integrity — never distort or defame the truth.',
+  'Create with integrity - never distort or defame the truth.',
   'Prioritize quality over quantity; don’t take on more than you can handle.',
   'Trust your partners and collaborate toward success.',
-  'Respect originality — never plagiarize or claim work that isn’t yours.',
+  'Respect originality - never plagiarize or claim work that isn’t yours.',
 ];
 
 export const artisticVision =
-  'Photography and videography are more than capturing moments — they are a storytelling language where emotions, memories and identities intertwine in every frame. In my work, I emphasize contrasts and oppositions to reveal the multidimensional nature of both myself and the world around me.';
+  'Photography and videography are more than capturing moments - they are a storytelling language where emotions, memories and identities intertwine in every frame. In my work, I emphasize contrasts and oppositions to reveal the multidimensional nature of both myself and the world around me.';
 
 export const credentials = [
   { label: 'IELTS', value: '8.5', year: '2024' },

@@ -61,7 +61,7 @@ export type GalleryCollection = {
   gear?: string;
   cover?: MediaRef;
   photos: MediaRef[];
-  /** archive not yet uploaded — renders an honest empty state */
+  /** archive not yet uploaded - renders an honest empty state */
   pending?: boolean;
   relatedPortfolio?: string;
 };
@@ -103,7 +103,7 @@ export type ShowcaseItem = {
 export type PartnerGroup = 'hvng' | 'sseayp' | 'art' | 'community' | 'street';
 
 /**
- * A single event folder. Each entry is independent — add one and it is indexed
+ * A single event folder. Each entry is independent - add one and it is indexed
  * automatically under its `year` tab and `partnerGroup` pill.
  */
 export type PhotoFolder = {

@@ -1,5 +1,5 @@
 /**
- * Per-portfolio themeConfig — colours sampled from pdftoppm renders of each PDF,
+ * Per-portfolio themeConfig - colours sampled from pdftoppm renders of each PDF,
  * fonts matched to the faces embedded in them (see src/app/portfolios/fonts.ts).
  * Everything is scoped to the edition's <article>; the rest of the site keeps the
  * Nocturnal Steel & Ice Slate theme.
@@ -30,7 +30,7 @@ export type ThemeConfig = {
 const MONO = 'var(--font-spacemono), ui-monospace, monospace';
 
 export const themeConfig = {
-  // UIC Project Portfolio — black/cream spreads, periwinkle blue, copper hand-script.
+  // UIC Project Portfolio - black/cream spreads, periwinkle blue, copper hand-script.
   project: {
     colors: {
       bg: '#f4efe6',
@@ -51,7 +51,7 @@ export const themeConfig = {
       monoFont: MONO,
     },
   },
-  // SSEAYP 49th — washi off-white, deep ink, crimson accent; hanafuda-framed act visuals.
+  // SSEAYP 49th - washi off-white, deep ink, crimson accent; hanafuda-framed act visuals.
   sseayp: {
     colors: {
       bg: '#f3efea',
@@ -72,7 +72,7 @@ export const themeConfig = {
       monoFont: MONO,
     },
   },
-  // Nhãn Quan Thế Kỷ — museum paper / espresso, DT Phudu headlines, Allison red script.
+  // Nhãn Quan Thế Kỷ - museum paper / espresso, DT Phudu headlines, Allison red script.
   'nhan-quan-the-ky': {
     colors: {
       bg: '#f4f1ea',

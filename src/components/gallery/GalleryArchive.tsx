@@ -150,7 +150,7 @@ export function GalleryArchive({ folders, groups }: { folders: ArchiveFolder[]; 
                       </span>
                       <span className="min-w-0">
                         <span className="line-clamp-1 font-display text-lg font-medium tracking-[-0.015em] text-ice-100 group-hover:text-steel-300 md:text-xl">{L(f, 'title') as string}</span>
-                        <span className="line-clamp-1 text-[0.75rem] text-steel-400">{place || '—'}</span>
+                        <span className="line-clamp-1 text-[0.75rem] text-steel-400">{place || '-'}</span>
                       </span>
                     </span>
                     <span role="cell" className="hidden whitespace-nowrap text-sm text-ice-300 md:block">{t(`group.${f.partnerGroup}`, groups.find((g) => g.id === f.partnerGroup)?.label)}</span>

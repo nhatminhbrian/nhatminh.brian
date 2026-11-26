@@ -20,4 +20,4 @@ for (const file of walk(join('public', 'gallery'))) {
   n++;
   console.log('optimized', file);
 }
-console.log(`gallery:optimize — ${n} file(s) resized`);
+console.log(`gallery:optimize - ${n} file(s) resized`);

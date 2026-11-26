@@ -46,7 +46,7 @@ export function SiteHeader() {
     </Suspense>
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#070D14]/70 backdrop-blur-2xl backdrop-saturate-150">
       <div className="frame flex h-14 items-center justify-between">
-        <Link href="/" className="group flex items-baseline gap-3" aria-label="Brian · Nguyễn Nhật Minh — home">
+        <Link href="/" className="group flex items-baseline gap-3" aria-label="Brian · Nguyễn Nhật Minh - home">
           <span className="font-display font-medium text-2xl leading-none text-ice-100">Brian.</span>
           <span className="hidden ui-label text-[0.6875rem] text-steel-300 sm:inline">
             @_wandergraph_

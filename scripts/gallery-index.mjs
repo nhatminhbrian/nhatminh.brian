@@ -44,7 +44,7 @@ if (isDir(ROOT)) {
       const title = meta.title || humanize(slug);
       const images = [];
       for (const [i, f] of files.entries()) {
-        images.push(await describe(join(dir, f), `${title} — frame ${String(i + 1).padStart(2, '0')}`));
+        images.push(await describe(join(dir, f), `${title} - frame ${String(i + 1).padStart(2, '0')}`));
       }
       const coverIdx = meta.cover ? Math.max(0, files.indexOf(meta.cover)) : 0;
       const group = GROUPS.has(meta.partnerGroup) ? meta.partnerGroup : 'community';
@@ -67,7 +67,7 @@ if (isDir(ROOT)) {
         coverImage: images[coverIdx],
         images,
       });
-      console.log(`gallery: ${year}/${slug} — ${images.length} photos`);
+      console.log(`gallery: ${year}/${slug} - ${images.length} photos`);
     }
   }
 }

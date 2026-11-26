@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineArrayMember, defineField, defineType } from 'sanity';
 
-/** {vi, en, ko} helpers — Vietnamese required, EN/KO optional (fall back to VI). */
+/** {vi, en, ko} helpers - Vietnamese required, EN/KO optional (fall back to VI). */
 const loc = (name: string, title: string, rows?: number) =>
   defineField({
     name,
@@ -54,7 +54,7 @@ export const homePage = defineType({
             loc('label', 'Nhãn'),
             loc('title', 'Tên ngành'),
             loc('sub', 'Dòng phụ'),
-            { name: 'meta', title: 'Thông tin nhỏ (DAV · 2025 — 2029)', type: 'string' },
+            { name: 'meta', title: 'Thông tin nhỏ (DAV · 2025 - 2029)', type: 'string' },
             { name: 'body', title: 'Nội dung', type: 'array', of: [locMember('Đoạn', 4)] },
           ],
           preview: { select: { title: 'title.vi', subtitle: 'index' } },
@@ -64,7 +64,7 @@ export const homePage = defineType({
     defineField({
       name: 'featuredWorks',
       title: 'Tác phẩm nổi bật / Đang chiếu',
-      description: 'Danh sách thẻ trong mục "Đang chiếu" ở trang chủ — kéo để đổi thứ tự, bật "Ẩn" để tạm giấu. Để trống = tự lấy 3 portfolio + thư mục nổi bật (không trùng).',
+      description: 'Danh sách thẻ trong mục "Đang chiếu" ở trang chủ - kéo để đổi thứ tự, bật "Ẩn" để tạm giấu. Để trống = tự lấy 3 portfolio + thư mục nổi bật (không trùng).',
       type: 'array',
       group: 'featured',
       of: [
@@ -135,7 +135,7 @@ export const homePage = defineType({
     defineField({ name: 'philosophy', title: '5 nguyên tắc sáng tạo', type: 'array', group: 'timeline', of: [locMember('Nguyên tắc', 2)] }),
     defineField({
       name: 'milestones',
-      title: 'Các mốc (2022 — nay)',
+      title: 'Các mốc (2022 - nay)',
       type: 'array',
       group: 'timeline',
       of: [

@@ -120,7 +120,7 @@ export function TicketSwitcher({ items, active, direction, visible, label, onJum
                 className="ticket-stub mt-1.5 bg-ice-100 shadow-[0_18px_40px_-18px_rgb(0_0_0/0.8)]"
               >
                 <p className="border-b border-dashed border-night-950/25 px-5 py-2 ui-label text-[0.5625rem] text-steel-600">
-                  Jump to — {items.length} entries
+                  Jump to - {items.length} entries
                 </p>
                 <ul className="max-h-[min(60svh,26rem)] overflow-y-auto overscroll-contain py-1">
                   {items.map((it, i) => (

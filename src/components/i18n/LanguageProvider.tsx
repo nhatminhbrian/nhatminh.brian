@@ -54,7 +54,7 @@ export function useLocale() {
   return useContext(LanguageContext);
 }
 
-/** t('key', fallback?) — current language → Vietnamese → fallback → key. */
+/** t('key', fallback?) - current language → Vietnamese → fallback → key. */
 export function useT() {
   const { locale } = useContext(LanguageContext);
   return useCallback(

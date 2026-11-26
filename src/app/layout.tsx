@@ -4,10 +4,11 @@ import { SiteFooter } from '@/components/SiteFooter';
 import { Suspense } from 'react';
 import { AmbientBackdrop } from '@/components/AmbientBackdrop';
 import { MarginaliaRails } from '@/components/MarginaliaRails';
+import { RouteTheme } from '@/components/RouteTheme';
 import { LanguageProvider } from '@/components/i18n/LanguageProvider';
 import { fontVariables } from './fonts';
 import '@fontsource/ephesis/400.css';
-// Korean editorial faces (self-hosted, unicode-range sliced — only fetched when Hangul renders)
+// Korean editorial faces (self-hosted, unicode-range sliced - only fetched when Hangul renders)
 import '@fontsource/ibm-plex-sans-kr/400.css';
 import '@fontsource/ibm-plex-sans-kr/500.css';
 import '@fontsource/ibm-plex-sans-kr/600.css';
@@ -18,8 +19,8 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://nhatminhbrian.vercel.app'),
   title: {
-    default: 'Brian · Nguyễn Nhật Minh — @_wandergraph_',
-    template: '%s — Brian',
+    default: 'Brian · Nguyễn Nhật Minh - @_wandergraph_',
+    template: '%s - Brian',
   },
   description:
     'Portfolio of Brian (Nguyễn Nhật Minh), International Economics student at the Diplomatic Academy of Viet Nam and visual storyteller behind @_wandergraph_.',
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         </a>
         <AmbientBackdrop />
         <Suspense fallback={null}><MarginaliaRails /></Suspense>
+        <Suspense fallback={null}><RouteTheme /></Suspense>
         <div aria-hidden className="grain" />
         <SiteHeader />
         <div className="page-canvas relative z-10 rounded-t-2xl md:rounded-t-3xl">

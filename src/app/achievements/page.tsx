@@ -5,7 +5,7 @@ import { T } from '@/components/i18n/LanguageProvider';
 
 export const metadata: Metadata = {
   title: 'Achievements',
-  description: 'Thành tích của Nguyễn Nhật Minh theo năm học, học kì và lĩnh vực — 2022 đến 2027.',
+  description: 'Thành tích của Nguyễn Nhật Minh theo năm học, học kì và lĩnh vực - 2022 đến 2027.',
 };
 
 export default async function AchievementsPage() {

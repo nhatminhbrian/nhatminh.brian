@@ -41,7 +41,7 @@ export function SiteFooter() {
         </dl>
       </div>
       <div className="frame flex flex-col gap-2 border-t border-hairline py-5 ui-label text-[0.6875rem] text-steel-400 sm:flex-row sm:justify-between">
-        <span>© Brian · {profile.name} — <L t={city} /></span>
+        <span>© Brian · {profile.name} - <L t={city} /></span>
         <span>{profile.gear}</span>
         <Link href="/portfolios" className="hover:text-ice-100"><T k="footer.download" /></Link>
       </div>

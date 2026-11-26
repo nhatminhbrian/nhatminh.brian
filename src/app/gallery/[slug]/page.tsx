@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps<'/gallery/[slug]'>)
   if (!r) return {};
   const f = r.folder;
   return {
-    title: `${f.title} — Gallery`,
+    title: `${f.title} - Gallery`,
     description: f.summary ?? `${f.organization} · ${f.year}`,
     openGraph: { images: [{ url: f.coverImage.src, width: f.coverImage.width, height: f.coverImage.height }] },
   };

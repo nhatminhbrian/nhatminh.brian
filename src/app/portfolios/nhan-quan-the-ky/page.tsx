@@ -10,7 +10,7 @@ import { nqtkEdition as N } from '@/data/portfolios';
 import type { ResolvedMedia } from '@/data/types';
 
 export const metadata: Metadata = {
-  title: 'Nhãn Quan Thế Kỷ — tiểu luận thị giác',
+  title: 'Nhãn Quan Thế Kỷ - tiểu luận thị giác',
   description: 'Một thế kỷ hoa lửa, một lăng kính trần trụi. Tiểu luận nhiếp ảnh của Nguyễn Nhật Minh về tính vật chất của truyền thông.',
 };
 
@@ -46,7 +46,7 @@ const chapters = [
   { id: 'hoi-2', n: 'II', label: { vi: 'Hồi II · Ngôn ngữ của khói lửa và rỉ sét', en: 'Act II · The language of fire and rust', ko: '2막 · 포화와 녹의 언어' } },
   { id: 'hoi-3', n: 'III', label: { vi: 'Hồi III · Tọa độ toàn cầu', en: 'Act III · Global coordinates', ko: '3막 · 세계의 좌표' } },
   { id: 'vi-thanh', n: 'IV', label: { vi: 'Vĩ thanh · Người quan sát', en: 'Epilogue · The observer', ko: '에필로그 · 관찰자' } },
-  { id: 'cam-on', n: '—', label: { vi: 'Xin cảm ơn!', en: 'Thank you!', ko: '감사합니다!' } },
+  { id: 'cam-on', n: '-', label: { vi: 'Xin cảm ơn!', en: 'Thank you!', ko: '감사합니다!' } },
 ];
 
 export default function NhanQuanTheKyPage() {
@@ -85,7 +85,7 @@ export default function NhanQuanTheKyPage() {
     <EditionStage edition={edition} chapters={chapters}>
       {/* ── Cover: museum photo above, paper below, headline straddling the seam ── */}
       <Letterbox
-        slate="(03) — Nhãn Quan Thế Kỷ · Tiểu luận thị giác"
+        slate="(03) - Nhãn Quan Thế Kỷ · Tiểu luận thị giác"
         slateRight="12pp · VI · 2026"
         ambient={PAPER}
         canvas={
@@ -117,7 +117,7 @@ export default function NhanQuanTheKyPage() {
           </div>
           <div className="ed-body space-y-3 text-justify md:col-span-8 md:columns-2 md:gap-10 md:space-y-0 [&>p]:mb-3">
             <p>{N.preface.salutation.replace('thầy Nguyễn Minh Tuấn', '')}<b>thầy Nguyễn Minh Tuấn</b>,</p>
-            <p>Em là <b>Nguyễn Nhật Minh — Mã sinh viên: KTQT52C10465</b>, là sinh viên đang theo học bộ môn bổ trợ Đại cương truyền thông quốc tế.</p>
+            <p>Em là <b>Nguyễn Nhật Minh - Mã sinh viên: KTQT52C10465</b>, là sinh viên đang theo học bộ môn bổ trợ Đại cương truyền thông quốc tế.</p>
             {N.preface.body.map((p) => <p key={p}>{p}</p>)}
           </div>
           <Pic m={preface} className="aspect-[4/5] md:col-span-4" sizes="(min-width: 768px) 30vw, 90vw" />
@@ -125,7 +125,7 @@ export default function NhanQuanTheKyPage() {
         <div className="frame">{runner()}</div>
       </section>
 
-      {/* ── Hồi I — paper spread: collage left, artifact right ── */}
+      {/* ── Hồi I - paper spread: collage left, artifact right ── */}
       {actFrame('hoi-1', h1, false)}
       <section data-ambient={PAPER} className="py-16 md:py-24" style={{ color: INK }}>
         <div className="frame grid gap-10 md:grid-cols-12">
@@ -145,7 +145,7 @@ export default function NhanQuanTheKyPage() {
         <div className="frame">{runner()}</div>
       </section>
 
-      {/* ── Hồi II — espresso spread, white hand-drawn loops ── */}
+      {/* ── Hồi II - espresso spread, white hand-drawn loops ── */}
       {actFrame('hoi-2', h2, true)}
       <section data-ambient={ESPRESSO} data-glow="#8a3b1c" className="relative overflow-hidden py-16 md:py-24" style={{ color: PAPER }}>
         <Squiggle variant={3} color={PAPER} width={4} className="absolute -right-10 top-10 w-72 opacity-80 md:w-[28rem]" />
@@ -168,7 +168,7 @@ export default function NhanQuanTheKyPage() {
         <div className="frame">{runner(true)}</div>
       </section>
 
-      {/* ── Hồi III — dark, tall vitrine strip with red captions ── */}
+      {/* ── Hồi III - dark, tall vitrine strip with red captions ── */}
       {actFrame('hoi-3', h3, true)}
       <section data-ambient={ESPRESSO} data-glow="#8a3b1c" className="relative overflow-hidden py-16 md:py-24" style={{ color: PAPER }}>
         <Squiggle variant={0} color={PAPER} width={4} className="absolute -left-16 bottom-20 w-72 opacity-70 md:w-[30rem]" />
@@ -194,7 +194,7 @@ export default function NhanQuanTheKyPage() {
         <div className="frame">{runner(true)}</div>
       </section>
 
-      {/* ── Vĩ thanh — paper, observers in the museum ── */}
+      {/* ── Vĩ thanh - paper, observers in the museum ── */}
       <section id="vi-thanh" data-ambient={PAPER} className="scroll-mt-14 py-16 md:py-24" style={{ color: INK }}>
         <div className="frame grid gap-10 md:grid-cols-12">
           <div className="md:col-span-5">

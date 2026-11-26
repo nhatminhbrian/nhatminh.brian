@@ -4,9 +4,13 @@ import { createClient } from 'next-sanity';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import type { Achievement, FolderView, PartnerGroup, ResolvedMedia } from '@/data/types';
 import { apiVersion, dataset, projectId } from './env';
-import type { I18nFields } from '@/i18n/pick';
+import { cleanDashes, type I18nFields } from '@/i18n/pick';
 
-const client = createClient({ projectId, dataset, apiVersion, useCdn: true, perspective: 'published' });
+const sanity = createClient({ projectId, dataset, apiVersion, useCdn: true, perspective: 'published' });
+/** Every Sanity read is normalised so published em-dashes render as hyphens. */
+const client = {
+  fetch: async <T>(query: string, params: Record<string, unknown> = {}): Promise<T> => cleanDashes(await sanity.fetch<T>(query, params)),
+};
 const builder = createImageUrlBuilder({ projectId, dataset });
 
 type SanityImage = {
@@ -64,7 +68,7 @@ export async function getCmsFolders(): Promise<FolderView[]> {
     return raw.flatMap((a) => {
       const title = String(a.title ?? '');
       const images = ((a.images as SanityImage[] | null) ?? [])
-        .map((p, i) => toMedia(p, `${title} — frame ${String(i + 1).padStart(2, '0')}`, `${a._id}-${i}`))
+        .map((p, i) => toMedia(p, `${title} - frame ${String(i + 1).padStart(2, '0')}`, `${a._id}-${i}`))
         .filter((m): m is ResolvedMedia => Boolean(m));
       const coverImage = toMedia(a.coverImage as SanityImage, title, `${a._id}-cover`) ?? images[0];
       if (!coverImage) return [];
@@ -130,7 +134,7 @@ export async function getCmsAchievements(): Promise<CmsAchievement[]> {
   }
 }
 
-/* ── Trang chủ (singleton) — every field falls back to the code defaults ── */
+/* ── Trang chủ (singleton) - every field falls back to the code defaults ── */
 import * as homeDefaults from '@/data/home.i18n';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type HomeContent = Pick<typeof homeDefaults, 'city' | 'aboutI18n' | 'visionI18n' | 'interestsI18n' | 'lensesI18n' | 'philosophyI18n' | 'milestonesI18n'>;

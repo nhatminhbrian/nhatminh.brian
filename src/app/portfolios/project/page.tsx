@@ -11,8 +11,8 @@ import { artisticVision, philosophy } from '@/data/profile';
 import type { MediaRef, ResolvedMedia } from '@/data/types';
 
 export const metadata: Metadata = {
-  title: 'Project Portfolio — web edition',
-  description: 'luminescent. the double album, The Closet and selected street work — Nhat Minh Nguyen’s Project Portfolio for UIC Yonsei, rebuilt for the web.',
+  title: 'Project Portfolio - web edition',
+  description: 'luminescent. the double album, The Closet and selected street work - Nhat Minh Nguyen’s Project Portfolio for UIC Yonsei, rebuilt for the web.',
 };
 
 /* Native palette (sampled from the PDF) */
@@ -69,7 +69,7 @@ export default function ProjectEditionPage() {
     <EditionStage edition={edition} chapters={chapters}>
       {/* ── Cover: letterboxed title frame opening into the blue-to-black cover ── */}
       <Letterbox
-        slate="(01) — Project Portfolio · UIC Yonsei"
+        slate="(01) - Project Portfolio · UIC Yonsei"
         slateRight="42pp · EN · 03/2025"
         ambient={PAPER}
         glow={BLUE}
@@ -122,7 +122,7 @@ export default function ProjectEditionPage() {
         <div className="frame">{foot(1)}</div>
       </section>
 
-      {/* ── 1. Introduction — cream spread, photo left, letter right ── */}
+      {/* ── 1. Introduction - cream spread, photo left, letter right ── */}
       <section id="introduction" data-ambient={PAPER} className="scroll-mt-14 py-20 md:py-28" style={{ color: INK }}>
         <div className="frame grid gap-10 md:grid-cols-12 md:items-start">
           <Frame m={r('portrait-camera', 'Minh shooting with a Canon camera')} className="aspect-[4/5] md:col-span-4" />
@@ -155,7 +155,7 @@ export default function ProjectEditionPage() {
         <div className="frame">{foot(3, true)}</div>
       </section>
 
-      {/* 1.2 Creative philosophy — right-aligned, italic numbered principles */}
+      {/* 1.2 Creative philosophy - right-aligned, italic numbered principles */}
       <section data-ambient={PAPER} className="pb-20 md:pb-28" style={{ color: INK }}>
         <div className="frame grid gap-10 md:grid-cols-12 md:items-center">
           <Frame m={r('portrait-studio', 'Minh in a studio portrait')} className="order-2 aspect-[4/5] md:order-1 md:col-span-4" />
@@ -172,7 +172,7 @@ export default function ProjectEditionPage() {
         <div className="frame">{foot(4, true)}</div>
       </section>
 
-      {/* 1.3 Artistic vision — black, text column + street collage */}
+      {/* 1.3 Artistic vision - black, text column + street collage */}
       <section data-ambient={PAPER} data-glow="#2f6b3a" className="relative overflow-hidden py-20 md:py-28">
         <Squiggle variant={2} color={BLUE} className="absolute -bottom-12 right-[30%] w-48 md:w-72" />
         <div className="frame grid gap-10 md:grid-cols-12">
@@ -190,7 +190,7 @@ export default function ProjectEditionPage() {
         <div className="frame">{foot(5)}</div>
       </section>
 
-      {/* Events — collage left, column right (page 6) */}
+      {/* Events - collage left, column right (page 6) */}
       <section data-ambient={PAPER} data-glow="#c2412d" className="py-20 md:py-28">
         <div className="frame grid gap-10 md:grid-cols-12">
           <div className="zine md:col-span-7 md:grid-cols-3 md:gap-3">
@@ -205,7 +205,7 @@ export default function ProjectEditionPage() {
         <div className="frame">{foot(6)}</div>
       </section>
 
-      {/* ── 2. Project overview — collage band + right-aligned blue headline ── */}
+      {/* ── 2. Project overview - collage band + right-aligned blue headline ── */}
       <section id="overview" data-ambient={PAPER} data-glow={BLUE} className="scroll-mt-14 py-20 md:py-28">
         <div className="frame">
           <div className="zine md:grid-cols-5 md:gap-2">
@@ -227,7 +227,7 @@ export default function ProjectEditionPage() {
         <div className="frame">{foot(8)}</div>
       </section>
 
-      {/* ── 3. luminescent. — chapter letterbox ── */}
+      {/* ── 3. luminescent. - chapter letterbox ── */}
       <Letterbox
         id="luminescent"
         variant="chapter"
@@ -258,13 +258,13 @@ export default function ProjectEditionPage() {
       <section data-ambient={PAPER} data-glow={GOLD} className="py-20 md:py-28">
         <div className="frame ed-body grid max-w-5xl gap-5 md:grid-cols-2 md:gap-x-12">
           <p className="md:col-span-2"><b>luminescent.</b> {P.luminescent.intro.replace(/^luminescent\. /, '')}</p>
-          <p><b style={{ color: COPPER }}>Red Sun</b> — a representation of <b>fiery passion, energy, and confidence</b>, captured through bold red tones, dramatic lighting, and striking compositions.</p>
-          <p><b style={{ color: SKY }}>Blue Moon</b> — a reflection of <b>quiet introspection, mystery, and depth</b>, expressed through cool blue hues, soft lighting, and ethereal atmospheres.</p>
+          <p><b style={{ color: COPPER }}>Red Sun</b> - a representation of <b>fiery passion, energy, and confidence</b>, captured through bold red tones, dramatic lighting, and striking compositions.</p>
+          <p><b style={{ color: SKY }}>Blue Moon</b> - a reflection of <b>quiet introspection, mystery, and depth</b>, expressed through cool blue hues, soft lighting, and ethereal atmospheres.</p>
           <p className="md:col-span-2">{P.luminescent.outro}</p>
         </div>
       </section>
 
-      {/* 3.1 Red Sun — warm dark, copper script, filmstrip */}
+      {/* 3.1 Red Sun - warm dark, copper script, filmstrip */}
       <section data-ambient={PAPER} data-glow={COPPER} className="relative overflow-hidden py-20 md:py-28">
         <div className="frame">
           <div className="flex flex-wrap items-end justify-between gap-6">
@@ -285,7 +285,7 @@ export default function ProjectEditionPage() {
         </div>
       </section>
 
-      {/* 3.2 Blue Moon — sky field, navy ink */}
+      {/* 3.2 Blue Moon - sky field, navy ink */}
       <section data-ambient={SKY} data-glow="#ffffff" className="relative overflow-hidden py-20 md:py-28" style={{ color: NAVY }}>
         <div className="frame">
           <div className="flex flex-wrap items-end justify-between gap-6">
@@ -306,7 +306,7 @@ export default function ProjectEditionPage() {
         </div>
       </section>
 
-      {/* 3.3 The process — split columns separated by a hairline */}
+      {/* 3.3 The process - split columns separated by a hairline */}
       <section data-ambient={PAPER} data-glow={BLUE} className="relative overflow-hidden py-20 md:py-28">
         <Squiggle variant={0} color={BLUE} className="absolute -right-10 top-6 w-56 md:w-80" />
         <div className="frame">
@@ -329,7 +329,7 @@ export default function ProjectEditionPage() {
         <div className="frame">{foot(23)}</div>
       </section>
 
-      {/* ── 4. The Closet — chapter letterbox ── */}
+      {/* ── 4. The Closet - chapter letterbox ── */}
       <Letterbox
         id="closet"
         variant="chapter"
@@ -363,7 +363,7 @@ export default function ProjectEditionPage() {
         </div>
       </section>
 
-      {/* 4.1 The process — survey findings, blue ribbons */}
+      {/* 4.1 The process - survey findings, blue ribbons */}
       <section data-ambient={PAPER} data-glow={BLUE} className="relative overflow-hidden py-20 md:py-28">
         <Squiggle variant={3} color={BLUE} className="absolute -left-12 top-10 w-60 md:w-96" />
         <Squiggle variant={2} color={BLUE} className="absolute -right-16 bottom-0 w-60 md:w-96" />
@@ -382,7 +382,7 @@ export default function ProjectEditionPage() {
         <div className="frame">{foot(30)}</div>
       </section>
 
-      {/* Lighting map — cream spread */}
+      {/* Lighting map - cream spread */}
       <section data-ambient={PAPER} className="py-20 md:py-28" style={{ color: INK }}>
         <div className="frame grid gap-10 md:grid-cols-12">
           <div className="md:col-span-6">
@@ -392,7 +392,7 @@ export default function ProjectEditionPage() {
           <div className="relative md:col-span-6">
             <Squiggle variant={1} color={BLUE} className="absolute -top-16 right-0 w-40" />
             <ul className="grid gap-3 text-sm font-semibold">
-              {['1 rectangular gobo — spotlight', '1 background light — vivid gradient', '1 light inside the cabinet — key'].map((l, i) => (
+              {['1 rectangular gobo - spotlight', '1 background light - vivid gradient', '1 light inside the cabinet - key'].map((l, i) => (
                 <li key={l} className="flex items-center gap-4 rounded-full border border-[#141414]/15 bg-white px-5 py-3">
                   <span className="grid size-8 place-items-center rounded-full text-xs" style={{ background: BLUE, color: CREAM }}>{i + 1}</span>{l}
                 </li>
@@ -403,7 +403,7 @@ export default function ProjectEditionPage() {
         <div className="frame">{foot(33, true)}</div>
       </section>
 
-      {/* ── 5. Some other projects — cream, coloured titles per project ── */}
+      {/* ── 5. Some other projects - cream, coloured titles per project ── */}
       <section id="other" data-ambient={PAPER} className="scroll-mt-14 py-20 md:py-28" style={{ color: INK }}>
         <div className="frame">
           <H className="text-[clamp(2.25rem,5.5vw,4.75rem)]">5.<br />Some other<br />project</H>

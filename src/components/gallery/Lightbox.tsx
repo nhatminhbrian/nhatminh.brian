@@ -63,7 +63,7 @@ export function Lightbox({ photos, index, onClose, onIndex, label, gear }: Props
         <motion.div
           role="dialog"
           aria-modal="true"
-          aria-label={`${label} — photo viewer`}
+          aria-label={`${label} - photo viewer`}
           className="fixed inset-0 z-[80] flex flex-col bg-night-950/97 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -121,7 +121,7 @@ export function Lightbox({ photos, index, onClose, onIndex, label, gear }: Props
           <div className="frame flex min-h-14 shrink-0 flex-col justify-center gap-1 border-t border-hairline py-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-ice-300">{photos[index!].alt}</p>
             <p className="ui-label text-[0.625rem] text-steel-400">
-              {gear ?? 'Photo — Nguyễn Nhật Minh'} · <span className="md:hidden">Swipe ← →</span><span className="hidden md:inline">← → keys</span>
+              {gear ?? 'Photo - Nguyễn Nhật Minh'} · <span className="md:hidden">Swipe ← →</span><span className="hidden md:inline">← → keys</span>
             </p>
           </div>
 

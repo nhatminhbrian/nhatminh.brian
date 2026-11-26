@@ -15,7 +15,7 @@ import { homePage } from './src/sanity/schemaTypes/homePage';
 
 export default defineConfig({
   name: 'nhatminh',
-  title: 'Nhật Minh — Studio',
+  title: 'Nhật Minh - Studio',
   basePath: '/studio',
   projectId,
   dataset,

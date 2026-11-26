@@ -6,7 +6,7 @@ import { useT } from '@/components/i18n/LanguageProvider';
 
 type Props = {
   id?: string;
-  /** small mono line shown on the black matte, e.g. "(01) — Project Portfolio" */
+  /** small mono line shown on the black matte, e.g. "(01) - Project Portfolio" */
   slate: string;
   /** right-hand slate, e.g. "42pp · 2025" */
   slateRight?: string;

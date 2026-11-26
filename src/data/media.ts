@@ -16,7 +16,7 @@ export function resolveAll(refs: MediaRef[]): ResolvedMedia[] {
   return refs.map(resolve);
 }
 
-/** Every manifest id that starts with a prefix, in order — handy for bulk collections. */
+/** Every manifest id that starts with a prefix, in order - handy for bulk collections. */
 export function idsWithPrefix(prefix: string): string[] {
   return Object.keys(table)
     .filter((k) => k.startsWith(prefix))

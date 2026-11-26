@@ -7,7 +7,7 @@ import { Lightbox } from './Lightbox';
 
 type Props = { photos: ResolvedMedia[]; label: string; gear?: string };
 
-/** Greedy shortest-column distribution — deterministic, so server and client agree. */
+/** Greedy shortest-column distribution - deterministic, so server and client agree. */
 function distribute(photos: ResolvedMedia[], cols: number) {
   const columns: { i: number; p: ResolvedMedia }[][] = Array.from({ length: cols }, () => []);
   const heights = new Array(cols).fill(0);
