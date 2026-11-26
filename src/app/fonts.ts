@@ -3,12 +3,25 @@ import localFont from 'next/font/local';
 /*
  * Swiss neo-grotesque system, self-hosted through next/font/local
  * (Google Fonts sources subset to Latin + Latin Extended + Vietnamese).
- *   Archivo Expanded (wdth 125) → --font-display — the Project Portfolio's display face (fontsource, layout.tsx)
+ *   Newsreader → --font-display (monograph serif, light/regular only)
+ *   Archivo Expanded stays loaded for the Project Portfolio edition (layout.tsx)
  *   Cormorant Garamond  → --font-serif-italic (hover morphs, pull-quotes)
  *   Be Vietnam Pro → --font-sans (body, navigation, micro-labels)
  * Korean (IBM Plex Sans KR) is loaded via fontsource in layout.tsx and swapped
  * in under html[lang='ko'] (globals.css).
  */
+export const newsreader = localFont({
+  variable: '--font-newsreader',
+  display: 'swap',
+  fallback: ['Georgia', 'serif'],
+  src: [
+    { path: '../fonts/Newsreader_300Light.woff2', weight: '300', style: 'normal' },
+    { path: '../fonts/Newsreader_300Light_Italic.woff2', weight: '300', style: 'italic' },
+    { path: '../fonts/Newsreader_400Regular.woff2', weight: '400', style: 'normal' },
+    { path: '../fonts/Newsreader_400Regular_Italic.woff2', weight: '400', style: 'italic' },
+  ],
+});
+
 export const cormorant = localFont({
   variable: '--font-cormorant',
   display: 'swap',
@@ -35,4 +48,4 @@ export const beVietnam = localFont({
   ],
 });
 
-export const fontVariables = [cormorant, beVietnam].map((f) => f.variable).join(' ');
+export const fontVariables = [newsreader, cormorant, beVietnam].map((f) => f.variable).join(' ');

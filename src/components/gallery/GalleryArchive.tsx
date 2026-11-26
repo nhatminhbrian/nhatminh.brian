@@ -145,7 +145,7 @@ export function GalleryArchive({ folders, groups }: { folders: ArchiveFolder[]; 
                   >
                     <span role="cell" className="ui-label text-[0.6875rem] text-steel-400">{f.indexNumber}</span>
                     <span role="cell" className="flex min-w-0 items-center gap-3">
-                      <span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-md bg-night-850">
+                      <span className="print relative h-11 w-11 shrink-0 bg-night-850">
                         <Image src={f.cover.src} alt="" fill sizes="44px" className="object-cover" />
                       </span>
                       <span className="min-w-0">

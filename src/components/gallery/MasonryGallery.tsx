@@ -34,7 +34,7 @@ export function MasonryGallery({ photos, label, gear }: Props) {
       key={p.id}
       type="button"
       onClick={() => setIndex(i)}
-      className="group relative block w-full overflow-hidden rounded-xl bg-night-800 text-left md:rounded-2xl"
+      className="group relative block w-full print bg-night-800 text-left"
       aria-label={`Open photo ${i + 1} of ${photos.length}: ${p.alt}`}
     >
       <Image

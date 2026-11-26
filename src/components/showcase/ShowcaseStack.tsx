@@ -6,7 +6,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ShowcaseItem } from '@/data/types';
 import { TicketSwitcher } from './TicketSwitcher';
-import { useT, useTerms } from '@/components/i18n/LanguageProvider';
+import { usePick, useT, useTerms } from '@/components/i18n/LanguageProvider';
 
 type Props = {
   items: ShowcaseItem[];
@@ -44,6 +44,9 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
   const activeRef = useRef(0);
   const t = useT();
   const term = useTerms();
+  const pick = usePick();
+  /** Studio VI/EN/KO copy first, then the term map */
+  const tx = (item: ShowcaseItem, k: keyof NonNullable<ShowcaseItem['loc']>) => (item.loc?.[k]?.en || item.loc?.[k]?.ko ? pick(item.loc[k]) : term(item[k]));
 
   // which card is centred → active
   useEffect(() => {
@@ -95,7 +98,7 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
             >
               <article
                 aria-labelledby={`${item.id}-title`}
-                className={`relative isolate h-[calc(100svh-11rem)] min-h-[30rem] overflow-hidden rounded-2xl border border-hairline bg-night-850 transition-[transform,opacity] duration-700 ease-[var(--ease-editorial)] md:h-[calc(100svh-12rem)] md:rounded-3xl ${isActive ? 'scale-100 opacity-100' : 'scale-[0.97] opacity-70'}`}
+                className={`relative isolate h-[calc(100svh-11rem)] min-h-[30rem] print border border-hairline bg-night-850 transition-[transform,opacity] duration-700 ease-[var(--ease-editorial)] md:h-[calc(100svh-12rem)] ${isActive ? 'scale-100 opacity-100' : 'scale-[0.97] opacity-70'}`}
               >
                 <Image
                   src={item.cover.src}
@@ -125,17 +128,17 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
                     <div className="md:col-span-7">
                       <Roll active={isActive} delay={0.05}>
                         <span className="glass inline-block rounded-full px-3 py-1 ui-label text-[0.625rem] text-ice-100">
-                          {term(item.category)}
+                          {tx(item, 'category')}
                         </span>
                       </Roll>
                       <h3 id={`${item.id}-title`} className="display mt-3 text-[clamp(2.5rem,7.5vw,7.5rem)]">
-                        <Roll active={isActive} delay={0.1}>{item.title}</Roll>
+                        <Roll active={isActive} delay={0.1}>{tx(item, 'title')}</Roll>
                       </h3>
                       <dl className="glass mt-5 max-w-xl rounded-xl px-4 py-1 ui-label text-[0.6875rem]">
                         {[
-                          [t('show.role'), term(item.role)],
-                          [t('show.yearSem'), term(item.yearSemester)],
-                          [t('show.gearClient'), term(item.gearClient)],
+                          [t('show.role'), tx(item, 'role')],
+                          [t('show.yearSem'), tx(item, 'yearSemester')],
+                          [t('show.gearClient'), tx(item, 'gearClient')],
                         ].map(([k, v], r) => (
                           <div key={k} className="grid grid-cols-[7.5rem_1fr] gap-3 border-b border-hairline py-2 last:border-b-0 md:grid-cols-[10rem_1fr]">
                             <dt className="text-steel-300">{k}</dt>
@@ -147,7 +150,7 @@ export function ShowcaseStack({ items, label, priorityFirst }: Props) {
 
                     <div className="flex flex-col gap-4 md:col-span-4 md:col-start-9 md:items-end md:text-right">
                       <blockquote className="glass w-full max-w-[320px] text-balance rounded-2xl p-4 font-display font-medium text-lg leading-snug text-ice-100 md:p-5 md:text-2xl">
-                        “{item.quote}”
+                        “{tx(item, 'quote')}”
                       </blockquote>
                       <div className="flex flex-wrap items-center gap-3 md:justify-end">
                         {item.secondary && (

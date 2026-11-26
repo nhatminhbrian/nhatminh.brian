@@ -18,7 +18,7 @@
   --color-hairline-strong: rgb(184 206 224 / 0.32);
 
   /* European editorial & museum-archive pairing (fonts registered in src/app/fonts.ts) */
-  --font-display: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: var(--font-newsreader), Georgia, serif;
   --font-serif-italic: var(--font-cormorant), Georgia, serif;
   --font-serif: var(--font-display);
   --font-sans: var(--font-bevietnam), 'Helvetica Neue', Arial, sans-serif;
@@ -100,10 +100,9 @@ body {
 
 @utility display {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-stretch: 125%;
-  line-height: 1;
-  letter-spacing: -0.01em;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
   color: var(--color-ice-100);
 }
 
@@ -411,7 +410,6 @@ body:has(article[data-edition]) header.fixed button { color: var(--color-ice-100
 .rail { border-color: rgb(184 206 224 / 0.12); background: rgb(7 13 20 / 0.35); }
 .rail-text { writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-sans); font-weight: 500; font-size: 0.625rem; letter-spacing: 0.08em; font-variant-numeric: tabular-nums; text-transform: uppercase; color: var(--color-steel-400); white-space: nowrap; }
 .rail-text-r { transform: none; }
-@media (min-width: 1024px) { body { padding-inline: 40px; } }
 body:has(article[data-edition="sseayp"]) .rail, body:has(article[data-edition="project"]) .rail { background: rgb(243 239 234 / 0.8); border-color: rgb(20 18 18 / 0.15); }
 body:has(article[data-edition="sseayp"]) .rail-text, body:has(article[data-edition="project"]) .rail-text { color: #141212; }
 
@@ -471,17 +469,24 @@ h1, h2, h3, h4, blockquote, figcaption, .display, .ed-display, q { text-wrap: ba
 p, li, dd, .prose-ice, .ed-body { text-wrap: pretty; }
 
 /* Vietnamese diacritics need air: stacked accents must never collide */
-html[lang='vi'] .display, .display-vi { letter-spacing: -0.01em; line-height: 1.08; }
+html[lang='vi'] .display, .display-vi { letter-spacing: -0.015em; line-height: 1.1; }
 html[lang='ko'] .display { font-stretch: 100%; }
 
 /* Cinematic title morph: grotesque → calligraphic serif italic on hover/focus */
 .title-morph { display: inline-block; font-family: var(--font-display); font-style: normal; transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), letter-spacing 0.3s, color 0.3s; }
 .group:hover .title-morph, .group:focus-visible .title-morph {
-  font-family: var(--font-serif-italic); font-style: italic; font-weight: 400; font-stretch: 100%; letter-spacing: 0.005em; transform: translateX(0.5rem);
+  font-family: var(--font-serif-italic); font-style: italic; font-weight: 400; letter-spacing: 0.005em; transform: translateX(0.5rem);
 }
 
 /* SSEAYP: gold is a core brand colour beside washi, ink and crimson */
 [data-edition='sseayp'] { --portfolio-yellow: #ffd21f; --portfolio-accent-secondary: #ffd21f; --ed-bar-accent: #ffd21f !important; --ed-bar-accent-ink: #141212 !important; }
 [data-edition='sseayp'] .hanafuda { --hanafuda-line: #ffd21f; }
-.font-display { font-stretch: 125%; }
-html[lang='ko'] .font-display { font-stretch: 100%; }
+
+/* Display serif is never heavy */
+.display, .font-display { font-weight: 400; }
+.font-display.font-medium, .display.font-medium { font-weight: 400; }
+
+/* Sharp-edged darkroom prints with a slow, smooth lift */
+.print { border-radius: 2px; overflow: hidden; }
+.print img { transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+.print:hover img, a:hover .print img, .group:hover .print img { transform: scale(1.02); }

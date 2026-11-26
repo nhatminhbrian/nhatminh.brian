@@ -29,7 +29,7 @@ export default async function HomePage() {
     <>
       {/* ─── Hero ─────────────────────────────────────────── */}
       <section className="hairline-grid relative overflow-hidden" aria-labelledby="hero-title">
-        <div className="frame grid grid-cols-12 gap-x-4 pb-16 pt-8 md:pb-24 md:pt-12">
+        <div className="frame grid grid-cols-12 gap-x-4 pb-16 pt-10 md:pb-24 md:pt-14">
           <div className="col-span-12 flex items-center justify-between ui-label text-[0.6875rem] text-steel-300 md:col-span-12">
             <span><T k="home.portfolioYear" /></span>
             <span className="hidden sm:inline"><L t={city} /></span>
@@ -37,7 +37,7 @@ export default async function HomePage() {
           </div>
 
           <div className="relative col-span-12 mt-8 md:col-span-6 md:col-start-7 md:row-span-2 md:row-start-2 md:mt-10">
-            <HeroParallax className="relative aspect-[4/5] overflow-hidden rounded-3xl md:aspect-[2/3]">
+            <HeroParallax className="print relative aspect-[4/5] md:aspect-[2/3]">
               <Photo media={hero} fill priority sizes="(min-width: 768px) 50vw, 100vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-night-950/70 via-transparent to-transparent" />
             </HeroParallax>
@@ -49,9 +49,9 @@ export default async function HomePage() {
 
           <h1
             id="hero-title"
-            className="display relative z-10 col-span-12 -mt-24 text-[clamp(4.25rem,15vw,15rem)] md:col-span-10 md:col-start-1 md:row-start-2 md:mt-0 md:self-end md:pb-10"
+            className="display relative z-10 col-span-12 -mt-24 min-w-0 md:col-span-6 md:col-start-1 md:row-start-2 md:mt-0 md:self-end md:pb-10 md:pr-6"
           >
-            <span className="rise-mask text-[clamp(5.5rem,22vw,20rem)] leading-[0.8]"><span className="rise">Brian<span className="text-steel-300">.</span></span></span>
+            <span className="rise-mask whitespace-nowrap pt-[0.08em] text-[clamp(3.25rem,16vw,5.5rem)] leading-[0.95] md:text-[clamp(3.25rem,8.2vw,8rem)]"><span className="rise">Brian<span className="text-steel-300">.</span></span></span>
             <span className="rise-mask mt-3 pl-[1.5vw] text-[clamp(2rem,5.2vw,4.75rem)] font-[family-name:var(--font-serif-italic)] font-normal italic leading-[1.08] tracking-[-0.01em] text-steel-300 md:pl-[2vw]">
               <span className="rise" style={{ animationDelay: '180ms' }}>Nguyễn Nhật Minh</span>
             </span>
@@ -97,7 +97,7 @@ export default async function HomePage() {
             <h2 id="lens-title" className="display text-[clamp(2.75rem,6vw,5.5rem)]">
               <T k="home.dualTitle" />
             </h2>
-            <div className="relative mt-10 aspect-[3/4] w-3/4 overflow-hidden rounded-3xl md:w-full">
+            <div className="print relative mt-10 aspect-[3/4] w-3/4 md:w-full">
               <Photo media={podium} fill sizes="(min-width: 768px) 40vw, 75vw" />
             </div>
             <p className="mt-3 ui-label text-[0.625rem] text-steel-400">Fig. 02 — Diplomatic Academy of Viet Nam</p>
@@ -105,7 +105,7 @@ export default async function HomePage() {
 
           <div className="grid gap-4 self-start md:col-span-7">
             {lensesI18n.map((lens, i) => (
-              <Reveal key={lens.index} delay={i * 0.1} className="glass glass-sheen rounded-3xl p-6 md:p-10">
+              <Reveal key={lens.index} delay={i * 0.1} className="border-t border-white/[0.06] pt-8 md:pt-12">
                 <p className="flex items-baseline justify-between gap-4">
                   <span className="shrink-0 whitespace-nowrap ui-label text-[0.6875rem] text-steel-300">{lens.index} <L t={lens.label} /></span>
                   <span className="text-right ui-label text-[0.625rem] text-steel-400">{lens.meta}</span>
@@ -128,7 +128,7 @@ export default async function HomePage() {
         <Marker index="(05)" label={<T k="home.about" />} />
         <div className="mt-10 grid gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
-            <div className="relative aspect-[2/3] overflow-hidden rounded-3xl">
+            <div className="print relative aspect-[2/3]">
               <Photo media={about} fill sizes="(min-width: 768px) 33vw, 100vw" />
             </div>
           </div>
@@ -169,7 +169,7 @@ export default async function HomePage() {
         <h2 id="milestones-title" className="sr-only">Milestones</h2>
         <ol className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {milestonesI18n.map((m) => (
-            <li key={m.year} className="glass glass-sheen rounded-2xl p-6 transition-transform duration-500 ease-[var(--ease-editorial)] hover:-translate-y-1">
+            <li key={m.year} className="border-t border-white/[0.06] pt-6">
               <p className="display text-5xl">{m.year}</p>
               <p className="mt-4 text-sm leading-relaxed text-ice-300"><L t={m.text} /></p>
             </li>

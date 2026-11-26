@@ -165,7 +165,7 @@ export function FolderDeck({ folders, label }: { folders: DeckFolder[]; label: s
             return (
               <motion.div
                 key={f.id}
-                className="absolute inset-y-0 left-[4%] w-[78%] overflow-hidden rounded-2xl border border-ice-100/15 bg-night-850 shadow-[0_40px_80px_-30px_rgb(0_0_0/0.9)] md:left-[8%] md:w-[62%] md:rounded-3xl"
+                className="absolute inset-y-0 left-[4%] w-[78%] print border border-ice-100/15 bg-night-850 shadow-[0_40px_80px_-30px_rgb(0_0_0/0.9)] md:left-[8%] md:w-[62%]"
                 style={{ zIndex: 100 - Math.abs(d) * 2 - (d < 0 ? 50 : 0), transformOrigin: 'left center' }}
                 initial={false}
                 animate={style}

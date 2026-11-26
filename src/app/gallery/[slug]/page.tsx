@@ -67,7 +67,7 @@ export default async function FolderPage({ params }: PageProps<'/gallery/[slug]'
       </header>
 
       <div className="frame">
-        <div className="relative aspect-[16/9] overflow-hidden rounded-3xl md:aspect-[21/9]">
+        <div className="print relative aspect-[16/9] md:aspect-[21/9]">
           <Photo media={f.coverImage} fill priority sizes="100vw" />
         </div>
       </div>
@@ -80,7 +80,7 @@ export default async function FolderPage({ params }: PageProps<'/gallery/[slug]'
         <Link href="/gallery" className="eyebrow self-end hover:text-ice-100 md:col-span-3"><T k="gallery.backAll" /></Link>
         {next && next.id !== f.id && (
           <Link href={`/gallery/${next.id}`} className="glass glass-sheen group flex items-center gap-5 rounded-3xl p-4 md:col-span-9">
-            <span className="relative h-24 w-32 shrink-0 overflow-hidden rounded-2xl">
+            <span className="print relative h-24 w-32 shrink-0">
               <Photo media={next.coverImage} fill sizes="128px" />
             </span>
             <span className="min-w-0">

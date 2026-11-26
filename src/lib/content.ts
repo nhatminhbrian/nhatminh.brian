@@ -12,7 +12,7 @@ import { editions, getEdition } from '@/data/portfolios';
 import { resolve, resolveAll } from '@/data/media';
 import { editionCredits } from '@/data/showcase';
 import type { FolderView, PortfolioEdition, ShowcaseItem } from '@/data/types';
-import { getCmsAchievements, getCmsFolders } from '@/sanity/fetch';
+import { getCmsAchievements, getCmsFeaturedWorks, getCmsFolders } from '@/sanity/fetch';
 
 export { resolve, resolveAll };
 
@@ -130,7 +130,54 @@ function folderToShowcase(f: FolderView): ShowcaseItem {
 const reindex = (items: ShowcaseItem[]) => items.map((s, i) => ({ ...s, index: pad(i + 1) }));
 
 /** Home: the three editions, then folders flagged “featured” in Studio, newest first. */
+const norm = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+/** Home "Đang chiếu" reel: the Trang chủ → featuredWorks list from Studio, else a de-duplicated default. */
 export async function getFeaturedWorks(): Promise<ShowcaseItem[]> {
-  const featured = (await getFolders()).filter((f) => f.featured).slice(0, 5).map(folderToShowcase);
-  return reindex([...getEditionShowcase(), ...featured]);
+  const [config, folders] = await Promise.all([getCmsFeaturedWorks(), getFolders()]);
+  const editionsList = getEditionShowcase();
+
+  if (config.length) {
+    const items: ShowcaseItem[] = [];
+    config.forEach((c, i) => {
+      if (c.hidden) return;
+      let base: ShowcaseItem | undefined;
+      if (c.source === 'folder') {
+        const f = folders.find((x) => x.id === c.folderSlug);
+        base = f && folderToShowcase(f);
+      } else if (c.source !== 'custom') {
+        base = editionsList.find((e) => e.id === `edition-${c.portfolio}`);
+      }
+      const cover = c.cover ?? base?.cover;
+      const title = c.title?.vi || base?.title;
+      if (!cover || !title) return; // a card needs at least a title and a cover
+      const pick = (v: { vi?: string } | undefined, fb = '') => v?.vi || fb;
+      items.push({
+        id: base?.id ?? `custom-${i}`,
+        href: c.href || base?.href || '#',
+        index: '',
+        year: c.year || base?.year || '',
+        title,
+        category: pick(c.category, base?.category),
+        role: pick(c.role, base?.role),
+        yearSemester: pick(c.semester, base?.yearSemester),
+        gearClient: pick(c.clientOrGear, base?.gearClient),
+        specs: base?.specs ?? '',
+        quote: pick(c.quote, base?.quote),
+        cover,
+        secondary: c.pdfUrl ? { href: c.pdfUrl, label: 'PDF' } : base?.secondary,
+        loc: { title: c.title, category: c.category, role: c.role, yearSemester: c.semester, gearClient: c.clientOrGear, quote: c.quote },
+      });
+    });
+    if (items.length) return reindex(items);
+  }
+
+  // Default: editions first, then featured folders that are not the same work as an edition.
+  const keys = editionsList.flatMap((e) => [norm(e.title), e.href.split('/').pop() ?? '']);
+  const featured = folders
+    .filter((f) => f.featured)
+    .filter((f) => !keys.some((k) => k && (norm(f.title).includes(k) || f.id.includes(k))))
+    .slice(0, 5)
+    .map(folderToShowcase);
+  return reindex([...editionsList, ...featured]);
 }

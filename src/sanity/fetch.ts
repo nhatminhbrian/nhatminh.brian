@@ -166,3 +166,31 @@ export async function getHome(): Promise<HomeContent> {
     })) as HomeContent['lensesI18n'],
   };
 }
+
+/* ── Đang chiếu (featured reel) configured on the Trang chủ document ── */
+export type CmsFeaturedWork = {
+  hidden?: boolean;
+  source?: 'portfolio' | 'folder' | 'custom';
+  portfolio?: string;
+  folderSlug?: string;
+  title?: LocTx; category?: LocTx; role?: LocTx; semester?: LocTx; clientOrGear?: LocTx; quote?: LocTx;
+  year?: string;
+  href?: string;
+  pdfUrl?: string;
+  cover?: ResolvedMedia;
+};
+type LocTx = { vi?: string; en?: string; ko?: string };
+
+export async function getCmsFeaturedWorks(): Promise<CmsFeaturedWork[]> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('sanity', 'homePage');
+  try {
+    const rows = await client.fetch<(Omit<CmsFeaturedWork, 'cover'> & { _key: string; coverImage?: SanityImage })[] | null>(
+      `*[_id == "homePage"][0].featuredWorks[]{ _key, hidden, source, portfolio, "folderSlug": folder->slug.current, title, category, role, semester, clientOrGear, quote, year, href, pdfUrl, coverImage ${IMAGE} }`,
+    );
+    return (rows ?? []).map(({ coverImage, _key, ...r }) => ({ ...r, cover: toMedia(coverImage, r.title?.vi ?? '', `featured-${_key}`) }));
+  } catch {
+    return [];
+  }
+}

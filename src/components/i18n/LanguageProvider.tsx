@@ -72,7 +72,7 @@ export function T({ k, fallback }: { k: string; fallback?: string }) {
 export function LanguageSwitcher({ className = '' }: { className?: string }) {
   const { locale, setLocale } = useLocale();
   return (
-    <div role="radiogroup" aria-label="Language" className={`flex items-center rounded-full border border-hairline bg-ice-100/[0.04] p-0.5 ${className}`}>
+    <div role="radiogroup" aria-label="Language" className={`flex items-center rounded-full border border-white/[0.08] bg-white/[0.04] p-0.5 backdrop-blur-xl ${className}`}>
       {locales.map((l) => (
         <button
           key={l}

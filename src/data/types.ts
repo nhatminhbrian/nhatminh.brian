@@ -94,6 +94,8 @@ export type ShowcaseItem = {
   quote: string;
   cover: ResolvedMedia;
   secondary?: { href: string; label: string };
+  /** Studio-entered VI/EN/KO card copy */
+  loc?: Partial<Record<'title' | 'category' | 'role' | 'yearSemester' | 'gearClient' | 'quote', { vi?: string; en?: string; ko?: string }>>;
 };
 
 /* ───────── Gallery folders (one event / shoot = one folder) ───────── */

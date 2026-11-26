@@ -11,6 +11,7 @@ export function MarginaliaRails() {
   const path = usePathname();
   const t = useT();
   const [count, setCount] = useState({ i: 1, n: 1 });
+  const [shown, setShown] = useState(false);
 
   useEffect(() => {
     let raf = 0;
@@ -26,6 +27,7 @@ export function MarginaliaRails() {
         let i = 0;
         s.forEach((el, k) => { if (el.getBoundingClientRect().top <= mid) i = k; });
         setCount({ i: i + 1, n: Math.max(1, s.length) });
+        setShown(window.scrollY > 240);
       });
     };
     update();
@@ -40,13 +42,14 @@ export function MarginaliaRails() {
   const pad = (v: number) => String(v).padStart(2, '0');
 
   return (
-    <>
-      <div aria-hidden className="rail fixed inset-y-0 left-0 z-40 hidden w-10 items-center justify-center border-r lg:flex">
-        <span className="rail-text">{label}</span>
-      </div>
-      <div aria-hidden className="rail fixed inset-y-0 right-0 z-40 hidden w-10 items-center justify-center border-l lg:flex">
-        <span className="rail-text rail-text-r tabular-nums">{pad(count.i)} / {pad(count.n)}</span>
-      </div>
-    </>
+    <div
+      aria-hidden
+      data-shown={shown || undefined}
+      className="folio-pill pointer-events-none fixed bottom-6 left-6 z-40 hidden items-center gap-3 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2 opacity-0 backdrop-blur-xl transition-[opacity,transform] duration-700 [transition-timing-function:cubic-bezier(0.25,1,0.5,1)] translate-y-2 data-[shown]:translate-y-0 data-[shown]:opacity-100 md:flex"
+    >
+      <span className="ui-label text-[0.625rem] text-steel-300">{label}</span>
+      <span aria-hidden className="h-3 w-px bg-white/15" />
+      <span className="ui-label text-[0.625rem] tabular-nums text-ice-100">{pad(count.i)} / {pad(count.n)}</span>
+    </div>
   );
 }

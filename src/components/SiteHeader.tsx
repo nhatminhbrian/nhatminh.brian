@@ -44,7 +44,7 @@ export function SiteHeader() {
     <Suspense fallback={null}>
       <RouteSync />
     </Suspense>
-    <header className="fixed inset-x-0 top-0 z-50 bg-night-950/35 shadow-[inset_0_-1px_0_rgb(226_237_245/0.12),0_10px_30px_-20px_rgb(0_0_0/0.8)] backdrop-blur-xl backdrop-saturate-150">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#070D14]/70 backdrop-blur-2xl backdrop-saturate-150">
       <div className="frame flex h-14 items-center justify-between">
         <Link href="/" className="group flex items-baseline gap-3" aria-label="Brian · Nguyễn Nhật Minh — home">
           <span className="font-display font-medium text-2xl leading-none text-ice-100">Brian.</span>
@@ -54,13 +54,13 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Primary" className="hidden md:block">
-          <ul className="flex items-center gap-8">
+          <ul className="flex items-center gap-4 xl:gap-7">
             {NAV.map((item) => (
-              <li key={item.href}>
+              <li key={item.href} className="shrink-0">
                 <Link
                   href={item.href}
                   data-nav={item.href}
-                  className="group flex items-baseline gap-1.5 py-2 text-[0.8125rem] uppercase tracking-[0.14em] text-ice-300 transition-colors hover:text-ice-100 aria-[current=page]:text-ice-100"
+                  className="group flex shrink-0 items-baseline gap-1.5 whitespace-nowrap py-2 text-[11px] uppercase tracking-[0.1em] text-ice-300 transition-colors hover:text-ice-100 aria-[current=page]:text-ice-100"
                 >
                   <span className="ui-label text-[0.625rem] text-steel-400">({item.index})</span>
                   <span className="relative">
