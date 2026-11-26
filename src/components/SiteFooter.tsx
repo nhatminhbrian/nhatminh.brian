@@ -14,7 +14,7 @@ export function SiteFooter() {
           </p>
           <a
             href={`mailto:${profile.email}`}
-            className="glass glass-sheen mt-8 inline-flex min-h-12 items-center gap-3 rounded-full px-6 font-mono text-xs uppercase tracking-[0.14em] text-ice-100 transition-colors hover:text-white"
+            className="glass glass-sheen mt-8 inline-flex min-h-12 items-center gap-3 rounded-full px-6 ui-label text-[0.6875rem] text-ice-100 transition-colors hover:text-white"
           >
             <T k="footer.write" /> {profile.email}
             <span aria-hidden>→</span>
@@ -40,7 +40,7 @@ export function SiteFooter() {
           </div>
         </dl>
       </div>
-      <div className="frame flex flex-col gap-2 border-t border-hairline py-5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-steel-400 sm:flex-row sm:justify-between">
+      <div className="frame flex flex-col gap-2 border-t border-hairline py-5 ui-label text-[0.6875rem] text-steel-400 sm:flex-row sm:justify-between">
         <span>© Brian · {profile.name} — <L t={city} /></span>
         <span>{profile.gear}</span>
         <Link href="/portfolios" className="hover:text-ice-100"><T k="footer.download" /></Link>

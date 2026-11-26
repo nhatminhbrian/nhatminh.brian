@@ -11,6 +11,7 @@ export const localeNames: Record<Locale, string> = { vi: 'Tiếng Việt', en: '
 type Dict = Record<string, string>;
 
 const vi: Dict = {
+  'nav.home': 'Trang chủ',
   'nav.gallery': 'Thư viện ảnh',
   'nav.portfolios': 'Portfolio',
   'nav.achievements': 'Thành tích',
@@ -85,6 +86,9 @@ const vi: Dict = {
   'port.original': 'Ấn bản gốc',
   'port.prev': '← Trước',
   'port.next': 'Tiếp →',
+  'gallery.frames': 'ảnh',
+  'gallery.hintDesktop': 'Rê chuột hoặc dùng ← → để lật · bấm thư mục phía trước để mở',
+  'gallery.hintMobile': 'Vuốt để lật · chạm thư mục phía trước để mở',
   'stage.scroll': 'Cuộn để mở',
   'stage.swipe': 'Vuốt',
   'stage.frames': 'khung hình →',
@@ -105,6 +109,7 @@ const vi: Dict = {
 };
 
 const en: Dict = {
+  'nav.home': 'Home',
   'nav.gallery': 'Gallery',
   'nav.portfolios': 'Portfolios',
   'nav.achievements': 'Achievements',
@@ -179,6 +184,9 @@ const en: Dict = {
   'port.original': 'Original edition',
   'port.prev': '← Previous',
   'port.next': 'Next →',
+  'gallery.frames': 'frames',
+  'gallery.hintDesktop': 'Move across the deck or use ← → to flip · click the front folder to open',
+  'gallery.hintMobile': 'Swipe to flip · tap the front folder to open',
   'stage.scroll': 'Scroll to open',
   'stage.swipe': 'Swipe',
   'stage.frames': 'frames →',
@@ -199,6 +207,7 @@ const en: Dict = {
 };
 
 const ko: Dict = {
+  'nav.home': '홈',
   'nav.gallery': '갤러리',
   'nav.portfolios': '포트폴리오',
   'nav.achievements': '성과',
@@ -273,6 +282,9 @@ const ko: Dict = {
   'port.original': '원본 에디션',
   'port.prev': '← 이전',
   'port.next': '다음 →',
+  'gallery.frames': '컷',
+  'gallery.hintDesktop': '마우스를 움직이거나 ← → 키로 넘기기 · 앞 폴더를 클릭해 열기',
+  'gallery.hintMobile': '밀어서 넘기기 · 앞 폴더를 탭해 열기',
   'stage.scroll': '스크롤하여 열기',
   'stage.swipe': '넘기기',
   'stage.frames': '컷 →',

@@ -18,11 +18,11 @@
   --color-hairline-strong: rgb(184 206 224 / 0.32);
 
   /* European editorial & museum-archive pairing (fonts registered in src/app/fonts.ts) */
-  --font-display: var(--font-fraunces), Georgia, serif;
-  --font-serif: var(--font-fraunces), Georgia, serif;
-  --font-sans: var(--font-schibsted), var(--font-bevietnam), ui-sans-serif, system-ui, sans-serif;
-  --font-editorial: var(--font-spectral), Georgia, serif;
-  --font-mono: var(--font-spacemono), ui-monospace, monospace;
+  --font-display: var(--font-intertight), 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: var(--font-display);
+  --font-sans: var(--font-bevietnam), 'Helvetica Neue', Arial, sans-serif;
+  --font-editorial: var(--font-sans);
+  --font-mono: var(--font-sans);
 
   --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -99,26 +99,36 @@ body {
 
 @utility display {
   font-family: var(--font-display);
-  font-weight: 300;
-  font-optical-sizing: auto;
-  line-height: 0.98;
-  letter-spacing: -0.03em;
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
   color: var(--color-ice-100);
 }
 
-@utility eyebrow {
-  font-family: var(--font-mono);
+@utility ui-label {
+  font-family: var(--font-sans);
+  font-weight: 500;
   font-size: 0.6875rem;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-steel-300);
 }
 
 @utility prose-ice {
-  font-family: var(--font-editorial);
-  font-size: 1.125rem;
-  line-height: 1.75;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 1.0625rem;
+  line-height: 1.7;
   color: var(--color-ice-300);
   max-width: 60ch;
   text-wrap: pretty;
@@ -330,26 +340,15 @@ html:has([data-snap-stack]) {
 [data-edition] ::selection { background: var(--ed-accent); color: var(--ed-bg); }
 .text-stroke { -webkit-text-stroke: 0.03em var(--stroke, #fbfae8); color: transparent; }
 
-/* Schibsted Grotesk has no Vietnamese glyphs: the Vietnamese interface uses Be Vietnam Pro
-   for whole words instead of mixing faces letter by letter. */
-html[lang='vi'] { --font-sans: var(--font-bevietnam), ui-sans-serif, system-ui, sans-serif; }
-
-/* Korean: contemporary editorial pairing (Hahmlet / Gowun Batang / Gowun Dodum) */
-:root {
-  --font-ko-display: 'Hahmlet Variable', 'Gowun Batang', serif;
-  --font-ko-editorial: 'Gowun Batang', serif;
-  --font-ko-sans: 'Gowun Dodum', var(--font-schibsted), sans-serif;
-}
+/* Korean: IBM Plex Sans KR for display and text */
+:root { --font-ko: 'IBM Plex Sans KR', var(--font-bevietnam), sans-serif; --font-ko-display: var(--font-ko); --font-ko-editorial: var(--font-ko); --font-ko-sans: var(--font-ko); }
 html[lang='ko'] {
-  --font-display: var(--font-ko-display);
-  --font-serif: var(--font-ko-display);
-  --font-editorial: var(--font-ko-editorial);
-  --font-sans: var(--font-ko-sans);
+  --font-display: var(--font-ko);
+  --font-sans: var(--font-ko);
   word-break: keep-all;
   line-break: strict;
 }
-html[lang='ko'] body { letter-spacing: -0.005em; }
-html[lang='ko'] .display { letter-spacing: -0.02em; line-height: 1.12; font-weight: 400; }
+html[lang='ko'] .display { letter-spacing: -0.03em; line-height: 1.08; }
 html[lang='ko'] .prose-ice { line-height: 1.85; }
 
 /* Archival metadata: tabular figures everywhere mono is used */
@@ -371,3 +370,99 @@ body:has(article[data-edition]) header.fixed {
 }
 body:has(article[data-edition]) header.fixed a,
 body:has(article[data-edition]) header.fixed button { color: var(--color-ice-100); }
+
+/* ── Ambient backdrop (CSS-only, GPU-friendly) ───────────────────────── */
+.ambient-backdrop { --mx: 50vw; --my: 40vh; --spot: 0; }
+.ambient-glow {
+  position: absolute; inset: -20%;
+  background: radial-gradient(45% 40% at 70% 20%, rgb(58 91 122 / 0.28), transparent 70%),
+              radial-gradient(40% 35% at 15% 85%, rgb(155 182 206 / 0.08), transparent 70%);
+  animation: ambient-breathe 10s ease-in-out infinite alternate;
+  will-change: opacity, transform;
+}
+@keyframes ambient-breathe { from { opacity: 0.7; transform: scale(1); } to { opacity: 0.9; transform: scale(1.03); } }
+.ambient-dust {
+  position: absolute; inset: -50% 0 0 0; opacity: 0.1;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #e2edf5 50%, transparent 51%),
+    radial-gradient(1px 1px at 68% 42%, #e2edf5 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 38% 76%, #b8cee0 50%, transparent 51%),
+    radial-gradient(1px 1px at 86% 12%, #b8cee0 50%, transparent 51%),
+    radial-gradient(1px 1px at 24% 58%, #e2edf5 50%, transparent 51%);
+  background-size: 420px 420px;
+  animation: ambient-drift 60s linear infinite;
+  will-change: transform;
+}
+@keyframes ambient-drift { to { transform: translate3d(-40px, 420px, 0); } }
+.ambient-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(to right, rgb(184 206 224 / 0.16) 1px, transparent 1px);
+  background-size: calc(100% / 12) 100%;
+  opacity: calc(0.15 + var(--spot) * 0.45);
+  -webkit-mask-image: radial-gradient(450px circle at var(--mx) var(--my), #000 0%, rgb(0 0 0 / 0.15) 60%, rgb(0 0 0 / 0.08) 100%);
+  mask-image: radial-gradient(450px circle at var(--mx) var(--my), #000 0%, rgb(0 0 0 / 0.15) 60%, rgb(0 0 0 / 0.08) 100%);
+}
+@media (prefers-reduced-motion: reduce) { .ambient-glow, .ambient-dust { animation: none; } }
+
+/* ── Marginalia rails ─────────────────────────────────────────────────── */
+.rail { border-color: rgb(184 206 224 / 0.12); background: rgb(7 13 20 / 0.35); }
+.rail-text { writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--font-sans); font-weight: 500; font-size: 0.625rem; letter-spacing: 0.08em; font-variant-numeric: tabular-nums; text-transform: uppercase; color: var(--color-steel-400); white-space: nowrap; }
+.rail-text-r { transform: none; }
+@media (min-width: 1024px) { body { padding-inline: 40px; } }
+body:has(article[data-edition="sseayp"]) .rail, body:has(article[data-edition="project"]) .rail { background: rgb(243 239 234 / 0.8); border-color: rgb(20 18 18 / 0.15); }
+body:has(article[data-edition="sseayp"]) .rail-text, body:has(article[data-edition="project"]) .rail-text { color: #141212; }
+
+/* ── Horizontal filter rows: edge fade ───────────────────────────────── */
+@media (max-width: 767px) {
+  .edge-fade { -webkit-mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 24px), transparent); mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 24px), transparent); }
+  /* mobile performance: no live backdrop-filter blur on glass */
+  .glass { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; background: rgb(13 25 38 / 0.86) !important; }
+  .ambient-grid { display: none; }
+}
+
+/* ── SSEAYP: washi navbar ────────────────────────────────────────────── */
+body:has(article[data-edition="sseayp"]) header.fixed, body:has(article[data-edition="project"]) header.fixed { background: rgb(243 239 234 / 0.88); box-shadow: inset 0 -1px 0 rgb(20 18 18 / 0.12); }
+body:has(article[data-edition="sseayp"]) header.fixed a,
+body:has(article[data-edition="sseayp"]) header.fixed button,
+body:has(article[data-edition="sseayp"]) header.fixed span, body:has(article[data-edition="project"]) header.fixed a, body:has(article[data-edition="project"]) header.fixed button, body:has(article[data-edition="project"]) header.fixed span { color: #141212; }
+body:has(article[data-edition="project"]) { background: #f4efe6; }
+
+/* ── Hanafuda frame: double rule + concave corner notches ────────────── */
+.hanafuda { position: relative; padding: 6px; background: #141212; --n: 14px;
+  -webkit-mask: radial-gradient(circle var(--n) at 0 0, #0000 98%, #000) top left, radial-gradient(circle var(--n) at 100% 0, #0000 98%, #000) top right, radial-gradient(circle var(--n) at 0 100%, #0000 98%, #000) bottom left, radial-gradient(circle var(--n) at 100% 100%, #0000 98%, #000) bottom right;
+  -webkit-mask-size: 51% 51%; -webkit-mask-repeat: no-repeat;
+  mask: radial-gradient(circle var(--n) at 0 0, #0000 98%, #000) top left, radial-gradient(circle var(--n) at 100% 0, #0000 98%, #000) top right, radial-gradient(circle var(--n) at 0 100%, #0000 98%, #000) bottom left, radial-gradient(circle var(--n) at 100% 100%, #0000 98%, #000) bottom right;
+  mask-size: 51% 51%; mask-repeat: no-repeat; }
+.hanafuda::before { content: ''; position: absolute; inset: 3px; border: 1px solid #f3efea; pointer-events: none; z-index: 1; opacity: 0.8; }
+
+/* ── Backstage menu: page canvas slides down on mobile ───────────────── */
+:root { --backstage: 20rem; }
+.page-canvas { transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.65s; }
+@media (max-width: 767px) {
+  html[data-menu='open'] .page-canvas {
+    transform: translateY(calc(var(--backstage) + 0.5rem));
+    overflow: hidden; pointer-events: none;
+    box-shadow: 0 -1px 0 rgb(226 237 245 / 0.18), 0 -30px 60px -20px rgb(0 0 0 / 0.7);
+  }
+}
+
+/* signature accent */
+.signature { font-family: 'Ephesis', cursive; font-weight: 400; letter-spacing: 0; }
+
+/* ── Project Portfolio: archival grid-paper notebook ─────────────────── */
+[data-edition='project'] { isolation: isolate; }
+[data-edition='project']::after {
+  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image: linear-gradient(rgb(20 18 18 / 0.06) 1px, transparent 1px), linear-gradient(90deg, rgb(20 18 18 / 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+@media (min-width: 768px) {
+  [data-edition='project']::before {
+    content: ''; position: fixed; inset: 64px 52px 12px; z-index: 45; pointer-events: none;
+    border: 1px solid rgb(24 23 21 / 0.22); border-radius: 24px;
+  }
+}
+
+/* ── No orphans: balanced headings & quotes, pretty paragraphs ───────── */
+h1, h2, h3, h4, blockquote, figcaption, .display, .ed-display, q { text-wrap: balance; }
+p, li, dd, .prose-ice, .ed-body { text-wrap: pretty; }

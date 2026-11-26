@@ -9,7 +9,7 @@ import { themeConfig, portfolioVars, type ThemeKey } from './themes';
 import { portfolioFontVariables } from '@/app/portfolios/fonts';
 
 /** Floating-bar ink: the bar sits on the edition's surface colour. */
-const barInk: Record<ThemeKey, string> = { project: '#fbfae8', sseayp: '#fcf0e4', 'nhan-quan-the-ky': '#f4f1ea' };
+const barInk: Record<ThemeKey, string> = { project: '#fbfae8', sseayp: '#f3efea', 'nhan-quan-the-ky': '#f4f1ea' };
 
 /**
  * Per-edition stage: overrides the site palette with the PDF's own ambient theme,
@@ -43,7 +43,7 @@ export function EditionStage({ edition, chapters, children }: { edition: Portfol
         className="group relative block overflow-hidden px-[var(--gutter)] pb-36 pt-24"
         style={{ background: 'var(--portfolio-surface)', color: barInk[key] }}
       >
-        <span className="font-mono text-[0.625rem] uppercase tracking-[0.3em] opacity-60"><T k="stage.nextReel" /> · {next.index}</span>
+        <span className="ui-label text-[0.625rem] opacity-60"><T k="stage.nextReel" /> · {next.index}</span>
         <span className="mt-4 block text-[clamp(2.5rem,8vw,7rem)] font-semibold leading-[0.9] tracking-tight transition-transform duration-700 group-hover:translate-x-3" style={{ fontFamily: 'var(--portfolio-font-display)' }}>
           {next.title} <span aria-hidden>→</span>
         </span>

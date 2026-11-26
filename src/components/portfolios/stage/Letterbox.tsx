@@ -21,13 +21,15 @@ type Props = {
   glow?: string;
   variant?: 'intro' | 'chapter';
   titleClassName?: string;
+  /** counts toward the side-rail progress (01 / 04) */
+  rail?: boolean;
 };
 
 /**
  * Cinema letterbox: a crisp canvas inside a pure #000 matte with hairline registration
  * marks. Scrolling opens the canvas (clip-path) into the full-bleed chapter environment.
  */
-export function Letterbox({ id, slate, slateRight, title, canvas, after, ambient, glow, variant = 'intro', titleClassName = '' }: Props) {
+export function Letterbox({ id, slate, slateRight, title, canvas, after, ambient, glow, variant = 'intro', titleClassName = '', rail }: Props) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const t = useT();
@@ -57,7 +59,7 @@ export function Letterbox({ id, slate, slateRight, title, canvas, after, ambient
 
   if (reduce) {
     return (
-      <section id={id} data-ambient={ambient} data-glow={glow} className="relative grid min-h-svh place-items-center overflow-hidden scroll-mt-14">
+      <section id={id} data-rail={rail ? '' : undefined} data-ambient={ambient} data-glow={glow} className="relative grid min-h-svh place-items-center overflow-hidden scroll-mt-14">
         <div className="absolute inset-0">{canvas}</div>
         <div className={`relative z-10 px-[var(--gutter)] text-center ${titleClassName}`}>{title}</div>
         {after && <div className="absolute inset-x-0 bottom-0 z-10">{after}</div>}
@@ -70,7 +72,7 @@ export function Letterbox({ id, slate, slateRight, title, canvas, after, ambient
   const hin = mobile ? 6 : 12;
 
   return (
-    <section ref={ref} id={id} data-ambient={ambient} data-glow={glow} className={`relative ${tall} scroll-mt-14`}>
+    <section ref={ref} id={id} data-rail={rail ? '' : undefined} data-ambient={ambient} data-glow={glow} className={`relative ${tall} scroll-mt-14`}>
       <div className="sticky top-0 h-svh overflow-hidden" style={{ background: 'var(--portfolio-matte, #000)' }}>
         <motion.div className="absolute inset-0 overflow-hidden will-change-[clip-path]" style={{ clipPath }}>
           <motion.div className="absolute inset-0" style={{ scale: canvasScale }}>{canvas}</motion.div>
@@ -94,9 +96,9 @@ export function Letterbox({ id, slate, slateRight, title, canvas, after, ambient
               }}
             />
           ))}
-          <p className="absolute max-w-[70%] truncate font-mono text-[0.625rem] uppercase tracking-[0.18em] " style={{ color: 'var(--portfolio-muted, #fff)', left: `${hin}%`, top: `calc(${vin}% - 2.25rem)` }}>{slate}</p>
-          {slateRight && <p className="absolute hidden font-mono md:block text-[0.625rem] uppercase tracking-[0.18em] " style={{ color: 'var(--portfolio-muted, #fff)', right: `${hin}%`, top: `calc(${vin}% - 2.25rem)` }}>{slateRight}</p>}
-          <p className="absolute inset-x-0 text-center font-mono text-[0.625rem] uppercase tracking-[0.3em]" style={{ color: 'var(--portfolio-muted, #fff)', bottom: `calc(${vin}% - 2.5rem)` }}>
+          <p className="absolute max-w-[70%] truncate ui-label text-[0.625rem] " style={{ color: 'var(--portfolio-muted, #fff)', left: `${hin}%`, top: `calc(${vin}% - 2.25rem)` }}>{slate}</p>
+          {slateRight && <p className="absolute hidden ui-label md:block text-[0.625rem] " style={{ color: 'var(--portfolio-muted, #fff)', right: `${hin}%`, top: `calc(${vin}% - 2.25rem)` }}>{slateRight}</p>}
+          <p className="absolute inset-x-0 text-center ui-label text-[0.625rem]" style={{ color: 'var(--portfolio-muted, #fff)', bottom: `calc(${vin}% - 2.5rem)` }}>
             {t('stage.scroll')} <span className="inline-block animate-bounce">↓</span>
           </p>
         </motion.div>

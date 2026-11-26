@@ -14,11 +14,12 @@ export const metadata: Metadata = {
 };
 
 /* Native palette (sampled from the PDF) */
-const RED = '#d4171d';
-const YELLOW = '#ffd21f';
-const CREAM = '#fcf0e4';
-const WHITE = '#ffffff';
-const INK = '#1d1d1b';
+const RED = '#d91e36'; // crimson
+const WASHI = '#f3efea';
+const YELLOW = WASHI; // shapes & titles on crimson canvases
+const CREAM = '#eae3d9';
+const WHITE = '#fffdf9';
+const INK = '#141212';
 
 /* Fraunces for display (diacritic-safe); Gotham Black → Montserrat Black (act titles) */
 const rounded: CSSProperties = { fontFamily: 'var(--portfolio-font-display)', fontWeight: 600, lineHeight: 0.95, letterSpacing: '-0.03em' };
@@ -26,7 +27,7 @@ const condensed: CSSProperties = { fontFamily: 'var(--portfolio-font-sub)', font
 
 /* Yellow geometry from the PDF: triangles, quarter-discs, half-discs, stars. */
 type ShapeKind = 'tri' | 'quarter' | 'half' | 'disc' | 'star' | 'sparkle' | 'pill';
-function Shape({ kind, className = '', color = YELLOW, style }: { kind: ShapeKind; className?: string; color?: string; style?: CSSProperties }) {
+function Shape({ kind, className = '', color = 'var(--shape, #d91e36)', style }: { kind: ShapeKind; className?: string; color?: string; style?: CSSProperties }) {
   if (kind === 'star') return <Star className={`pointer-events-none absolute ${className}`} color={color} />;
   if (kind === 'sparkle') return <Sparkle className={`pointer-events-none absolute ${className}`} color={color} />;
   const shape: Record<string, CSSProperties> = {
@@ -39,7 +40,15 @@ function Shape({ kind, className = '', color = YELLOW, style }: { kind: ShapeKin
   return <span aria-hidden className={`pointer-events-none absolute ${className}`} style={{ background: color, ...shape[kind], ...style }} />;
 }
 
-function Pic({ m, className = '', sizes = '(min-width: 768px) 33vw, 84vw', priority }: { m: ResolvedMedia; className?: string; sizes?: string; priority?: boolean }) {
+function Pic({ m, className = '', sizes = '(min-width: 768px) 33vw, 84vw', priority, frame }: { m: ResolvedMedia; className?: string; sizes?: string; priority?: boolean; frame?: boolean }) {
+  if (frame)
+    return (
+      <div className={`hanafuda ${className}`}>
+        <div className="relative h-full w-full overflow-hidden">
+          <Photo media={m} fill sizes={sizes} priority={priority} />
+        </div>
+      </div>
+    );
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <Photo media={m} fill sizes={sizes} priority={priority} />
@@ -80,10 +89,11 @@ export default function SseaypEditionPage() {
       variant="chapter"
       slate={`${n} · SSEAYP 49th`}
       slateRight={place}
-      ambient={RED}
-      glow={YELLOW}
+      ambient={WASHI}
+      glow={RED}
+      rail
       canvas={
-        <div className="absolute inset-0" style={{ background: RED }}>
+        <div className="absolute inset-0" style={{ background: RED, ['--shape' as string]: WASHI }}>
           <Photo media={m} fill sizes="100vw" imgClassName="object-cover opacity-35 mix-blend-luminosity" />
           {shapes}
         </div>
@@ -98,10 +108,10 @@ export default function SseaypEditionPage() {
       <Letterbox
         slate="(02) — SSEAYP 49th · Photo Portfolio"
         slateRight="16pp · 01–03/2026"
-        ambient={RED}
-        glow={YELLOW}
+        ambient={WASHI}
+        glow={RED}
         canvas={
-          <div className="absolute inset-0 overflow-hidden" style={{ background: RED }}>
+          <div className="absolute inset-0 overflow-hidden" style={{ background: RED, ['--shape' as string]: WASHI }}>
             <Shape kind="tri" className="left-[30%] top-[-4%] h-[22%] w-[12%]" />
             <Shape kind="half" className="right-[8%] top-[-8%] h-[16%] w-[14%] rotate-180" />
             <Shape kind="tri" className="left-[-4%] top-[30%] h-[32%] w-[14%] rotate-[100deg]" />
@@ -128,7 +138,7 @@ export default function SseaypEditionPage() {
       />
 
       {/* ── Xin chào — white panel on red ── */}
-      <section id="xin-chao" data-ambient={RED} data-glow={YELLOW} className="relative scroll-mt-14 overflow-hidden py-16 md:py-24">
+      <section id="xin-chao" data-ambient={WASHI} data-glow={YELLOW} className="relative scroll-mt-14 overflow-hidden py-16 md:py-24">
         <Shape kind="quarter" className="right-0 top-0 h-40 w-40 md:h-72 md:w-72" />
         <Shape kind="disc" className="-bottom-24 left-[10%] h-48 w-48 md:h-72 md:w-72" />
         <div className="frame relative">
@@ -136,7 +146,7 @@ export default function SseaypEditionPage() {
             <div className="md:col-span-7">
               <h2 className="flex items-center gap-3 text-[clamp(2.75rem,7vw,5.5rem)]" style={{ ...condensed, color: RED }}>
                 Xin chào
-                <svg aria-hidden viewBox="0 0 60 40" className="h-[0.5em] w-auto" fill="none" stroke={YELLOW} strokeWidth="6" strokeLinecap="round"><path d="M4 8 L52 2 M4 20 L56 20 M4 32 L52 38" /></svg>
+                <svg aria-hidden viewBox="0 0 60 40" className="h-[0.5em] w-auto" fill="none" stroke={RED} strokeWidth="6" strokeLinecap="round"><path d="M4 8 L52 2 M4 20 L56 20 M4 32 L52 38" /></svg>
               </h2>
               <div className="ed-body mt-6 space-y-4">{S.hello.map((p) => <p key={p}>{p}</p>)}</div>
               <p className="mt-6 font-bold italic" style={{ color: RED }}>Welcome to the visual diary of my youth!</p>
@@ -160,11 +170,11 @@ export default function SseaypEditionPage() {
           <div className="md:col-span-6">
             <ActTitle n={a1.n} title={a1.title} className="text-[clamp(2.5rem,5vw,4.5rem)]" />
             <p className="ed-body mt-5 text-justify">{a1.lede}</p>
-            <Pic m={a1.photos[0]} className="mt-6 aspect-[16/9]" sizes="(min-width: 768px) 45vw, 90vw" />
+            <Pic frame m={a1.photos[0]} className="mt-6 aspect-[16/9]" sizes="(min-width: 768px) 45vw, 90vw" />
             <p className="mt-2 text-xs">Nguyen Nhat Minh</p>
           </div>
           <div className="md:col-span-5 md:col-start-8">
-            <Pic m={a1.photos[2]} className="aspect-[16/9]" sizes="(min-width: 768px) 40vw, 90vw" />
+            <Pic frame m={a1.photos[2]} className="aspect-[16/9]" sizes="(min-width: 768px) 40vw, 90vw" />
             <div className="relative mt-10">
               <Shape kind="star" className="-right-2 -top-8 size-14 md:size-20" />
               <p className="text-[clamp(2.5rem,5.5vw,4.75rem)] uppercase" style={{ ...rounded, color: RED }}>{S.definition.term}</p>
@@ -175,7 +185,7 @@ export default function SseaypEditionPage() {
         </div>
       </section>
 
-      <section data-ambient={RED} data-glow={YELLOW} className="relative overflow-hidden py-16 md:py-24">
+      <section data-ambient={WASHI} data-glow={YELLOW} className="relative overflow-hidden py-16 md:py-24">
         <div className="frame">
           <div className="zine md:grid-cols-3 md:gap-3">
             {a1.photos.slice(6, 12).map((m) => <Pic key={m.id} m={m} className="aspect-[3/2]" />)}
@@ -220,13 +230,13 @@ export default function SseaypEditionPage() {
             <p className="ed-body mt-5">{a2.notes[0].body}</p>
           </div>
           <div className="grid gap-3 md:col-span-5 md:col-start-8">
-            <Pic m={a2.photos[1]} className="aspect-[4/3]" sizes="(min-width: 768px) 40vw, 90vw" />
+            <Pic frame m={a2.photos[1]} className="aspect-[4/3]" sizes="(min-width: 768px) 40vw, 90vw" />
             <Pic m={a2.photos[2]} className="aspect-[16/9]" sizes="(min-width: 768px) 40vw, 90vw" />
           </div>
         </div>
       </section>
 
-      <section data-ambient={RED} data-glow={YELLOW} className="relative overflow-hidden py-16 md:py-24">
+      <section data-ambient={WASHI} data-glow={YELLOW} className="relative overflow-hidden py-16 md:py-24">
         <Shape kind="sparkle" className="left-[4%] top-8 size-14 md:size-20" />
         <div className="frame grid gap-10 md:grid-cols-12 md:items-start">
           <p className="text-xl md:col-span-4">{a2.notes[1].body.replace('Beyond the lens, I', 'At the Talkshow, my camera captured more than just the speakers. Beyond the lens, I')}</p>
@@ -259,10 +269,10 @@ export default function SseaypEditionPage() {
         </div>
       </section>
 
-      <section data-ambient={RED} data-glow={YELLOW} className="py-16 md:py-24">
+      <section data-ambient={WASHI} data-glow={YELLOW} className="py-16 md:py-24">
         <div className="frame grid gap-10 md:grid-cols-2">
-          <p className="text-[clamp(1.25rem,2.2vw,1.75rem)] leading-snug">{a3.notes[0].body} Bright smiles and warm interactions in this elegant space are the perfect puzzle pieces for a portrait of <b style={{ color: YELLOW }}>youth without borders</b>.</p>
-          <p className="ed-body">{a3.notes[1].body} This final act celebrates the power of networking and the limitless potential of youth — a vibrant ecosystem of inspiration, cultural exchange, and a shared vision for a <b style={{ color: YELLOW }}>borderless tomorrow</b>.</p>
+          <p className="text-[clamp(1.25rem,2.2vw,1.75rem)] leading-snug">{a3.notes[0].body} Bright smiles and warm interactions in this elegant space are the perfect puzzle pieces for a portrait of <b style={{ color: RED }}>youth without borders</b>.</p>
+          <p className="ed-body">{a3.notes[1].body} This final act celebrates the power of networking and the limitless potential of youth — a vibrant ecosystem of inspiration, cultural exchange, and a shared vision for a <b style={{ color: RED }}>borderless tomorrow</b>.</p>
         </div>
       </section>
 
@@ -276,7 +286,7 @@ export default function SseaypEditionPage() {
 
       <section data-ambient={WHITE} data-glow="#ffe9a8" className="relative overflow-hidden py-16 md:py-24" style={{ color: INK }}>
         <div className="frame grid gap-10 md:grid-cols-12 md:items-center">
-          <Pic m={a4[0]} className="aspect-[3/2] md:col-span-7" sizes="(min-width: 768px) 55vw, 90vw" />
+          <Pic frame m={a4[0]} className="aspect-[3/2] md:col-span-7" sizes="(min-width: 768px) 55vw, 90vw" />
           <div className="md:col-span-5">
             <p className="ed-body">{S.coda.lede}</p>
             <ActTitle n={S.coda.n} title={S.coda.title} className="mt-6 text-[clamp(2.5rem,5vw,4.5rem)]" />
@@ -284,7 +294,7 @@ export default function SseaypEditionPage() {
         </div>
       </section>
 
-      <section data-ambient={RED} data-glow={YELLOW} className="py-16 md:py-24">
+      <section data-ambient={WASHI} data-glow={YELLOW} className="py-16 md:py-24">
         <div className="frame grid gap-10 md:grid-cols-12">
           <div className="zine md:col-span-7 md:grid-cols-3 md:gap-2">
             {a4.slice(1).map((m) => <Pic key={m.id} m={m} className="aspect-[3/2]" sizes="(min-width: 768px) 20vw, 84vw" />)}
@@ -292,19 +302,19 @@ export default function SseaypEditionPage() {
           <SwipeHint count={a4.length - 1} className="md:hidden" />
           <div className="self-center md:col-span-4 md:col-start-9">
             <p className="text-lg leading-relaxed">{S.coda.body}</p>
-            <p className="mt-6 text-2xl font-bold">I am Nguyen Nhat Minh. <span style={{ color: YELLOW }}>Thank you.</span></p>
+            <p className="mt-6 text-2xl font-bold">I am Nguyen Nhat Minh. <span style={{ color: RED }}>Thank you.</span></p>
           </div>
         </div>
       </section>
 
       {/* ── Thank you ── */}
-      <section id="thank-you" data-ambient={RED} data-glow={YELLOW} className="relative scroll-mt-14 overflow-hidden py-20 md:py-28">
+      <section id="thank-you" data-ambient={WASHI} data-glow={YELLOW} className="relative scroll-mt-14 overflow-hidden py-20 md:py-28">
         <Shape kind="pill" className="bottom-24 right-[6%] h-24 w-32 md:h-40 md:w-56" />
         <div className="frame relative">
           {byline()}
           <div className="relative mt-10 inline-block">
-            <p className="text-[clamp(5rem,20vw,17rem)] uppercase" style={{ ...rounded, color: CREAM }}>Thank<br />you</p>
-            <Sparkle className="absolute -right-10 top-0 size-20 md:size-32" color={YELLOW} />
+            <p className="text-[clamp(5rem,20vw,17rem)] uppercase" style={{ ...rounded, color: INK }}>Thank<br />you</p>
+            <Sparkle className="absolute -right-10 top-0 size-20 md:size-32" color={RED} />
           </div>
           <dl className="mt-12 grid gap-6 text-sm sm:grid-cols-2 md:max-w-3xl">
             <div><dt className="font-bold">Social Media:</dt><dd>Main Instagram Account: @ntjst_brian<br />Photography Instagram Account: @_wandergraph_</dd></div>

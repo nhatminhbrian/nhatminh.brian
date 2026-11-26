@@ -16,8 +16,9 @@ export const metadata: Metadata = {
 };
 
 /* Native palette (sampled from the PDF) */
-const CREAM = '#fbfae8';
-const INK = '#141414';
+const CREAM = '#fbfae8'; // text on dark spreads
+const PAPER = '#f4efe6'; // archival notebook paper
+const INK = '#181715';
 const BLUE = '#5685cd';
 const COPPER = '#ed996b';
 const GOLD = '#f1ddb4';
@@ -70,7 +71,7 @@ export default function ProjectEditionPage() {
       <Letterbox
         slate="(01) — Project Portfolio · UIC Yonsei"
         slateRight="42pp · EN · 03/2025"
-        ambient="#000000"
+        ambient={PAPER}
         glow={BLUE}
         canvas={
           <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, ${BLUE} 0%, #1d2c4a 38%, #000 70%)` }}>
@@ -97,12 +98,12 @@ export default function ProjectEditionPage() {
       />
 
       {/* ── Table of content ── */}
-      <section id="contents" data-ambient="#0d0d0d" data-glow={BLUE} className="relative scroll-mt-14 overflow-hidden py-24 md:py-32">
+      <section id="contents" data-ambient={PAPER} data-glow={BLUE} className="relative scroll-mt-14 overflow-hidden py-24 md:py-32">
         <Squiggle variant={1} color={BLUE} className="absolute -top-10 left-[8%] w-56 md:w-80" />
         <div className="frame grid gap-12 md:grid-cols-12 md:items-center">
           <div className="md:col-span-5">
-            <p className="font-mono text-xs opacity-60">Yonsei University</p>
-            <H className="mt-6 text-[clamp(2.75rem,6vw,5.5rem)]" style={{ color: CREAM }}>Table<br />of<br />Content</H>
+            <p className="ui-label text-[0.6875rem] opacity-60">Yonsei University</p>
+            <H className="mt-6 text-[clamp(2.75rem,6vw,5.5rem)]" style={{ color: INK }}>Table<br />of<br />Content</H>
           </div>
           <ol className="relative grid gap-3 md:col-span-6 md:col-start-7">
             {chapters.slice(1).map((c, i) => (
@@ -122,7 +123,7 @@ export default function ProjectEditionPage() {
       </section>
 
       {/* ── 1. Introduction — cream spread, photo left, letter right ── */}
-      <section id="introduction" data-ambient={CREAM} className="scroll-mt-14 py-20 md:py-28" style={{ color: INK }}>
+      <section id="introduction" data-ambient={PAPER} className="scroll-mt-14 py-20 md:py-28" style={{ color: INK }}>
         <div className="frame grid gap-10 md:grid-cols-12 md:items-start">
           <Frame m={r('portrait-camera', 'Minh shooting with a Canon camera')} className="aspect-[4/5] md:col-span-4" />
           <div className="md:col-span-7 md:col-start-6">
@@ -139,7 +140,7 @@ export default function ProjectEditionPage() {
       </section>
 
       {/* 1.1 Hello, I'm */}
-      <section data-ambient={CREAM} className="relative overflow-hidden pb-20 md:pb-28" style={{ color: INK }}>
+      <section data-ambient={PAPER} className="relative overflow-hidden pb-20 md:pb-28" style={{ color: INK }}>
         <div className="frame grid gap-10 md:grid-cols-12 md:items-center">
           <div className="md:col-span-7">
             <span className="inline-block -rotate-3 bg-[#141414] px-5 py-2 text-[clamp(1.1rem,2.4vw,2rem)]" style={{ ...wide, color: CREAM }}>HELLO, I’M</span>
@@ -155,7 +156,7 @@ export default function ProjectEditionPage() {
       </section>
 
       {/* 1.2 Creative philosophy — right-aligned, italic numbered principles */}
-      <section data-ambient={CREAM} className="pb-20 md:pb-28" style={{ color: INK }}>
+      <section data-ambient={PAPER} className="pb-20 md:pb-28" style={{ color: INK }}>
         <div className="frame grid gap-10 md:grid-cols-12 md:items-center">
           <Frame m={r('portrait-studio', 'Minh in a studio portrait')} className="order-2 aspect-[4/5] md:order-1 md:col-span-4" />
           <div className="order-1 text-right md:order-2 md:col-span-7 md:col-start-6">
@@ -172,11 +173,11 @@ export default function ProjectEditionPage() {
       </section>
 
       {/* 1.3 Artistic vision — black, text column + street collage */}
-      <section data-ambient="#111111" data-glow="#2f6b3a" className="relative overflow-hidden py-20 md:py-28">
+      <section data-ambient={PAPER} data-glow="#2f6b3a" className="relative overflow-hidden py-20 md:py-28">
         <Squiggle variant={2} color={BLUE} className="absolute -bottom-12 right-[30%] w-48 md:w-72" />
         <div className="frame grid gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
-            <H className="text-[clamp(2.25rem,5vw,4.25rem)]" style={{ color: CREAM }}>1.3.<br />Artistic<br />Vision</H>
+            <H className="text-[clamp(2.25rem,5vw,4.25rem)]" style={{ color: INK }}>1.3.<br />Artistic<br />Vision</H>
             <p className="ed-body mt-8 opacity-90">{artisticVision} Through landscape, street, and portrait photography, I bring these contrasts to life.</p>
           </div>
           <div className="zine md:col-span-8 md:grid-cols-2 md:gap-3">
@@ -190,7 +191,7 @@ export default function ProjectEditionPage() {
       </section>
 
       {/* Events — collage left, column right (page 6) */}
-      <section data-ambient="#0d0d0d" data-glow="#c2412d" className="py-20 md:py-28">
+      <section data-ambient={PAPER} data-glow="#c2412d" className="py-20 md:py-28">
         <div className="frame grid gap-10 md:grid-cols-12">
           <div className="zine md:col-span-7 md:grid-cols-3 md:gap-3">
             {events.map((m, i) => <Frame key={m.id} m={m} className={`aspect-[3/4] ${i === 0 ? 'md:col-span-2 md:row-span-2 md:aspect-auto' : ''}`} sizes="(min-width: 768px) 30vw, 84vw" />)}
@@ -205,7 +206,7 @@ export default function ProjectEditionPage() {
       </section>
 
       {/* ── 2. Project overview — collage band + right-aligned blue headline ── */}
-      <section id="overview" data-ambient="#0f1318" data-glow={BLUE} className="scroll-mt-14 py-20 md:py-28">
+      <section id="overview" data-ambient={PAPER} data-glow={BLUE} className="scroll-mt-14 py-20 md:py-28">
         <div className="frame">
           <div className="zine md:grid-cols-5 md:gap-2">
             {overview.map((m) => <Frame key={m.id} m={m} className="aspect-[4/5] md:aspect-[3/4]" sizes="(min-width: 768px) 20vw, 84vw" />)}
@@ -214,7 +215,7 @@ export default function ProjectEditionPage() {
           <div className="mt-14 grid gap-10 md:grid-cols-12">
             <div className="md:col-span-4">
               <p className="text-[clamp(6rem,16vw,13rem)] leading-none" style={{ ...wide, color: BLUE }}>34</p>
-              <p className="font-mono text-xs uppercase tracking-[0.14em] opacity-70">projects · clubs · organisations · 2022–2025</p>
+              <p className="ui-label text-[0.6875rem] opacity-70">projects · clubs · organisations · 2022–2025</p>
             </div>
             <div className="md:col-span-8">
               <H className="text-right text-[clamp(2rem,8vw,6rem)]" style={{ color: BLUE }}>2. Project<br />Overview</H>
@@ -254,7 +255,7 @@ export default function ProjectEditionPage() {
         }
       />
 
-      <section data-ambient="#0a0809" data-glow={GOLD} className="py-20 md:py-28">
+      <section data-ambient={PAPER} data-glow={GOLD} className="py-20 md:py-28">
         <div className="frame ed-body grid max-w-5xl gap-5 md:grid-cols-2 md:gap-x-12">
           <p className="md:col-span-2"><b>luminescent.</b> {P.luminescent.intro.replace(/^luminescent\. /, '')}</p>
           <p><b style={{ color: COPPER }}>Red Sun</b> — a representation of <b>fiery passion, energy, and confidence</b>, captured through bold red tones, dramatic lighting, and striking compositions.</p>
@@ -264,7 +265,7 @@ export default function ProjectEditionPage() {
       </section>
 
       {/* 3.1 Red Sun — warm dark, copper script, filmstrip */}
-      <section data-ambient="#1a0d0a" data-glow={COPPER} className="relative overflow-hidden py-20 md:py-28">
+      <section data-ambient={PAPER} data-glow={COPPER} className="relative overflow-hidden py-20 md:py-28">
         <div className="frame">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <p className="text-[clamp(2rem,4vw,3.5rem)]" style={{ ...wide, color: GOLD }}>3.1. <span style={{ fontFamily: 'var(--ed-script)', fontWeight: 400, fontStretch: '100%' }} className="text-[1.6em]">luminescent.</span> <span className="text-[0.5em]">pt.1</span></p>
@@ -306,15 +307,15 @@ export default function ProjectEditionPage() {
       </section>
 
       {/* 3.3 The process — split columns separated by a hairline */}
-      <section data-ambient="#0d0d0d" data-glow={BLUE} className="relative overflow-hidden py-20 md:py-28">
+      <section data-ambient={PAPER} data-glow={BLUE} className="relative overflow-hidden py-20 md:py-28">
         <Squiggle variant={0} color={BLUE} className="absolute -right-10 top-6 w-56 md:w-80" />
         <div className="frame">
-          <H className="text-[clamp(1.75rem,3.5vw,3rem)]" style={{ color: CREAM }}>3.3. The process<br />3.3.1. Base idea</H>
+          <H className="text-[clamp(1.75rem,3.5vw,3rem)]" style={{ color: INK }}>3.3. The process<br />3.3.1. Base idea</H>
           <div className="mt-12 grid gap-12 md:grid-cols-2 md:divide-x md:divide-[rgb(251_250_232/0.4)]">
             {[red, blue].map((s) => (
               <div key={s.key} className="md:px-10 first:md:pl-0">
                 <H as="h3" className="text-[clamp(2rem,4vw,3.5rem)]" style={{ color: s.key === 'red' ? COPPER : BLUE }}>{s.name}</H>
-                <ul className="mt-6 space-y-2 font-serif text-lg">
+                <ul className="mt-6 space-y-2 font-display font-medium text-lg">
                   {s.base.map(([k, v]) => <li key={k}>– {k}: <b style={{ color: s.key === 'red' ? COPPER : SKY }}>{v}.</b></li>)}
                 </ul>
                 <p className="mt-10 font-semibold uppercase" style={{ ...wide, color: s.key === 'red' ? COPPER : BLUE }}>3.3.2. Set up concept</p>
@@ -341,11 +342,11 @@ export default function ProjectEditionPage() {
         after={<p className="frame pb-24 text-center font-semibold md:pb-10" style={{ color: CREAM }}>A Doorway to Our Most Cherished Memories</p>}
       />
 
-      <section data-ambient="#120c08" data-glow="#e0782f" className="py-20 md:py-28">
+      <section data-ambient={PAPER} data-glow="#e0782f" className="py-20 md:py-28">
         <div className="frame grid gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
             <p className="text-sm font-semibold opacity-80">Nhat Minh Nguyen x Jan21st</p>
-            <H className="mt-4 text-[clamp(2.25rem,5vw,4.25rem)]" style={{ color: CREAM }}>The Closet.<br />Concept</H>
+            <H className="mt-4 text-[clamp(2.25rem,5vw,4.25rem)]" style={{ color: INK }}>The Closet.<br />Concept</H>
             <p className="mt-3 font-semibold">A Doorway to Our Most Cherished Memories</p>
             <div className="ed-body mt-6 space-y-4">{P.closet.concept.map((p) => <p key={p}>{p}</p>)}</div>
           </div>
@@ -363,16 +364,16 @@ export default function ProjectEditionPage() {
       </section>
 
       {/* 4.1 The process — survey findings, blue ribbons */}
-      <section data-ambient="#0d0d0d" data-glow={BLUE} className="relative overflow-hidden py-20 md:py-28">
+      <section data-ambient={PAPER} data-glow={BLUE} className="relative overflow-hidden py-20 md:py-28">
         <Squiggle variant={3} color={BLUE} className="absolute -left-12 top-10 w-60 md:w-96" />
         <Squiggle variant={2} color={BLUE} className="absolute -right-16 bottom-0 w-60 md:w-96" />
         <div className="frame relative grid gap-12 md:grid-cols-12">
           <div className="md:col-span-6">
-            <H className="text-[clamp(2.25rem,5vw,4.5rem)]" style={{ color: CREAM }}>4.1. The process</H>
+            <H className="text-[clamp(2.25rem,5vw,4.5rem)]" style={{ color: INK }}>4.1. The process</H>
             <p className="ed-body mt-8">{P.closet.process}</p>
           </div>
           <div className="md:col-span-5 md:col-start-8">
-            <H as="h3" className="text-[clamp(1.25rem,2vw,1.75rem)]" style={{ color: CREAM }}>After the survey, I have drawn the following main ideas:</H>
+            <H as="h3" className="text-[clamp(1.25rem,2vw,1.75rem)]" style={{ color: INK }}>After the survey, I have drawn the following main ideas:</H>
             <ul className="mt-6 divide-y divide-[rgb(251_250_232/0.18)] border-y border-[rgb(251_250_232/0.18)]">
               {P.closet.findings.map((f) => <li key={f} className="py-3 font-semibold">– {f}.</li>)}
             </ul>
@@ -382,7 +383,7 @@ export default function ProjectEditionPage() {
       </section>
 
       {/* Lighting map — cream spread */}
-      <section data-ambient="#efebe2" className="py-20 md:py-28" style={{ color: INK }}>
+      <section data-ambient={PAPER} className="py-20 md:py-28" style={{ color: INK }}>
         <div className="frame grid gap-10 md:grid-cols-12">
           <div className="md:col-span-6">
             <H className="text-[clamp(2rem,4.5vw,3.75rem)]">Lighting map</H>
@@ -403,7 +404,7 @@ export default function ProjectEditionPage() {
       </section>
 
       {/* ── 5. Some other projects — cream, coloured titles per project ── */}
-      <section id="other" data-ambient="#f6f3e8" className="scroll-mt-14 py-20 md:py-28" style={{ color: INK }}>
+      <section id="other" data-ambient={PAPER} className="scroll-mt-14 py-20 md:py-28" style={{ color: INK }}>
         <div className="frame">
           <H className="text-[clamp(2.25rem,5.5vw,4.75rem)]">5.<br />Some other<br />project</H>
           {P.other.map((o, i) => {
@@ -424,7 +425,7 @@ export default function ProjectEditionPage() {
       </section>
 
       {/* ── 6. Contact ── */}
-      <section id="contact" data-ambient={CREAM} className="scroll-mt-14 py-20 md:py-28" style={{ color: INK }}>
+      <section id="contact" data-ambient={PAPER} className="scroll-mt-14 py-20 md:py-28" style={{ color: INK }}>
         <div className="frame">
           <div className="flex justify-between text-xs font-semibold"><span>Nhat Minh Nguyen</span><span>Project Portfolio</span></div>
           <p className="mt-12 text-center text-[clamp(4rem,14vw,10rem)] leading-none" style={{ fontFamily: 'var(--ed-script)', color: INK }}>Brian.</p>

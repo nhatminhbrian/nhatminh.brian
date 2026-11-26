@@ -81,7 +81,7 @@ export function LanguageSwitcher({ className = '' }: { className?: string }) {
           aria-checked={locale === l}
           title={localeNames[l]}
           onClick={() => setLocale(l)}
-          className={`min-h-8 min-w-9 rounded-full px-2 font-mono text-[0.6875rem] tracking-[0.08em] transition-colors ${locale === l ? 'bg-ice-100 text-night-950' : 'text-ice-300 hover:text-ice-100'}`}
+          className={`min-h-8 min-w-9 rounded-full px-2 ui-label text-[0.6875rem] transition-colors ${locale === l ? 'bg-ice-100 text-night-950' : 'text-ice-300 hover:text-ice-100'}`}
         >
           {localeLabels[l]}
         </button>

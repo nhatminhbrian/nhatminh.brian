@@ -30,9 +30,11 @@ export function SiteHeader() {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
     document.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
+    document.documentElement.dataset.menu = 'open';
     return () => {
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = '';
+      delete document.documentElement.dataset.menu;
     };
   }, [open]);
 
@@ -45,8 +47,8 @@ export function SiteHeader() {
     <header className="fixed inset-x-0 top-0 z-50 bg-night-950/35 shadow-[inset_0_-1px_0_rgb(226_237_245/0.12),0_10px_30px_-20px_rgb(0_0_0/0.8)] backdrop-blur-xl backdrop-saturate-150">
       <div className="frame flex h-14 items-center justify-between">
         <Link href="/" className="group flex items-baseline gap-3" aria-label="Brian · Nguyễn Nhật Minh — home">
-          <span className="font-serif text-2xl italic leading-none text-ice-100">Brian.</span>
-          <span className="hidden font-mono text-[0.6875rem] tracking-[0.12em] text-steel-300 sm:inline">
+          <span className="font-display font-medium text-2xl leading-none text-ice-100">Brian.</span>
+          <span className="hidden ui-label text-[0.6875rem] text-steel-300 sm:inline">
             @_wandergraph_
           </span>
         </Link>
@@ -60,9 +62,10 @@ export function SiteHeader() {
                   data-nav={item.href}
                   className="group flex items-baseline gap-1.5 py-2 text-[0.8125rem] uppercase tracking-[0.14em] text-ice-300 transition-colors hover:text-ice-100 aria-[current=page]:text-ice-100"
                 >
-                  <span className="font-mono text-[0.625rem] text-steel-400">({item.index})</span>
-                  <span className="border-b border-transparent group-hover:border-ice-300 group-aria-[current=page]:border-ice-100">
+                  <span className="ui-label text-[0.625rem] text-steel-400">({item.index})</span>
+                  <span className="relative">
                     {t(item.key, item.label)}
+                    <Suspense fallback={null}><ActiveMark href={item.href} /></Suspense>
                   </span>
                 </Link>
               </li>
@@ -74,7 +77,7 @@ export function SiteHeader() {
 
         <button
           type="button"
-          className="flex h-11 items-center gap-2 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ice-100 md:hidden"
+          className="flex h-11 items-center gap-2 ui-label text-[0.6875rem] text-ice-100 md:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((v) => !v)}
@@ -87,42 +90,34 @@ export function SiteHeader() {
         </button>
       </div>
 
-      <AnimatePresence>
-        {open && (
-          <motion.nav
-            id="mobile-nav"
-            aria-label="Mobile"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-x-0 top-14 bottom-0 bg-night-950/70 backdrop-blur-2xl backdrop-saturate-150 md:hidden"
-          >
-            <ul className="frame flex flex-col pt-6">
-              {NAV.map((item, i) => (
-                <motion.li
-                  key={item.href}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 * i, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  className="border-b border-hairline"
-                >
-                  <Link
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="flex items-baseline justify-between py-5"
-                  >
-                    <span className="display text-5xl">{t(item.key, item.label)}</span>
-                    <span className="font-mono text-xs text-steel-300">({item.index})</span>
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-            <div className="frame mt-8"><LanguageSwitcher className="w-fit" /></div>
-          </motion.nav>
-        )}
-      </AnimatePresence>
     </header>
+
+    {/* Backstage menu: the page canvas slides down to reveal it (mobile) */}
+    <AnimatePresence>
+      {open && (
+        <motion.nav
+          id="mobile-nav"
+          aria-label="Mobile"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="fixed inset-x-0 top-14 z-[5] h-[var(--backstage)] md:hidden"
+        >
+          <ul className="flex flex-col items-center gap-1 pt-4 text-center">
+            {NAV.map((item, i) => (
+              <motion.li key={item.href} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 + 0.05 * i, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}>
+                <Link href={item.href} onClick={() => setOpen(false)} className="flex min-h-12 items-baseline gap-2 px-4">
+                  <span className="ui-label text-[0.625rem] text-steel-400">({item.index})</span>
+                  <span className="display text-3xl">{t(item.key, item.label)}</span>
+                </Link>
+              </motion.li>
+            ))}
+          </ul>
+          <div className="mt-3 flex justify-center"><LanguageSwitcher className="w-fit" /></div>
+        </motion.nav>
+      )}
+    </AnimatePresence>
     </>
   );
 }
@@ -142,3 +137,19 @@ function RouteSync() {
   return null;
 }
 
+
+/** Viewfinder mark that glides (layoutId) above the active route. */
+function ActiveMark({ href }: { href: string }) {
+  const path = usePathname();
+  if (!(path === href || path.startsWith(`${href}/`))) return null;
+  return (
+    <motion.span
+      layoutId="nav-mark"
+      aria-hidden
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className="absolute -top-3 left-1/2 -translate-x-1/2 ui-label text-[0.75rem] leading-none text-ice-100 [text-shadow:0_0_10px_rgb(226_237_245/0.8)]"
+    >
+      +
+    </motion.span>
+  );
+}

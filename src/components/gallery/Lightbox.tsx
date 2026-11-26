@@ -70,7 +70,7 @@ export function Lightbox({ photos, index, onClose, onIndex, label, gear }: Props
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
         >
-          <div className="frame flex h-14 shrink-0 items-center justify-between border-b border-hairline font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-steel-300">
+          <div className="frame flex h-14 shrink-0 items-center justify-between border-b border-hairline ui-label text-[0.6875rem] text-steel-300">
             <span aria-live="polite">
               {String(index! + 1).padStart(2, '0')} / {String(photos.length).padStart(2, '0')}
             </span>
@@ -120,7 +120,7 @@ export function Lightbox({ photos, index, onClose, onIndex, label, gear }: Props
 
           <div className="frame flex min-h-14 shrink-0 flex-col justify-center gap-1 border-t border-hairline py-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-ice-300">{photos[index!].alt}</p>
-            <p className="font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-400">
+            <p className="ui-label text-[0.625rem] text-steel-400">
               {gear ?? 'Photo — Nguyễn Nhật Minh'} · <span className="md:hidden">Swipe ← →</span><span className="hidden md:inline">← → keys</span>
             </p>
           </div>

@@ -129,3 +129,40 @@ export async function getCmsAchievements(): Promise<CmsAchievement[]> {
     return [];
   }
 }
+
+/* ── Trang chủ (singleton) — every field falls back to the code defaults ── */
+import * as homeDefaults from '@/data/home.i18n';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type HomeContent = Pick<typeof homeDefaults, 'city' | 'aboutI18n' | 'visionI18n' | 'interestsI18n' | 'lensesI18n' | 'philosophyI18n' | 'milestonesI18n'>;
+
+export async function getHome(): Promise<HomeContent> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('sanity', 'homePage');
+  const d = homeDefaults;
+  type Raw = Partial<{ city: any; about: any[]; vision: any; interests: any[]; lenses: any[]; philosophy: any[]; milestones: any[] }>;
+  let h: Raw | null = null;
+  try {
+    h = await client.fetch<Raw | null>(`*[_id == "homePage"][0]{ city, about, vision, interests, lenses, philosophy, milestones }`);
+  } catch {
+    h = null;
+  }
+  const loc = (v: any, fb: homeDefaults.Loc): homeDefaults.Loc => (v?.vi ? { vi: v.vi, en: v.en || v.vi, ko: v.ko || v.en || v.vi } : fb);
+  const list = <T,>(v: any[] | undefined, fb: T[], map: (x: any) => T): T[] => (v?.length ? v.map(map) : fb);
+  return {
+    city: loc(h?.city, d.city),
+    visionI18n: loc(h?.vision, d.visionI18n),
+    aboutI18n: list(h?.about, d.aboutI18n, (x) => loc(x, x)),
+    interestsI18n: list(h?.interests, d.interestsI18n, (x) => loc(x, x)),
+    philosophyI18n: list(h?.philosophy, d.philosophyI18n, (x) => loc(x, x)),
+    milestonesI18n: list(h?.milestones, d.milestonesI18n, (x) => ({ year: x.year ?? '', text: loc(x.text, x.text) })),
+    lensesI18n: list(h?.lenses, d.lensesI18n, (x) => ({
+      index: x.index ?? '',
+      label: loc(x.label, x.label),
+      title: loc(x.title, x.title),
+      sub: loc(x.sub, x.sub),
+      meta: x.meta ?? '',
+      body: (x.body ?? []).map((b: any) => loc(b, b)),
+    })) as HomeContent['lensesI18n'],
+  };
+}

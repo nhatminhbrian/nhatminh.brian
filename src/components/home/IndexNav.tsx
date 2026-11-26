@@ -54,12 +54,12 @@ export function IndexNav({ items }: { items: IndexItem[] }) {
               onBlur={() => setActive(null)}
               className="group grid grid-cols-[auto_1fr_auto] items-center gap-4 py-5 transition-colors md:grid-cols-12 md:gap-6 md:py-7"
             >
-              <span className="font-mono text-xs text-steel-300 md:col-span-1">({item.index})</span>
+              <span className="ui-label text-[0.6875rem] text-steel-300 md:col-span-1">({item.index})</span>
               <span className="md:col-span-7">
                 <span className="display block text-[clamp(2.5rem,7vw,6.5rem)] transition-[letter-spacing,color] duration-500 ease-[var(--ease-editorial)] group-hover:text-steel-300 group-hover:italic md:group-hover:tracking-normal">
                   {item.labelKey ? t(item.labelKey, item.label) : item.label}
                 </span>
-                <span className="mt-1 block font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-steel-400">
+                <span className="mt-1 block ui-label text-[0.6875rem] text-steel-400">
                   {item.subKey ? t(item.subKey, item.labelVi) : item.labelVi}
                 </span>
               </span>
@@ -100,7 +100,7 @@ export function IndexNav({ items }: { items: IndexItem[] }) {
                 className={`object-cover transition-opacity duration-300 ${i === active ? 'opacity-100' : 'opacity-0'}`}
               />
             ))}
-            <span className="absolute bottom-2 left-2 font-mono text-[0.625rem] uppercase tracking-[0.12em] text-ice-100 mix-blend-difference">
+            <span className="absolute bottom-2 left-2 ui-label text-[0.625rem] text-ice-100 mix-blend-difference">
               ({items[active].index}) {items[active].label}
             </span>
           </motion.div>

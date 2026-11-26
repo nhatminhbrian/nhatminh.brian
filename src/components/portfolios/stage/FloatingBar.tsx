@@ -71,7 +71,7 @@ export function FloatingBar({ current, editions, chapters, pdf }: Props) {
             className="mb-2 max-h-[60svh] overflow-y-auto rounded-3xl border p-2 shadow-2xl backdrop-blur-2xl"
             style={{ background: 'color-mix(in srgb, var(--ed-bar) 92%, transparent)', borderColor: 'var(--ed-bar-line)' }}
           >
-            <p className="px-3 pb-1 pt-2 font-mono text-[0.625rem] uppercase tracking-[0.18em] opacity-60">{current.title}</p>
+            <p className="px-3 pb-1 pt-2 ui-label text-[0.625rem] opacity-60">{current.title}</p>
             <ol>
               {chapters.map((c) => (
                 <li key={c.id}>
@@ -81,7 +81,7 @@ export function FloatingBar({ current, editions, chapters, pdf }: Props) {
                     aria-current={c.id === active ? 'true' : undefined}
                     className="flex min-h-11 items-center gap-3 rounded-2xl px-3 text-sm hover:bg-white/10 aria-[current=true]:bg-white/15"
                   >
-                    <span className="w-8 font-mono text-[0.6875rem] opacity-60">{c.n}</span>
+                    <span className="w-8 ui-label text-[0.6875rem] opacity-60">{c.n}</span>
                     <span>{pick(c.label)}</span>
                   </a>
                 </li>
@@ -95,7 +95,7 @@ export function FloatingBar({ current, editions, chapters, pdf }: Props) {
                   aria-current={e.slug === current.slug ? 'page' : undefined}
                   className="flex min-h-11 flex-1 flex-col justify-center rounded-2xl px-3 text-xs hover:bg-white/10 aria-[current=page]:bg-white/15"
                 >
-                  <span className="font-mono text-[0.625rem] opacity-60">{e.index}</span>
+                  <span className="ui-label text-[0.625rem] opacity-60">{e.index}</span>
                   <span className="truncate">{e.title}</span>
                 </Link>
               ))}
@@ -119,14 +119,14 @@ export function FloatingBar({ current, editions, chapters, pdf }: Props) {
           aria-controls="chapter-menu"
           className="flex min-h-11 min-w-0 flex-1 items-center gap-3 rounded-full px-3 text-left hover:bg-white/10"
         >
-          <span className="font-mono text-[0.6875rem] opacity-60">{chapter?.n}</span>
+          <span className="ui-label text-[0.6875rem] opacity-60">{chapter?.n}</span>
           <span className="truncate text-sm">{pick(chapter?.label)}</span>
           <span aria-hidden className={`ml-auto text-xs transition-transform ${open ? 'rotate-180' : ''}`}>▴</span>
         </button>
         <a
           href={pdf.href}
           download={pdf.label}
-          className="flex min-h-11 shrink-0 items-center gap-2 rounded-full px-4 font-mono text-[0.6875rem] uppercase tracking-[0.12em]"
+          className="flex min-h-11 shrink-0 items-center gap-2 rounded-full px-4 ui-label text-[0.6875rem]"
           style={{ background: 'var(--ed-bar-accent)', color: 'var(--ed-bar-accent-ink)' }}
           aria-label={`Download original PDF, ${pdf.pages} pages, ${pdf.sizeMb} MB`}
         >

@@ -1,14 +1,16 @@
 import type { Metadata, Viewport } from 'next';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from '@/components/SiteFooter';
-import { LiveBackground } from '@/components/LiveBackground';
+import { Suspense } from 'react';
+import { AmbientBackdrop } from '@/components/AmbientBackdrop';
+import { MarginaliaRails } from '@/components/MarginaliaRails';
 import { LanguageProvider } from '@/components/i18n/LanguageProvider';
 import { fontVariables } from './fonts';
+import '@fontsource/ephesis/400.css';
 // Korean editorial faces (self-hosted, unicode-range sliced — only fetched when Hangul renders)
-import '@fontsource-variable/hahmlet/wght.css';
-import '@fontsource/gowun-batang/400.css';
-import '@fontsource/gowun-batang/700.css';
-import '@fontsource/gowun-dodum/400.css';
+import '@fontsource/ibm-plex-sans-kr/400.css';
+import '@fontsource/ibm-plex-sans-kr/500.css';
+import '@fontsource/ibm-plex-sans-kr/600.css';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -43,13 +45,16 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         >
           Skip to content
         </a>
-        <LiveBackground />
+        <AmbientBackdrop />
+        <Suspense fallback={null}><MarginaliaRails /></Suspense>
         <div aria-hidden className="grain" />
         <SiteHeader />
-        <main id="main" className="pt-14">
+        <div className="page-canvas relative z-10 rounded-t-2xl md:rounded-t-3xl">
+          <main id="main" className="pt-14">
           {children}
         </main>
         <SiteFooter />
+        </div>
         </LanguageProvider>
       </body>
     </html>

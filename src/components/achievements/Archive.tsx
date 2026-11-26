@@ -47,7 +47,7 @@ function FilterGroup<T extends string>({
               className="flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-hairline bg-ice-100/[0.03] px-4 text-sm text-ice-300 transition-colors hover:border-hairline-strong hover:text-ice-100 disabled:opacity-35 aria-pressed:border-ice-100 aria-pressed:bg-ice-100 aria-pressed:text-night-950"
             >
               {opt === ALL ? allLabel : opt}
-              <span className="font-mono text-[0.625rem] opacity-70">{n}</span>
+              <span className="ui-label text-[0.625rem] opacity-70">{n}</span>
             </button>
           );
         })}
@@ -103,7 +103,7 @@ export function Archive({ items, years, semesters, categories }: Props) {
           <FilterGroup label={t('ach.semester')} options={semesters} value={semester} onChange={setSemester} counts={counts.s} />
           <FilterGroup label={t('ach.category')} options={categories} value={category} onChange={setCategory} counts={counts.c} />
         </div>
-        <p className="mt-4 flex items-center gap-4 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-steel-300" aria-live="polite">
+        <p className="mt-4 flex items-center gap-4 ui-label text-[0.6875rem] text-steel-300" aria-live="polite">
           <span>{filtered.length} / {items.length} {t('ach.entries')}</span>
           {filtering && (
             <button type="button" onClick={reset} className="min-h-11 border-b border-steel-400 text-ice-100 hover:border-ice-100">
@@ -116,7 +116,7 @@ export function Archive({ items, years, semesters, categories }: Props) {
       {filtered.length === 0 ? (
         <div className="border-b border-hairline py-24 text-center">
           <p className="display text-4xl">{t('ach.none')}</p>
-          <button type="button" onClick={reset} className="mt-6 min-h-11 border border-hairline-strong px-5 font-mono text-xs uppercase tracking-[0.14em] text-ice-100 hover:bg-ice-100 hover:text-night-950">
+          <button type="button" onClick={reset} className="mt-6 min-h-11 border border-hairline-strong px-5 ui-label text-[0.6875rem] text-ice-100 hover:bg-ice-100 hover:text-night-950">
             {t('ach.showAll')}
           </button>
         </div>
@@ -128,7 +128,7 @@ export function Archive({ items, years, semesters, categories }: Props) {
             <section key={y} aria-labelledby={`${baseId}-${y}`} className="mt-16">
               <h2 id={`${baseId}-${y}`} className="flex items-baseline justify-between border-b border-hairline-strong pb-4">
                 <span className="display text-[clamp(3rem,8vw,6.5rem)]">{y}</span>
-                <span className="font-mono text-xs text-steel-300">({String(group.length).padStart(2, '0')})</span>
+                <span className="ui-label text-[0.6875rem] text-steel-300">({String(group.length).padStart(2, '0')})</span>
               </h2>
               <ul>
                 {group.map((a, i) => {
@@ -143,9 +143,9 @@ export function Archive({ items, years, semesters, categories }: Props) {
                         onClick={() => toggle(a.id)}
                         className="group grid w-full grid-cols-[2.5rem_1fr_2.75rem] items-start gap-3 py-6 text-left md:grid-cols-12 md:gap-6"
                       >
-                        <span className="pt-1 font-mono text-xs text-steel-400 md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
+                        <span className="pt-1 ui-label text-[0.6875rem] text-steel-400 md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
                         <span className="md:col-span-6">
-                          <span className="block font-serif text-2xl leading-tight text-ice-100 transition-colors group-hover:text-steel-300 md:text-3xl">
+                          <span className="block font-display font-medium text-2xl leading-tight text-ice-100 transition-colors group-hover:text-steel-300 md:text-3xl">
                             {L(a, 'title') as string}
                           </span>
                           <span className="mt-1 block text-sm text-ice-300">{L(a, 'organisation') as string}</span>
@@ -172,7 +172,7 @@ export function Archive({ items, years, semesters, categories }: Props) {
                         <div className="overflow-hidden">
                           <div className="grid gap-6 pb-10 md:grid-cols-12 md:gap-6">
                             <div className="md:col-span-6 md:col-start-2">
-                              {a.subtitle && <p className="font-serif text-xl italic text-steel-300">{L(a, 'subtitle') as string}</p>}
+                              {a.subtitle && <p className="font-display font-medium text-xl text-steel-300">{L(a, 'subtitle') as string}</p>}
                               {a.role && <p className="eyebrow mt-3">{L(a, 'role') as string} · {L(a, 'period') as string}</p>}
                               <p className="prose-ice mt-4">{L(a, 'summary') as string}</p>
                               <ul className="mt-5 space-y-2">
@@ -183,7 +183,7 @@ export function Archive({ items, years, semesters, categories }: Props) {
                                 ))}
                               </ul>
                               {a.link && (
-                                <Link href={a.link.href} className="mt-6 inline-flex min-h-11 items-center gap-2 border-b border-ice-300 font-mono text-xs uppercase tracking-[0.14em] text-ice-100 hover:border-ice-100">
+                                <Link href={a.link.href} className="mt-6 inline-flex min-h-11 items-center gap-2 border-b border-ice-300 ui-label text-[0.6875rem] text-ice-100 hover:border-ice-100">
                                   {a.link.label} →
                                 </Link>
                               )}
@@ -218,7 +218,7 @@ export function Archive({ items, years, semesters, categories }: Props) {
 
 function Tag({ children, muted }: { children: React.ReactNode; muted?: boolean }) {
   return (
-    <span className={`border border-hairline px-2 py-1 font-mono text-[0.625rem] uppercase tracking-[0.12em] ${muted ? 'text-steel-400' : 'text-steel-300'}`}>
+    <span className={`border border-hairline px-2 py-1 ui-label text-[0.625rem] ${muted ? 'text-steel-400' : 'text-steel-300'}`}>
       {children}
     </span>
   );

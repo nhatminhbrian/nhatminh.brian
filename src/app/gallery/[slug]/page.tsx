@@ -46,13 +46,13 @@ export default async function FolderPage({ params }: PageProps<'/gallery/[slug]'
           <span><T k={`group.${f.partnerGroup}`} fallback={group?.label} /></span>
         </nav>
         <div className="md:col-span-9">
-          <span className="inline-flex items-center gap-2 rounded-full bg-ice-100 px-3 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-night-950">
+          <span className="inline-flex items-center gap-2 rounded-full bg-ice-100 px-3 py-1 ui-label text-[0.6875rem] text-night-950">
             {f.indexNumber} · {f.year}
           </span>
           <h1 className="display mt-4 text-[clamp(3rem,9vw,8rem)]"><Tr item={tx} k="title" /></h1>
-          <p className="mt-3 font-serif text-xl italic text-steel-300"><Tr item={tx} k="organization" /></p>
+          <p className="mt-3 font-display font-medium text-xl text-steel-300"><Tr item={tx} k="organization" /></p>
         </div>
-        <dl className="glass grid grid-cols-2 gap-4 self-end rounded-2xl p-5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] md:col-span-3">
+        <dl className="glass grid grid-cols-2 gap-4 self-end rounded-2xl p-5 ui-label text-[0.6875rem] md:col-span-3">
           <div><dt className="text-steel-400"><T k="gallery.date" /></dt><dd className="mt-1 text-ice-100">{formatDate(f.date)}</dd></div>
           <div><dt className="text-steel-400"><T k="gallery.colFrames" /></dt><dd className="mt-1 text-ice-100">{String(f.images.length).padStart(2, '0')}</dd></div>
           {f.location && <div className="col-span-2"><dt className="text-steel-400"><T k="gallery.place" /></dt><dd className="mt-1 normal-case tracking-normal text-ice-100"><Tr item={tx} k="location" /></dd></div>}
@@ -85,7 +85,7 @@ export default async function FolderPage({ params }: PageProps<'/gallery/[slug]'
             </span>
             <span className="min-w-0">
               <span className="eyebrow"><T k="gallery.nextFolder" /> · {next.year}</span>
-              <span className="mt-1 block truncate font-serif text-3xl text-ice-100 group-hover:italic md:text-5xl">{next.title} →</span>
+              <span className="mt-1 block truncate font-display font-medium text-3xl text-ice-100 group-hover: md:text-5xl">{next.title} →</span>
             </span>
           </Link>
         )}

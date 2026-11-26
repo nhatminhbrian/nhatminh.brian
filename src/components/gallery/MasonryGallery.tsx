@@ -47,7 +47,7 @@ export function MasonryGallery({ photos, label, gear }: Props) {
         blurDataURL={p.blur}
         className="h-auto w-full transition-transform duration-700 ease-[var(--ease-editorial)] group-hover:scale-[1.03]"
       />
-      <span className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-between bg-gradient-to-t from-night-950/80 to-transparent p-3 font-mono text-[0.625rem] uppercase tracking-[0.12em] text-ice-100 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+      <span className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-between bg-gradient-to-t from-night-950/80 to-transparent p-3 ui-label text-[0.625rem] text-ice-100 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
         <span>{String(i + 1).padStart(2, '0')}</span>
         <span>View +</span>
       </span>

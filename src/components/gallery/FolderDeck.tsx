@@ -2,11 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, useReducedMotion, type PanInfo } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion, type PanInfo } from 'framer-motion';
 import { useCallback, useRef, useState } from 'react';
 import type { ResolvedMedia } from '@/data/types';
 import type { I18nFields } from '@/i18n/pick';
-import { useTr } from '@/components/i18n/LanguageProvider';
+import { useT, useTr } from '@/components/i18n/LanguageProvider';
 import { SlotText } from '@/components/showcase/SlotText';
 
 export type DeckFolder = {
@@ -32,6 +32,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
  */
 export function FolderDeck({ folders, label }: { folders: DeckFolder[]; label: string }) {
   const L = useTr();
+  const t = useT();
   const [active, setActive] = useState(0);
   const [dir, setDir] = useState(1);
   const reduce = useReducedMotion();
@@ -71,13 +72,28 @@ export function FolderDeck({ folders, label }: { folders: DeckFolder[]; label: s
   const front = folders[active];
 
   return (
-    <section aria-label={label} className="relative" onKeyDown={(e) => {
+    <section aria-label={label} tabIndex={0} className="relative rounded-3xl outline-none focus-visible:ring-1 focus-visible:ring-ice-100/40" onKeyDown={(e) => {
       if (e.key === 'ArrowRight') { e.preventDefault(); go(active + 1); }
       if (e.key === 'ArrowLeft') { e.preventDefault(); go(active - 1); }
     }}>
+      {/* ambient colour bleed: blurred copy of the front cover */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-full overflow-hidden">
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={front.id}
+            className="absolute inset-[-10%]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.2 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease }}
+          >
+            <Image src={front.cover.src} alt="" fill sizes="40vw" className="object-cover blur-[120px]" />
+          </motion.div>
+        </AnimatePresence>
+      </div>
       {/* pill tab badge for the front card */}
       <div className="relative z-20 mb-3 flex justify-center md:mb-4">
-        <span className="inline-flex max-w-[92vw] items-center gap-2 rounded-full bg-ice-100 px-4 py-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-night-950 shadow-[0_10px_30px_-10px_rgb(226_237_245/0.4)]">
+        <span className="inline-flex max-w-[92vw] items-center gap-2 rounded-full bg-ice-100 px-4 py-1.5 ui-label text-[0.6875rem] text-night-950 shadow-[0_10px_30px_-10px_rgb(226_237_245/0.4)]">
           <SlotText value={front.indexNumber} direction={dir} className="font-semibold" />
           <SlotText value={L(front, 'title') as string} direction={dir} className="max-w-[60vw] truncate normal-case tracking-normal md:max-w-[32rem]" />
           <SlotText value={String(front.year)} direction={dir} className="text-steel-600" />
@@ -85,7 +101,7 @@ export function FolderDeck({ folders, label }: { folders: DeckFolder[]; label: s
       </div>
 
       <div
-        className="relative mx-auto h-[min(62svh,34rem)] w-full max-w-5xl touch-pan-y select-none [perspective:1200px]"
+        className="relative mx-auto h-[54svh] w-full md:h-[60vh] max-w-5xl touch-pan-y select-none [perspective:1200px]"
         onPointerMove={onPointerMove}
         onWheel={onWheel}
         role="group"
@@ -125,16 +141,22 @@ export function FolderDeck({ folders, label }: { folders: DeckFolder[]; label: s
                   draggable={false}
                   className="pointer-events-none object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-night-950/90 via-night-950/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#070D14]/85 via-[#070D14]/20 to-[#070D14]/35" />
+                {isFront && (
+                  <span aria-hidden className="pointer-events-none absolute inset-3 ui-label text-[0.6875rem] leading-none text-ice-100/70 md:inset-4">
+                    <span className="absolute left-0 top-0">+</span><span className="absolute right-0 top-0">+</span>
+                    <span className="absolute bottom-0 left-0">+</span><span className="absolute bottom-0 right-0">+</span>
+                  </span>
+                )}
                 {/* folder tab */}
                 <span className="absolute -top-px left-6 h-3 w-24 rounded-b-md bg-ice-100/15 backdrop-blur" />
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 md:p-6">
                   <div className="min-w-0">
-                    <p className="font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-300">{L(f, 'organization') as string}</p>
-                    <p className="mt-1 truncate font-serif text-2xl text-ice-100 md:text-4xl">{L(f, 'title') as string}</p>
+                    <p className="ui-label text-[0.625rem] text-steel-300">{L(f, 'organization') as string}</p>
+                    <p className="mt-1 truncate font-display font-medium text-2xl text-ice-100 md:text-4xl">{L(f, 'title') as string}</p>
                   </div>
-                  <p className="shrink-0 text-right font-mono text-[0.625rem] uppercase tracking-[0.12em] text-ice-300">
-                    {f.count} frames
+                  <p className="shrink-0 text-right ui-label text-[0.625rem] text-ice-300">
+                    {f.count} {t('gallery.frames')}
                     {f.location && <span className="mt-0.5 hidden max-w-48 truncate text-steel-400 md:block">{L(f, 'location') as string}</span>}
                   </p>
                 </div>
@@ -167,16 +189,17 @@ export function FolderDeck({ folders, label }: { folders: DeckFolder[]; label: s
       {/* step controls + scrub rail */}
       <div className="mt-5 flex items-center justify-center gap-4">
         <button type="button" onClick={() => go(active - 1)} disabled={active === 0} aria-label="Previous folder" className="glass flex h-11 w-11 items-center justify-center rounded-full text-ice-100 disabled:opacity-30">←</button>
-        <div className="flex max-w-[50vw] items-center gap-1.5 overflow-hidden" aria-hidden>
-          {folders.map((f, i) => (
-            <span key={f.id} className={`h-1 rounded-full transition-all duration-500 ${i === active ? 'w-8 bg-ice-100' : 'w-2 bg-ice-100/25'}`} />
-          ))}
+        <div className="w-[min(50vw,16rem)]" aria-hidden>
+          <div className="h-px w-full bg-ice-100/20">
+            <motion.div className="h-px origin-left bg-ice-100" initial={false} animate={{ scaleX: (active + 1) / n }} transition={{ duration: 0.6, ease }} />
+          </div>
+          <p className="mt-1.5 text-center ui-label text-[0.625rem] tabular-nums text-steel-400">{String(active + 1).padStart(2, '0')} / {String(n).padStart(2, '0')}</p>
         </div>
         <button type="button" onClick={() => go(active + 1)} disabled={active === n - 1} aria-label="Next folder" className="glass flex h-11 w-11 items-center justify-center rounded-full text-ice-100 disabled:opacity-30">→</button>
       </div>
-      <p className="mt-2 text-center font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-400">
-        <span className="hidden md:inline">Move across the deck to flip · click the front folder to open</span>
-        <span className="md:hidden">Swipe to flip · tap the front folder to open</span>
+      <p className="mt-2 text-center ui-label text-[0.625rem] text-steel-400">
+        <span className="hidden md:inline">{t('gallery.hintDesktop')}</span>
+        <span className="md:hidden">{t('gallery.hintMobile')}</span>
       </p>
     </section>
   );

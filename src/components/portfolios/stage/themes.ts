@@ -33,14 +33,14 @@ export const themeConfig = {
   // UIC Project Portfolio — black/cream spreads, periwinkle blue, copper hand-script.
   project: {
     colors: {
-      bg: '#0d0d0d',
-      surface: '#161616',
-      ink: '#fbfae8',
-      mutedInk: '#c9c6b4',
+      bg: '#f4efe6',
+      surface: '#181715',
+      ink: '#181715',
+      mutedInk: '#6b665c',
       accent: '#5685cd',
       accent2: '#ed996b',
-      border: 'rgb(251 250 232 / 0.16)',
-      matte: '#0d0d0d',
+      border: 'rgb(24 23 21 / 0.16)',
+      matte: '#f4efe6',
       onAccent: '#fbfae8',
     },
     fonts: {
@@ -51,18 +51,18 @@ export const themeConfig = {
       monoFont: MONO,
     },
   },
-  // SSEAYP 49th — signal red field, yellow geometry, rounded heavy display.
+  // SSEAYP 49th — washi off-white, deep ink, crimson accent; hanafuda-framed act visuals.
   sseayp: {
     colors: {
-      bg: '#d4171d',
-      surface: '#a50f16',
-      ink: '#fcf0e4',
-      mutedInk: '#ffd9cf',
-      accent: '#ffd21f',
+      bg: '#f3efea',
+      surface: '#141212',
+      ink: '#141212',
+      mutedInk: '#5a5350',
+      accent: '#d91e36',
       accent2: '#ffffff',
-      border: 'rgb(252 240 228 / 0.28)',
-      matte: '#d4171d',
-      onAccent: '#a50f16',
+      border: 'rgb(20 18 18 / 0.15)',
+      matte: '#f3efea',
+      onAccent: '#f3efea',
     },
     fonts: {
       headingFont: 'var(--font-fraunces), Georgia, serif', // refined editorial serif (Vietnamese-safe)

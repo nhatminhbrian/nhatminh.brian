@@ -4,14 +4,16 @@ import { Marker } from '@/components/Marker';
 import { Reveal } from '@/components/Reveal';
 import { HeroParallax } from '@/components/home/HeroParallax';
 import { L, T } from '@/components/i18n/LanguageProvider';
-import { aboutI18n, credentialLabels, interestsI18n, city, lensesI18n, milestonesI18n, philosophyI18n, visionI18n } from '@/data/home.i18n';
+import { credentialLabels } from '@/data/home.i18n';
+import { getHome } from '@/sanity/fetch';
 import { IndexNav, type IndexItem } from '@/components/home/IndexNav';
 import { ShowcaseStack } from '@/components/showcase/ShowcaseStack';
 import { getFeaturedWorks, resolve } from '@/lib/content';
 import { credentials, profile } from '@/data/profile';
 
 export default async function HomePage() {
-  const featured = await getFeaturedWorks();
+  const [featured, home] = await Promise.all([getFeaturedWorks(), getHome()]);
+  const { aboutI18n, interestsI18n, city, lensesI18n, milestonesI18n, philosophyI18n, visionI18n } = home;
   const hero = resolve(profile.heroPortrait);
   const about = resolve(profile.aboutPortrait);
   const podium = resolve(profile.diplomacyPortrait);
@@ -28,7 +30,7 @@ export default async function HomePage() {
       {/* ─── Hero ─────────────────────────────────────────── */}
       <section className="hairline-grid relative overflow-hidden" aria-labelledby="hero-title">
         <div className="frame grid grid-cols-12 gap-x-4 pb-16 pt-8 md:pb-24 md:pt-12">
-          <div className="col-span-12 flex items-center justify-between font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-steel-300 md:col-span-12">
+          <div className="col-span-12 flex items-center justify-between ui-label text-[0.6875rem] text-steel-300 md:col-span-12">
             <span><T k="home.portfolioYear" /></span>
             <span className="hidden sm:inline"><L t={city} /></span>
             <span>{profile.handle}</span>
@@ -39,7 +41,7 @@ export default async function HomePage() {
               <Photo media={hero} fill priority sizes="(min-width: 768px) 50vw, 100vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-night-950/70 via-transparent to-transparent" />
             </HeroParallax>
-            <p className="mt-3 hidden justify-between font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-400 md:flex">
+            <p className="mt-3 hidden justify-between ui-label text-[0.625rem] text-steel-400 md:flex">
               <span>Fig. 01 — Self, under open sky</span>
               <span>{profile.gear}</span>
             </p>
@@ -56,7 +58,7 @@ export default async function HomePage() {
           </h1>
 
           <div className="col-span-12 mt-8 grid content-start gap-6 md:col-span-5 md:row-start-3 md:mt-6">
-            <p className="font-serif text-2xl italic leading-snug text-ice-100 md:text-3xl">
+            <p className="font-display font-medium text-2xl leading-snug text-ice-100 md:text-3xl">
               “<T k="home.tagline" />”
             </p>
             <p className="eyebrow">
@@ -70,7 +72,7 @@ export default async function HomePage() {
       <section className="frame mt-8" aria-labelledby="index-title">
         <div className="mb-6 flex items-end justify-between">
           <h2 id="index-title" className="eyebrow"><T k="home.index" /></h2>
-          <p className="hidden font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-400 md:block"><T k="home.hover" /></p>
+          <p className="hidden ui-label text-[0.625rem] text-steel-400 md:block"><T k="home.hover" /></p>
         </div>
         <IndexNav items={index} />
       </section>
@@ -82,7 +84,7 @@ export default async function HomePage() {
           <h2 id="featured-title" className="display mt-8 text-[clamp(2.75rem,7vw,6.5rem)]">
             <em className="text-steel-300"><T k="home.nowScreening" /></em>
           </h2>
-          <p className="mt-3 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-steel-400"><T k="home.reelHint" /></p>
+          <p className="mt-3 ui-label text-[0.6875rem] text-steel-400"><T k="home.reelHint" /></p>
         </div>
         <ShowcaseStack items={featured} label="Featured" />
       </section>
@@ -98,18 +100,18 @@ export default async function HomePage() {
             <div className="relative mt-10 aspect-[3/4] w-3/4 overflow-hidden rounded-3xl md:w-full">
               <Photo media={podium} fill sizes="(min-width: 768px) 40vw, 75vw" />
             </div>
-            <p className="mt-3 font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-400">Fig. 02 — Diplomatic Academy of Viet Nam</p>
+            <p className="mt-3 ui-label text-[0.625rem] text-steel-400">Fig. 02 — Diplomatic Academy of Viet Nam</p>
           </Reveal>
 
           <div className="grid gap-4 self-start md:col-span-7">
             {lensesI18n.map((lens, i) => (
               <Reveal key={lens.index} delay={i * 0.1} className="glass glass-sheen rounded-3xl p-6 md:p-10">
                 <p className="flex items-baseline justify-between gap-4">
-                  <span className="shrink-0 whitespace-nowrap font-mono text-xs text-steel-300">{lens.index} <L t={lens.label} /></span>
-                  <span className="text-right font-mono text-[0.625rem] uppercase tracking-[0.12em] text-steel-400">{lens.meta}</span>
+                  <span className="shrink-0 whitespace-nowrap ui-label text-[0.6875rem] text-steel-300">{lens.index} <L t={lens.label} /></span>
+                  <span className="text-right ui-label text-[0.625rem] text-steel-400">{lens.meta}</span>
                 </p>
-                <h3 className="mt-6 font-serif text-4xl text-ice-100 md:text-5xl"><L t={lens.title} /></h3>
-                <p className="mt-1 font-serif text-xl italic text-steel-300"><L t={lens.sub} /></p>
+                <h3 className="mt-6 font-display font-medium text-4xl text-ice-100 md:text-5xl"><L t={lens.title} /></h3>
+                <p className="mt-1 font-display font-medium text-xl text-steel-300"><L t={lens.sub} /></p>
                 <div className="mt-6 space-y-4">
                   {lens.body.map((p) => (
                     <p key={p.en} className="prose-ice"><L t={p} /></p>
@@ -139,9 +141,10 @@ export default async function HomePage() {
                 <p key={p.en} className="prose-ice"><L t={p} /></p>
               ))}
             </div>
-            <blockquote className="mt-10 border-l border-steel-600 pl-6 font-serif text-2xl italic leading-snug text-ice-100">
+            <blockquote className="mt-10 border-l border-steel-600 pl-6 font-display font-medium text-2xl leading-snug text-ice-100">
               <L t={visionI18n} />
             </blockquote>
+            <p className="signature mt-8 -rotate-3 text-right text-5xl text-steel-300 md:text-6xl">@_wandergraph_</p>
           </div>
         </div>
 
@@ -152,7 +155,7 @@ export default async function HomePage() {
           <ol className="md:col-span-8">
             {philosophyI18n.map((p, i) => (
               <li key={p.en} className="grid grid-cols-[3rem_1fr] items-baseline gap-4 border-t border-hairline py-5 last:border-b">
-                <span className="font-mono text-xs text-steel-300">({String(i + 1).padStart(2, '0')})</span>
+                <span className="ui-label text-[0.6875rem] text-steel-300">({String(i + 1).padStart(2, '0')})</span>
                 <span className="text-lg text-ice-100 md:text-xl"><L t={p} /></span>
               </li>
             ))}
@@ -176,17 +179,17 @@ export default async function HomePage() {
           {credentials.map((c) => (
             <div key={c.label} className="border-t border-hairline pt-4">
               <dt className="eyebrow">{credentialLabels[c.label] ? <L t={credentialLabels[c.label]} /> : c.label}</dt>
-              <dd className="mt-2 font-serif text-4xl text-ice-100">{c.value}</dd>
-              <dd className="font-mono text-[0.625rem] text-steel-400">{c.year}</dd>
+              <dd className="mt-2 font-display font-medium text-4xl text-ice-100">{c.value}</dd>
+              <dd className="ui-label text-[0.625rem] text-steel-400">{c.year}</dd>
             </div>
           ))}
         </dl>
         <ul className="mt-10 flex flex-wrap gap-2">
           {interestsI18n.map((i) => (
-            <li key={i.en} className="border border-hairline px-3 py-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-steel-300"><L t={i} /></li>
+            <li key={i.en} className="border border-hairline px-3 py-1.5 ui-label text-[0.6875rem] text-steel-300"><L t={i} /></li>
           ))}
         </ul>
-        <Link href="/achievements" className="mt-10 inline-flex min-h-11 items-center gap-3 border-b border-ice-300 font-mono text-xs uppercase tracking-[0.14em] text-ice-100 hover:border-ice-100">
+        <Link href="/achievements" className="mt-10 inline-flex min-h-11 items-center gap-3 border-b border-ice-300 ui-label text-[0.6875rem] text-ice-100 hover:border-ice-100">
           <T k="home.fullArchive" />
         </Link>
       </section>

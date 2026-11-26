@@ -59,7 +59,7 @@ export function Folio({ left, right, page, className = '' }: { left?: ReactNode;
 /** Mobile swipe hint for zine strips. */
 export function SwipeHint({ count, className = '' }: { count: number; className?: string }) {
   return (
-    <p className={`mt-3 flex items-center justify-between font-mono text-[0.625rem] uppercase tracking-[0.18em] opacity-60 md:hidden ${className}`}>
+    <p className={`mt-3 flex items-center justify-between ui-label text-[0.625rem] opacity-60 md:hidden ${className}`}>
       <span><T k="stage.swipe" /></span>
       <span>{String(count).padStart(2, '0')} <T k="stage.frames" /></span>
     </p>

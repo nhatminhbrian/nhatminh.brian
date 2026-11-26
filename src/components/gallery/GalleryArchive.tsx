@@ -46,7 +46,7 @@ export function GalleryArchive({ folders, groups }: { folders: ArchiveFolder[]; 
       <div className="sticky top-14 z-30 -mx-[var(--gutter)] bg-night-950/35 px-[var(--gutter)] py-4 shadow-[inset_0_-1px_0_rgb(226_237_245/0.12)] backdrop-blur-xl backdrop-saturate-150">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0 flex-1 space-y-3">
-            <div role="tablist" aria-label={t('gallery.year')} className="-mx-1 flex gap-1 overflow-x-auto px-1 [scrollbar-width:none]">
+            <div role="tablist" aria-label={t('gallery.year')} className="edge-fade -mx-1 flex gap-1 overflow-x-auto px-1 pb-2 pr-8 [scrollbar-width:none]">
               {[...years, ALL].map((y) => {
                 const active = year === y;
                 const n = yearCount(y);
@@ -56,22 +56,22 @@ export function GalleryArchive({ folders, groups }: { folders: ArchiveFolder[]; 
                     role="tab"
                     aria-selected={active}
                     onClick={() => setYear(y)}
-                    className={`relative min-h-10 shrink-0 px-3 font-serif text-2xl transition-colors md:text-3xl ${active ? 'text-ice-100' : 'text-steel-400 hover:text-ice-300'} ${n === 0 && !active ? 'opacity-40' : ''}`}
+                    className={`relative min-h-10 shrink-0 px-3 font-display font-medium text-2xl transition-colors md:text-3xl ${active ? 'text-ice-100' : 'text-steel-400 hover:text-ice-300'} ${n === 0 && !active ? 'opacity-40' : ''}`}
                   >
                     {y === ALL ? <T k="gallery.allYears" /> : y}
-                    <sup className="ml-1 font-mono text-[0.625rem] text-steel-400">{n}</sup>
+                    <sup className="ml-1 ui-label text-[0.625rem] text-steel-400">{n}</sup>
                     {active && <motion.span layoutId="year-underline" className="absolute inset-x-3 -bottom-0.5 h-px bg-ice-100" />}
                   </button>
                 );
               })}
             </div>
-            <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1 [scrollbar-width:none]" role="group" aria-label={t('gallery.group')}>
+            <div className="edge-fade -mx-1 flex gap-1.5 overflow-x-auto px-1 pb-2 pr-8 [scrollbar-width:none]" role="group" aria-label={t('gallery.group')}>
               {[{ id: ALL, label: t('common.all') } as const, ...groups].map((g) => {
                 const n = groupCount(g.id);
                 return (
                   <button key={g.id} type="button" aria-pressed={group === g.id} disabled={n === 0 && group !== g.id} onClick={() => setGroup(g.id)} className={`${pill(group === g.id)} disabled:opacity-35`}>
                     {g.id === ALL ? g.label : t(`group.${g.id}`, g.label)}
-                    <span className="font-mono text-[0.625rem] opacity-70">{n}</span>
+                    <span className="ui-label text-[0.625rem] opacity-70">{n}</span>
                   </button>
                 );
               })}
@@ -86,7 +86,7 @@ export function GalleryArchive({ folders, groups }: { folders: ArchiveFolder[]; 
                 role="radio"
                 aria-checked={view === v}
                 onClick={() => setView(v)}
-                className={`relative min-h-9 rounded-full px-3 font-mono text-[0.625rem] uppercase tracking-[0.12em] transition-colors md:px-4 ${view === v ? 'text-night-950' : 'text-ice-300 hover:text-ice-100'}`}
+                className={`relative min-h-9 rounded-full px-3 ui-label text-[0.625rem] transition-colors md:px-4 ${view === v ? 'text-night-950' : 'text-ice-300 hover:text-ice-100'}`}
               >
                 {view === v && <motion.span layoutId="view-pill" className="absolute inset-0 rounded-full bg-ice-100" transition={{ duration: 0.35 }} />}
                 <span className="relative">{v === 'deck' ? '3D Deck' : 'Index'}</span>
@@ -109,7 +109,7 @@ export function GalleryArchive({ folders, groups }: { folders: ArchiveFolder[]; 
           {filtered.length === 0 ? (
             <div className="glass rounded-3xl p-10 text-center">
               <p className="display text-4xl"><T k="gallery.empty" /></p>
-              <button type="button" onClick={() => { setYear(ALL); setGroup(ALL); }} className="mt-6 min-h-11 rounded-full bg-ice-100 px-6 font-mono text-xs uppercase tracking-[0.14em] text-night-950">
+              <button type="button" onClick={() => { setYear(ALL); setGroup(ALL); }} className="mt-6 min-h-11 rounded-full bg-ice-100 px-6 ui-label text-[0.6875rem] text-night-950">
                 <T k="gallery.showAll" />
               </button>
             </div>
@@ -119,48 +119,49 @@ export function GalleryArchive({ folders, groups }: { folders: ArchiveFolder[]; 
                 <div key={s.id}>
                   <div className="mb-6 flex items-baseline justify-between border-t border-hairline pt-3">
                     <h2 className="font-sans text-xs font-medium uppercase tracking-[0.18em] text-ice-100">{t(`group.${s.id}`, s.label)}</h2>
-                    <span className="font-mono text-[0.6875rem] text-steel-400">{String(s.items.length).padStart(2, '0')} <T k="gallery.folders" /></span>
+                    <span className="ui-label text-[0.6875rem] text-steel-400">{String(s.items.length).padStart(2, '0')} <T k="gallery.folders" /></span>
                   </div>
                   <FolderDeck folders={s.items} label={s.label} />
                 </div>
               ))}
             </div>
           ) : (
-            <table className="w-full border-collapse text-left">
-              <caption className="sr-only"><T k="gallery.indexCaption" /></caption>
-              <thead>
-                <tr className="border-b border-hairline-strong font-mono text-[0.625rem] uppercase tracking-[0.14em] text-steel-400">
-                  <th scope="col" className="w-14 py-3 font-normal">No.</th>
-                  <th scope="col" className="py-3 font-normal"><T k="gallery.colFolder" /></th>
-                  <th scope="col" className="hidden py-3 font-normal md:table-cell"><T k="gallery.colGroup" /></th>
-                  <th scope="col" className="hidden py-3 font-normal lg:table-cell"><T k="gallery.colPlace" /></th>
-                  <th scope="col" className="py-3 text-right font-normal"><T k="gallery.colDate" /></th>
-                  <th scope="col" className="hidden w-20 py-3 text-right font-normal sm:table-cell"><T k="gallery.colFrames" /></th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map((f) => (
-                  <tr key={f.id} className="group border-b border-hairline transition-colors hover:bg-ice-100/[0.04]">
-                    <td className="py-3 align-middle font-mono text-xs text-steel-400">{f.indexNumber}</td>
-                    <td className="py-3">
-                      <Link href={`/gallery/${f.id}`} className="flex items-center gap-3">
-                        <span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-md bg-night-850">
-                          <Image src={f.cover.src} alt="" fill sizes="44px" className="object-cover" />
-                        </span>
-                        <span className="min-w-0">
-                          <span className="block truncate font-serif text-lg text-ice-100 group-hover:text-steel-300 md:text-xl">{L(f, 'title') as string}</span>
-                          <span className="block truncate text-xs text-steel-400">{L(f, 'organization') as string}</span>
-                        </span>
-                      </Link>
-                    </td>
-                    <td className="hidden py-3 text-sm text-ice-300 md:table-cell">{t(`group.${f.partnerGroup}`, groups.find((g) => g.id === f.partnerGroup)?.label)}</td>
-                    <td className="hidden max-w-56 truncate py-3 text-sm text-steel-400 lg:table-cell">{(L(f, 'location') as string) ?? '—'}</td>
-                    <td className="py-3 text-right font-mono text-xs text-ice-300">{f.date.slice(0, 7).split('-').reverse().join('/')}</td>
-                    <td className="hidden py-3 text-right font-mono text-xs text-steel-400 sm:table-cell">{f.count}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div role="table" className="w-full text-left">
+              <p className="sr-only"><T k="gallery.indexCaption" /></p>
+              <div role="row" className="grid grid-cols-[32px_minmax(0,1fr)_auto] gap-x-4 border-b border-hairline-strong py-3 ui-label text-[0.625rem] text-steel-400 md:grid-cols-[48px_minmax(0,1fr)_180px_150px] md:gap-x-6">
+                <span role="columnheader">No.</span>
+                <span role="columnheader"><T k="gallery.colFolder" /></span>
+                <span role="columnheader" className="hidden md:block"><T k="gallery.colGroup" /></span>
+                <span role="columnheader" className="text-right"><T k="gallery.colDate" /> · <T k="gallery.colFrames" /></span>
+              </div>
+              {filtered.map((f) => {
+                const place = [L(f, 'organization') as string, L(f, 'location') as string].filter(Boolean).join(', ');
+                return (
+                  <Link
+                    key={f.id}
+                    role="row"
+                    href={`/gallery/${f.id}`}
+                    className="group grid grid-cols-[32px_minmax(0,1fr)_auto] items-center gap-x-4 border-b border-hairline py-3 transition-colors hover:bg-ice-100/[0.04] md:grid-cols-[48px_minmax(0,1fr)_180px_150px] md:gap-x-6"
+                  >
+                    <span role="cell" className="ui-label text-[0.6875rem] text-steel-400">{f.indexNumber}</span>
+                    <span role="cell" className="flex min-w-0 items-center gap-3">
+                      <span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-md bg-night-850">
+                        <Image src={f.cover.src} alt="" fill sizes="44px" className="object-cover" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="line-clamp-1 font-display text-lg font-medium tracking-[-0.02em] text-ice-100 group-hover:text-steel-300 md:text-xl">{L(f, 'title') as string}</span>
+                        <span className="line-clamp-1 text-[0.75rem] text-steel-400">{place || '—'}</span>
+                      </span>
+                    </span>
+                    <span role="cell" className="hidden whitespace-nowrap text-sm text-ice-300 md:block">{t(`group.${f.partnerGroup}`, groups.find((g) => g.id === f.partnerGroup)?.label)}</span>
+                    <span role="cell" className="whitespace-nowrap text-right ui-label text-[0.6875rem] text-ice-300">
+                      {f.date.slice(0, 7).split('-').reverse().join('/')}
+                      <span className="text-steel-400"> · {f.count}<span className="hidden sm:inline"> {t('gallery.frames')}</span></span>
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
           )}
         </motion.div>
       </AnimatePresence>

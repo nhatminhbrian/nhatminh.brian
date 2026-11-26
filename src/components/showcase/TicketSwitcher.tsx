@@ -68,14 +68,14 @@ export function TicketSwitcher({ items, active, direction, visible, label, onJum
                 </AnimatePresence>
               </div>
               <div className="min-w-0 flex-1">
-                <p className="font-mono text-[0.5625rem] uppercase tracking-[0.16em] text-steel-600">
+                <p className="ui-label text-[0.5625rem] text-steel-600">
                   {label} · <SlotText value={item.index} direction={direction} />/{String(items.length).padStart(2, '0')}
                 </p>
-                <p className="truncate font-serif text-lg leading-tight md:text-xl" aria-live="polite">
+                <p className="truncate font-display font-medium text-lg leading-tight md:text-xl" aria-live="polite">
                   <SlotText value={item.title} direction={direction} className="max-w-full" />
                 </p>
                 {/* mini metadata bar */}
-                <dl className="mt-1.5 hidden grid-cols-3 border-t border-night-950/15 pt-1.5 font-mono text-[0.5625rem] uppercase tracking-[0.1em] sm:grid">
+                <dl className="mt-1.5 hidden grid-cols-3 border-t border-night-950/15 pt-1.5 ui-label text-[0.5625rem] sm:grid">
                   {[
                     ['Category', item.category],
                     ['Year', item.year],
@@ -104,7 +104,7 @@ export function TicketSwitcher({ items, active, direction, visible, label, onJum
                 <span className={`absolute left-0 top-1/2 h-px w-full bg-night-950 transition-opacity ${isOpen ? 'opacity-0' : ''}`} />
                 <span className={`absolute bottom-0 left-0 h-px w-full bg-night-950 transition-transform ${isOpen ? '-translate-y-[6px] -rotate-45' : ''}`} />
               </span>
-              <span aria-hidden className="font-mono text-[0.5rem] uppercase tracking-[0.14em]">{isOpen ? 'Close' : 'Index'}</span>
+              <span aria-hidden className="ui-label text-[0.5rem]">{isOpen ? 'Close' : 'Index'}</span>
             </button>
           </div>
 
@@ -119,7 +119,7 @@ export function TicketSwitcher({ items, active, direction, visible, label, onJum
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="ticket-stub mt-1.5 bg-ice-100 shadow-[0_18px_40px_-18px_rgb(0_0_0/0.8)]"
               >
-                <p className="border-b border-dashed border-night-950/25 px-5 py-2 font-mono text-[0.5625rem] uppercase tracking-[0.16em] text-steel-600">
+                <p className="border-b border-dashed border-night-950/25 px-5 py-2 ui-label text-[0.5625rem] text-steel-600">
                   Jump to — {items.length} entries
                 </p>
                 <ul className="max-h-[min(60svh,26rem)] overflow-y-auto overscroll-contain py-1">
@@ -138,8 +138,8 @@ export function TicketSwitcher({ items, active, direction, visible, label, onJum
                           <Image src={it.cover.src} alt="" fill sizes="44px" className="object-cover" />
                         </span>
                         <span className="min-w-0 flex-1">
-                          <span className="block truncate font-serif text-base leading-tight">{it.title}</span>
-                          <span className="block truncate font-mono text-[0.5625rem] uppercase tracking-[0.12em] text-steel-600">
+                          <span className="block truncate font-display font-medium text-base leading-tight">{it.title}</span>
+                          <span className="block truncate ui-label text-[0.5625rem] text-steel-600">
                             {it.category} · {it.year}
                           </span>
                         </span>
