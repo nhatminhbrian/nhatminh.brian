@@ -52,7 +52,7 @@ export default async function HomePage() {
             className="display relative z-10 col-span-12 -mt-24 text-[clamp(4.25rem,15vw,15rem)] md:col-span-10 md:col-start-1 md:row-start-2 md:mt-0 md:self-end md:pb-10"
           >
             <span className="rise-mask text-[clamp(5.5rem,22vw,20rem)] leading-[0.8]"><span className="rise">Brian<span className="text-steel-300">.</span></span></span>
-            <span className="rise-mask mt-3 pl-[1.5vw] text-[clamp(1.75rem,4.6vw,4.25rem)] italic leading-none text-steel-300 md:pl-[2vw]">
+            <span className="rise-mask mt-3 pl-[1.5vw] text-[clamp(2rem,5.2vw,4.75rem)] font-[family-name:var(--font-serif-italic)] font-normal italic leading-[1.08] tracking-[-0.01em] text-steel-300 md:pl-[2vw]">
               <span className="rise" style={{ animationDelay: '180ms' }}>Nguyễn Nhật Minh</span>
             </span>
           </h1>
@@ -82,7 +82,7 @@ export default async function HomePage() {
         <div className="frame">
           <Marker index="(★)" label={<T k="home.featured" />} />
           <h2 id="featured-title" className="display mt-8 text-[clamp(2.75rem,7vw,6.5rem)]">
-            <em className="text-steel-300"><T k="home.nowScreening" /></em>
+            <em className="font-[family-name:var(--font-serif-italic)] font-normal tracking-[-0.005em] text-steel-300"><T k="home.nowScreening" /></em>
           </h2>
           <p className="mt-3 ui-label text-[0.6875rem] text-steel-400"><T k="home.reelHint" /></p>
         </div>

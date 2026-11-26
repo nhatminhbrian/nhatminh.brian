@@ -1,4 +1,3 @@
-import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource/ephesis/400.css';
 import type { ReactNode } from 'react';
 

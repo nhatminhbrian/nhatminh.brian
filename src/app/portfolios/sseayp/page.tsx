@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 /* Native palette (sampled from the PDF) */
 const RED = '#d91e36'; // crimson
 const WASHI = '#f3efea';
-const YELLOW = WASHI; // shapes & titles on crimson canvases
+const GOLD = '#ffd21f'; // signature yellow from the original SSEAYP PDF
+const YELLOW = GOLD;
 const CREAM = '#eae3d9';
 const WHITE = '#fffdf9';
 const INK = '#141212';
@@ -83,24 +84,30 @@ export default function SseaypEditionPage() {
   const [a1, a2, a3] = S.acts.map((a) => ({ ...a, photos: resolveAll(a.media) }));
   const a4 = resolveAll(S.coda.media);
 
-  const chapterFrame = (id: string, n: string, title: string, place: string, m: ResolvedMedia, shapes: ReactNode) => (
-    <Letterbox
-      id={id}
-      variant="chapter"
-      slate={`${n} · SSEAYP 49th`}
-      slateRight={place}
-      ambient={WASHI}
-      glow={RED}
-      rail
-      canvas={
-        <div className="absolute inset-0" style={{ background: RED, ['--shape' as string]: WASHI }}>
-          <Photo media={m} fill sizes="100vw" imgClassName="object-cover opacity-35 mix-blend-luminosity" />
-          {shapes}
-        </div>
-      }
-      title={<ActTitle n={n} title={title} color={YELLOW} className="text-[clamp(3rem,11vw,10rem)]" />}
-    />
-  );
+  // Acts alternate gold (I, III) and crimson (II, IV); photos stay true-to-colour.
+  const chapterFrame = (id: string, n: string, title: string, place: string, m: ResolvedMedia, shapes: ReactNode) => {
+    const accent = id === 'act-2' || id === 'act-4' ? RED : GOLD;
+    return (
+      <Letterbox
+        id={id}
+        variant="chapter"
+        slate={`${n} · SSEAYP 49th`}
+        slateRight={place}
+        ambient={WASHI}
+        glow={accent}
+        rail
+        canvas={
+          <div className="absolute inset-0 overflow-hidden" style={{ background: INK, ['--shape' as string]: accent }}>
+            <Photo media={m} fill sizes="100vw" imgClassName="object-cover" />
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-[#141212]/75 via-[#141212]/10 to-transparent" />
+            <div aria-hidden className="absolute inset-x-0 bottom-0 h-1.5" style={{ background: accent }} />
+            {shapes}
+          </div>
+        }
+        title={<ActTitle n={n} title={title} color={accent} className="text-[clamp(3rem,11vw,10rem)] [text-shadow:0_2px_24px_rgb(20_18_18/0.45)]" />}
+      />
+    );
+  };
 
   return (
     <EditionStage edition={edition} chapters={chapters}>
@@ -111,7 +118,7 @@ export default function SseaypEditionPage() {
         ambient={WASHI}
         glow={RED}
         canvas={
-          <div className="absolute inset-0 overflow-hidden" style={{ background: RED, ['--shape' as string]: WASHI }}>
+          <div className="absolute inset-0 overflow-hidden" style={{ background: RED, ['--shape' as string]: GOLD }}>
             <Shape kind="tri" className="left-[30%] top-[-4%] h-[22%] w-[12%]" />
             <Shape kind="half" className="right-[8%] top-[-8%] h-[16%] w-[14%] rotate-180" />
             <Shape kind="tri" className="left-[-4%] top-[30%] h-[32%] w-[14%] rotate-[100deg]" />
@@ -140,7 +147,7 @@ export default function SseaypEditionPage() {
       {/* ── Xin chào — white panel on red ── */}
       <section id="xin-chao" data-ambient={WASHI} data-glow={YELLOW} className="relative scroll-mt-14 overflow-hidden py-16 md:py-24">
         <Shape kind="quarter" className="right-0 top-0 h-40 w-40 md:h-72 md:w-72" />
-        <Shape kind="disc" className="-bottom-24 left-[10%] h-48 w-48 md:h-72 md:w-72" />
+        <Shape color={GOLD} kind="disc" className="-bottom-24 left-[10%] h-48 w-48 md:h-72 md:w-72" />
         <div className="frame relative">
           <div className="grid gap-8 rounded-[2rem] p-6 md:grid-cols-12 md:p-14" style={{ background: WHITE, color: INK }}>
             <div className="md:col-span-7">
@@ -197,7 +204,7 @@ export default function SseaypEditionPage() {
 
       {/* A–RI–GA–TO — cream spread */}
       <section data-ambient={CREAM} className="relative overflow-hidden py-16 md:py-24" style={{ color: INK }}>
-        <Shape kind="sparkle" className="bottom-10 right-[6%] size-16 md:size-24" />
+        <Shape color={GOLD} kind="sparkle" className="bottom-10 right-[6%] size-16 md:size-24" />
         <div className="frame grid gap-10 md:grid-cols-12 md:items-center">
           <div className="zine md:col-span-7 md:grid-cols-2 md:gap-3">
             {[a1.photos[12], a1.photos[13], a1.photos[3], a1.photos[5]].filter(Boolean).map((m, i) => (
@@ -237,7 +244,7 @@ export default function SseaypEditionPage() {
       </section>
 
       <section data-ambient={WASHI} data-glow={YELLOW} className="relative overflow-hidden py-16 md:py-24">
-        <Shape kind="sparkle" className="left-[4%] top-8 size-14 md:size-20" />
+        <Shape color={GOLD} kind="sparkle" className="left-[4%] top-8 size-14 md:size-20" />
         <div className="frame grid gap-10 md:grid-cols-12 md:items-start">
           <p className="text-xl md:col-span-4">{a2.notes[1].body.replace('Beyond the lens, I', 'At the Talkshow, my camera captured more than just the speakers. Beyond the lens, I')}</p>
           <div className="zine md:col-span-8 md:grid-cols-3 md:gap-3">
@@ -309,7 +316,7 @@ export default function SseaypEditionPage() {
 
       {/* ── Thank you ── */}
       <section id="thank-you" data-ambient={WASHI} data-glow={YELLOW} className="relative scroll-mt-14 overflow-hidden py-20 md:py-28">
-        <Shape kind="pill" className="bottom-24 right-[6%] h-24 w-32 md:h-40 md:w-56" />
+        <Shape color={GOLD} kind="pill" className="bottom-24 right-[6%] h-24 w-32 md:h-40 md:w-56" />
         <div className="frame relative">
           {byline()}
           <div className="relative mt-10 inline-block">

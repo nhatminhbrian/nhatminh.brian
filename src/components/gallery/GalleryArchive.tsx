@@ -149,7 +149,7 @@ export function GalleryArchive({ folders, groups }: { folders: ArchiveFolder[]; 
                         <Image src={f.cover.src} alt="" fill sizes="44px" className="object-cover" />
                       </span>
                       <span className="min-w-0">
-                        <span className="line-clamp-1 font-display text-lg font-medium tracking-[-0.02em] text-ice-100 group-hover:text-steel-300 md:text-xl">{L(f, 'title') as string}</span>
+                        <span className="line-clamp-1 font-display text-lg font-medium tracking-[-0.015em] text-ice-100 group-hover:text-steel-300 md:text-xl">{L(f, 'title') as string}</span>
                         <span className="line-clamp-1 text-[0.75rem] text-steel-400">{place || '—'}</span>
                       </span>
                     </span>

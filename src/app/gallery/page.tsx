@@ -30,7 +30,7 @@ export default async function GalleryPage() {
     <div className="frame">
       <header className="grid gap-6 pb-10 pt-28 md:grid-cols-12 md:items-end md:pt-32">
         <p className="eyebrow md:col-span-12"><T k="gallery.kicker" /></p>
-        <h1 className="display text-4xl font-medium tracking-[-0.04em] md:col-span-8 md:text-6xl"><T k="gallery.title" /></h1>
+        <h1 className="display text-4xl font-medium tracking-[-0.015em] md:col-span-8 md:text-6xl"><T k="gallery.title" /></h1>
         <p className="prose-ice self-end md:col-span-4"><T k="gallery.lede" /></p>
       </header>
       <GalleryArchive folders={items} groups={partnerGroups.map(({ id, label }) => ({ id, label }))} />

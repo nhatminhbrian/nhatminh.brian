@@ -11,6 +11,8 @@ import '@fontsource/ephesis/400.css';
 import '@fontsource/ibm-plex-sans-kr/400.css';
 import '@fontsource/ibm-plex-sans-kr/500.css';
 import '@fontsource/ibm-plex-sans-kr/600.css';
+import '@fontsource/gowun-batang/400.css';
+import '@fontsource-variable/archivo/wdth.css';
 import './globals.css';
 
 export const metadata: Metadata = {

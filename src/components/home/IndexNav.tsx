@@ -56,7 +56,7 @@ export function IndexNav({ items }: { items: IndexItem[] }) {
             >
               <span className="ui-label text-[0.6875rem] text-steel-300 md:col-span-1">({item.index})</span>
               <span className="md:col-span-7">
-                <span className="display block text-[clamp(2.5rem,7vw,6.5rem)] transition-[letter-spacing,color] duration-500 ease-[var(--ease-editorial)] group-hover:text-steel-300 group-hover:italic md:group-hover:tracking-normal">
+                <span className="display title-morph not-italic text-[clamp(2.5rem,7vw,6.5rem)] group-hover:text-ice-100">
                   {item.labelKey ? t(item.labelKey, item.label) : item.label}
                 </span>
                 <span className="mt-1 block ui-label text-[0.6875rem] text-steel-400">
